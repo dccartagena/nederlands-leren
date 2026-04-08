@@ -1,0 +1,110 @@
+[
+  {
+    "slug": "artikelen",
+    "name_nl": "De lidwoorden: de en het",
+    "name_es": "Los artículos: de y het",
+    "level": "a0",
+    "description_es": "En neerlandés hay dos artículos definidos: 'de' (para sustantivos de género común) y 'het' (para sustantivos neutros). No hay una regla fija; debes aprender de memoria qué artículo lleva cada sustantivo. El artículo indefinido es siempre 'een' (un/una), sin distinción de género.",
+    "examples_json": [
+      {"nl": "de man (el hombre)", "es": "Sustantivo con 'de'"},
+      {"nl": "het boek (el libro)", "es": "Sustantivo con 'het'"},
+      {"nl": "een huis (una casa)", "es": "'een' es único para todos"},
+      {"nl": "Tip: la mayoría de los diminutivos llevan 'het': het huisje", "es": "Truco: diminutivos siempre usan 'het'"}
+    ]
+  },
+  {
+    "slug": "persoonlijke-voornaamwoorden",
+    "name_nl": "Persoonlijke voornaamwoorden",
+    "name_es": "Pronombres personales",
+    "level": "a0",
+    "description_es": "Los pronombres personales en neerlandés son similares al español pero tienen formas tónicas (enfatizadas) y átonas (normales).",
+    "examples_json": [
+      {"nl": "ik → yo", "es": "1a persona singular"},
+      {"nl": "jij / je → tú", "es": "2a persona singular (jij es énfasis, je es normal)"},
+      {"nl": "hij → él, zij/ze → ella, het → ello", "es": "3a persona singular"},
+      {"nl": "wij/we → nosotros, jullie → vosotros, zij/ze → ellos", "es": "Plural"},
+      {"nl": "u → usted (formal)", "es": "Formal"}
+    ]
+  },
+  {
+    "slug": "werkwoorden-presens",
+    "name_nl": "Werkwoorden in de tegenwoordige tijd",
+    "name_es": "Verbos en presente",
+    "level": "a0",
+    "description_es": "La conjugación del presente en neerlandés es más simple que en español. La raíz del verbo se obtiene quitando '-en' del infinitivo. Como en español, detectamos la raíz: werken → werk.",
+    "examples_json": [
+      {"nl": "ik werk (yo trabajo)", "es": "raíz sola"},
+      {"nl": "jij werkt / jij werk (tú trabajas)", "es": "+-t, pero sin -t cuando 'jij' va detrás del verbo"},
+      {"nl": "hij/zij werkt (él/ella trabaja)", "es": "raíz + t"},
+      {"nl": "wij/jullie/zij werken (nosotros/vosotros/ellos trabajan)", "es": "infinitivo completo"},
+      {"nl": "Atención: zijn (ser/estar) es irregular: ik ben, jij bent, hij is, wij zijn", "es": "Verbo 'ser' irregular"}
+    ]
+  },
+  {
+    "slug": "ontkenning",
+    "name_nl": "Ontkenning met niet en geen",
+    "name_es": "La negación con niet y geen",
+    "level": "a0",
+    "description_es": "'Niet' equivale a 'no' y niega verbos, adjetivos y adverbios. 'Geen' equivale a 'ningún/ninguna' y niega sustantivos con artículo indefinido 'een' o sin artículo. Como en español 'no tengo perro' vs 'el perro no corre'.",
+    "examples_json": [
+      {"nl": "Ik werk niet. (No trabajo.)", "es": "'niet' niega el verbo"},
+      {"nl": "Ik heb geen hond. (No tengo perro.)", "es": "'geen' en lugar de 'een'"},
+      {"nl": "De film is niet goed. (La película no es buena.)", "es": "'niet' antes del adjetivo"},
+      {"nl": "Ik drink geen koffie. (No bebo café.)", "es": "'geen' cuando no hay artículo"}
+    ]
+  },
+  {
+    "slug": "woordvolgorde",
+    "name_nl": "Woordvolgorde: SVO en inversie",
+    "name_es": "Orden de palabras: SVO e inversión",
+    "level": "a0",
+    "description_es": "El orden básico en neerlandés es Sujeto-Verbo-Objeto (SVO), igual que en español. PERO el verbo SIEMPRE va en segunda posición. Cuando la oración empieza con algo que no es el sujeto (tiempo, lugar…), el sujeto y el verbo se invierten.",
+    "examples_json": [
+      {"nl": "Ik eet een appel. (Yo como una manzana.)", "es": "Orden normal: S-V-O"},
+      {"nl": "Morgen eet ik een appel. (Mañana como una manzana.)", "es": "Inversión: el verbo sigue en posición 2"},
+      {"nl": "In Amsterdam woon ik. (En Ámsterdam vivo yo.)", "es": "Lugar al inicio → inversión"}
+    ]
+  },
+  {
+    "slug": "verleden-tijd",
+    "name_nl": "Verleden tijd: perfectum en imperfectum",
+    "name_es": "Pasado: perfecto e imperfecto",
+    "level": "a1",
+    "description_es": "En neerlandés el pasado más usado en la lengua hablada es el perfectum (hebben/zijn + participio pasado), similar al pretérito perfecto español. El imperfectum (pretérito indefinido) se usa más en escritura y narración.",
+    "examples_json": [
+      {"nl": "Ik heb gewerkt. (He trabajado.)", "es": "Perfectum con 'hebben'"},
+      {"nl": "Ik ben gegaan. (He ido / Fui.)", "es": "Perfectum con 'zijn' para verbos de movimiento"},
+      {"nl": "Ik werkte. (Trabajaba / Trabajé.)", "es": "Imperfectum: raíz + -te/-de"},
+      {"nl": "Ik ging. (Fui / Iba.)", "es": "Imperfectum irregular de 'gaan'"},
+      {"nl": "Truco: verbos de movimiento y cambio de estado usan 'zijn' como auxiliar", "es": "Como en italiano: sono andato"}
+    ]
+  },
+  {
+    "slug": "scheidbare-werkwoorden",
+    "name_nl": "Scheidbare werkwoorden",
+    "name_es": "Verbos separables",
+    "level": "a1",
+    "description_es": "Los verbos separables en neerlandés tienen un prefijo que se separa y va al final de la oración principal. En español no existe este fenómeno, pero es similar a 'llevar + puesto' donde la partícula se puede separar.",
+    "examples_json": [
+      {"nl": "opbellen (llamar por teléfono) → Ik bel je op. (Te llamo.)", "es": "El prefijo 'op' va al final"},
+      {"nl": "aankomen (llegar) → De trein komt aan. (El tren llega.)", "es": "'aan' se separa"},
+      {"nl": "uitleggen (explicar) → Hij legt het uit. (Él lo explica.)", "es": "'uit' al final"},
+      {"nl": "En infinitivo: Ik wil je opbellen. (Quiero llamarte.)", "es": "Cuando hay modal, el verbo separable va junto al final"}
+    ]
+  },
+  {
+    "slug": "voorzetsel",
+    "name_nl": "Veelgebruikte voorzetsels",
+    "name_es": "Preposiciones comunes",
+    "level": "a1",
+    "description_es": "Las preposiciones en neerlandés no siempre coinciden con las del español. Aquí están las más frecuentes.",
+    "examples_json": [
+      {"nl": "in → en (Ik woon in Amsterdam.)", "es": "Lugar dentro de algo"},
+      {"nl": "op → en/sobre (Het boek ligt op tafel.)", "es": "Sobre una superficie"},
+      {"nl": "naar → a/hacia (Ik ga naar school.)", "es": "Dirección"},
+      {"nl": "van → de/desde (Ik kom van Spanje.)", "es": "Origen o pertenencia"},
+      {"nl": "met → con (Ik ga met de fiets.)", "es": "Compañía o medio"},
+      {"nl": "voor → para/por/delante de", "es": "Múltiples usos como en español"}
+    ]
+  }
+]

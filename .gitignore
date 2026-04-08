@@ -1,0 +1,26 @@
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.egg-info/
+dist/
+build/
+
+# Alembic DB
+backend/data/
+data/app.db
+data/audio/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Docker
+*.override.yml

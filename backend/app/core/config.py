@@ -1,0 +1,39 @@
+from pydantic_settings import BaseSettings
+from pathlib import Path
+from typing import List
+
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
+REPO_ROOT = BACKEND_DIR.parent  # project root
+
+
+class Settings(BaseSettings):
+    # Database
+    DATABASE_URL: str = f"sqlite:///{REPO_ROOT}/data/app.db"
+
+    # CORS
+    CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:3000", "http://localhost:80", "http://localhost"]
+
+    # Directories
+    AUDIO_DIR: Path = REPO_ROOT / "data" / "audio"
+    DATA_DIR: Path = REPO_ROOT / "data"
+
+    # LLM — Ollama local is primary; remote key is optional fallback
+    LLM_PROVIDER: str = "ollama"  # "ollama" | "openai" | "anthropic" | "mistral"
+    OLLAMA_BASE_URL: str = "http://ollama:11434"
+    OLLAMA_MODEL: str = "mistral:7b-instruct-q4_K_M"
+    OPENAI_API_KEY: str = ""
+    ANTHROPIC_API_KEY: str = ""
+    MISTRAL_API_KEY: str = ""
+    REMOTE_MODEL: str = "gpt-4o-mini"
+
+    # App
+    SECRET_KEY: str = "change-me-in-production"
+    DEBUG: bool = False
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+
+
+settings = Settings()

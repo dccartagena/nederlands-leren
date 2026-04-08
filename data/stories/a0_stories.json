@@ -1,0 +1,89 @@
+[
+  {
+    "slug": "de-markt",
+    "title_nl": "Op de markt",
+    "title_es": "En el mercado",
+    "level": "a0",
+    "theme": "comida",
+    "content_nl": "Het is zaterdag. Maria gaat naar de markt. Ze ziet veel groente en fruit. Ze koopt een kilo appels en twee kilo tomaten. De verkoper is vriendelijk. 'Goedemorgen! Wat wilt u?' vraagt hij. 'Een kilo appels, alsjeblieft,' zegt Maria. 'Dat is twee euro,' zegt de verkoper. Maria betaalt en zegt: 'Dank u wel!'",
+    "content_es": "Es sábado. María va al mercado. Ve muchas verduras y frutas. Compra un kilo de manzanas y dos kilos de tomates. El vendedor es amable. '¡Buenos días! ¿Qué desea?' pregunta él. 'Un kilo de manzanas, por favor,' dice María. 'Son dos euros,' dice el vendedor. María paga y dice: '¡Muchas gracias!'",
+    "questions_json": [
+      {
+        "question_es": "¿Qué día va María al mercado?",
+        "options": ["Lunes", "Viernes", "Sábado", "Domingo"],
+        "answer_index": 2,
+        "explanation_es": "'Het is zaterdag' significa 'Es sábado'."
+      },
+      {
+        "question_es": "¿Cuántos kilos de manzanas compra María?",
+        "options": ["Dos kilos", "Un kilo", "Tres kilos", "Medio kilo"],
+        "answer_index": 1,
+        "explanation_es": "'een kilo appels' = un kilo de manzanas."
+      },
+      {
+        "question_es": "¿Cuánto cuesta un kilo de manzanas?",
+        "options": ["Un euro", "Tres euros", "Cinco euros", "Dos euros"],
+        "answer_index": 3,
+        "explanation_es": "'Dat is twee euro' = Son dos euros."
+      }
+    ]
+  },
+  {
+    "slug": "de-familie",
+    "title_nl": "Mijn familie",
+    "title_es": "Mi familia",
+    "level": "a0",
+    "theme": "familia",
+    "content_nl": "Ik heet Anna. Ik woon in Utrecht met mijn familie. Mijn vader heet Peter en hij werkt als dokter. Mijn moeder heet Lisa en zij is lerares. Ik heb één broer. Hij heet Tom en hij is twaalf jaar oud. We hebben ook een hond. De hond heet Max. Max is groot en bruin.",
+    "content_es": "Me llamo Anna. Vivo en Utrecht con mi familia. Mi padre se llama Peter y trabaja como médico. Mi madre se llama Lisa y es profesora. Tengo un hermano. Se llama Tom y tiene doce años. También tenemos un perro. El perro se llama Max. Max es grande y marrón.",
+    "questions_json": [
+      {
+        "question_es": "¿Dónde vive Anna?",
+        "options": ["Amsterdam", "Rotterdam", "Utrecht", "Den Haag"],
+        "answer_index": 2,
+        "explanation_es": "'Ik woon in Utrecht' = Vivo en Utrecht."
+      },
+      {
+        "question_es": "¿Cuál es la profesión del padre de Anna?",
+        "options": ["Profesor", "Médico", "Vendedor", "Policía"],
+        "answer_index": 1,
+        "explanation_es": "'hij werkt als dokter' = trabaja como médico."
+      },
+      {
+        "question_es": "¿Cómo se llama el perro?",
+        "options": ["Tom", "Peter", "Lisa", "Max"],
+        "answer_index": 3,
+        "explanation_es": "'De hond heet Max' = El perro se llama Max."
+      }
+    ]
+  },
+  {
+    "slug": "een-dag-in-amsterdam",
+    "title_nl": "Een dag in Amsterdam",
+    "title_es": "Un día en Ámsterdam",
+    "level": "a1",
+    "theme": "ciudad",
+    "content_nl": "Carlos is een toerist uit Spanje. Hij is drie dagen in Amsterdam. Vandaag bezoekt hij het Rijksmuseum. 's Morgens neemt hij de tram vanaf het Centraal Station. Het museum opent om negen uur. Carlos koopt een kaartje voor twintig euro. In het museum ziet hij schilderijen van Rembrandt en Van Gogh. 's Middags eet hij een broodje bij een café op de Leidsesplein. 's Avonds gaat hij met de boot door de grachten. 'Dit is fantastisch!' denkt hij.",
+    "content_es": "Carlos es un turista de España. Está tres días en Ámsterdam. Hoy visita el Rijksmuseum. Por la mañana toma el tranvía desde la Estación Central. El museo abre a las nueve. Carlos compra una entrada por veinte euros. En el museo ve pinturas de Rembrandt y Van Gogh. Por la tarde come un sándwich en un café en el Leidseplein. Por la noche va en barco por los canales. '¡Esto es fantástico!' piensa.",
+    "questions_json": [
+      {
+        "question_es": "¿De dónde viene Carlos?",
+        "options": ["Países Bajos", "Alemania", "España", "Francia"],
+        "answer_index": 2,
+        "explanation_es": "'een toerist uit Spanje' = un turista de España."
+      },
+      {
+        "question_es": "¿Cuánto cuesta la entrada al museo?",
+        "options": ["Diez euros", "Quince euros", "Veinticinco euros", "Veinte euros"],
+        "answer_index": 3,
+        "explanation_es": "'een kaartje voor twintig euro' = una entrada por veinte euros."
+      },
+      {
+        "question_es": "¿Qué hace Carlos por la noche?",
+        "options": ["Va al teatro", "Va en barco por los canales", "Visita el museo", "Come en un restaurante"],
+        "answer_index": 1,
+        "explanation_es": "'gaat hij met de boot door de grachten' = va en barco por los canales."
+      }
+    ]
+  }
+]
