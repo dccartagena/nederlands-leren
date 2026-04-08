@@ -1,106 +1,4460 @@
 [
-  {"dutch_word": "hond", "english": "dog", "spanish": "perro", "article": "de", "plural": "honden", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "De hond loopt in het park.", "example_es": "El perro camina en el parque."},
-  {"dutch_word": "kat", "english": "cat", "spanish": "gato", "article": "de", "plural": "katten", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "De kat slaapt op de bank.", "example_es": "El gato duerme en el sofá."},
-  {"dutch_word": "vogel", "english": "bird", "spanish": "pájaro", "article": "de", "plural": "vogels", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "De vogel zingt in de boom.", "example_es": "El pájaro canta en el árbol."},
-  {"dutch_word": "vis", "english": "fish", "spanish": "pez", "article": "de", "plural": "vissen", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "De vis zwemt in het water.", "example_es": "El pez nada en el agua."},
-  {"dutch_word": "paard", "english": "horse", "spanish": "caballo", "article": "het", "plural": "paarden", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "Het paard loopt op het veld.", "example_es": "El caballo corre en el campo."},
-  {"dutch_word": "koe", "english": "cow", "spanish": "vaca", "article": "de", "plural": "koeien", "word_type": "noun", "level": "a0", "theme": "animales", "example_nl": "De koe staat in de wei.", "example_es": "La vaca está en el prado."},
-  {"dutch_word": "varken", "english": "pig", "spanish": "cerdo", "article": "het", "plural": "varkens", "word_type": "noun", "level": "a0", "theme": "animales"},
-  {"dutch_word": "konijn", "english": "rabbit", "spanish": "conejo", "article": "het", "plural": "konijnen", "word_type": "noun", "level": "a0", "theme": "animales"},
-  {"dutch_word": "appel", "english": "apple", "spanish": "manzana", "article": "de", "plural": "appels", "word_type": "noun", "level": "a0", "theme": "comida", "example_nl": "Ik eet een appel.", "example_es": "Como una manzana."},
-  {"dutch_word": "brood", "english": "bread", "spanish": "pan", "article": "het", "plural": "broden", "word_type": "noun", "level": "a0", "theme": "comida", "example_nl": "Ik eet brood met kaas.", "example_es": "Como pan con queso."},
-  {"dutch_word": "water", "english": "water", "spanish": "agua", "article": "het", "word_type": "noun", "level": "a0", "theme": "comida", "example_nl": "Ik drink water.", "example_es": "Bebo agua."},
-  {"dutch_word": "melk", "english": "milk", "spanish": "leche", "article": "de", "word_type": "noun", "level": "a0", "theme": "comida", "example_nl": "Het kind drinkt melk.", "example_es": "El niño bebe leche."},
-  {"dutch_word": "kaas", "english": "cheese", "spanish": "queso", "article": "de", "word_type": "noun", "level": "a0", "theme": "comida", "example_nl": "Nederlandse kaas is lekker.", "example_es": "El queso holandés está rico."},
-  {"dutch_word": "ei", "english": "egg", "spanish": "huevo", "article": "het", "plural": "eieren", "word_type": "noun", "level": "a0", "theme": "comida"},
-  {"dutch_word": "soep", "english": "soup", "spanish": "sopa", "article": "de", "word_type": "noun", "level": "a0", "theme": "comida"},
-  {"dutch_word": "rijst", "english": "rice", "spanish": "arroz", "article": "de", "word_type": "noun", "level": "a0", "theme": "comida"},
-  {"dutch_word": "huis", "english": "house", "spanish": "casa", "article": "het", "plural": "huizen", "word_type": "noun", "level": "a0", "theme": "casa", "example_nl": "Ik woon in een groot huis.", "example_es": "Vivo en una casa grande."},
-  {"dutch_word": "deur", "english": "door", "spanish": "puerta", "article": "de", "plural": "deuren", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "raam", "english": "window", "spanish": "ventana", "article": "het", "plural": "ramen", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "kamer", "english": "room", "spanish": "habitación", "article": "de", "plural": "kamers", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "keuken", "english": "kitchen", "spanish": "cocina", "article": "de", "plural": "keukens", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "badkamer", "english": "bathroom", "spanish": "baño", "article": "de", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "tafel", "english": "table", "spanish": "mesa", "article": "de", "plural": "tafels", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "stoel", "english": "chair", "spanish": "silla", "article": "de", "plural": "stoelen", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "bed", "english": "bed", "spanish": "cama", "article": "het", "plural": "bedden", "word_type": "noun", "level": "a0", "theme": "casa"},
-  {"dutch_word": "man", "english": "man", "spanish": "hombre", "article": "de", "plural": "mannen", "word_type": "noun", "level": "a0", "theme": "personas"},
-  {"dutch_word": "vrouw", "english": "woman", "spanish": "mujer", "article": "de", "plural": "vrouwen", "word_type": "noun", "level": "a0", "theme": "personas"},
-  {"dutch_word": "kind", "english": "child", "spanish": "niño/niña", "article": "het", "plural": "kinderen", "word_type": "noun", "level": "a0", "theme": "personas"},
-  {"dutch_word": "jongen", "english": "boy", "spanish": "chico", "article": "de", "plural": "jongens", "word_type": "noun", "level": "a0", "theme": "personas"},
-  {"dutch_word": "meisje", "english": "girl", "spanish": "chica", "article": "het", "plural": "meisjes", "word_type": "noun", "level": "a0", "theme": "personas"},
-  {"dutch_word": "vader", "english": "father", "spanish": "padre", "article": "de", "plural": "vaders", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "moeder", "english": "mother", "spanish": "madre", "article": "de", "plural": "moeders", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "broer", "english": "brother", "spanish": "hermano", "article": "de", "plural": "broers", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "zus", "english": "sister", "spanish": "hermana", "article": "de", "plural": "zussen", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "opa", "english": "grandfather", "spanish": "abuelo", "article": "de", "plural": "opa's", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "oma", "english": "grandmother", "spanish": "abuela", "article": "de", "plural": "oma's", "word_type": "noun", "level": "a0", "theme": "familia"},
-  {"dutch_word": "zijn", "english": "to be", "spanish": "ser/estar", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik ben student.", "example_es": "Soy estudiante."},
-  {"dutch_word": "hebben", "english": "to have", "spanish": "tener", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik heb een hond.", "example_es": "Tengo un perro."},
-  {"dutch_word": "gaan", "english": "to go", "spanish": "ir", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik ga naar school.", "example_es": "Voy a la escuela."},
-  {"dutch_word": "komen", "english": "to come", "spanish": "venir", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Hij komt uit Spanje.", "example_es": "Él viene de España."},
-  {"dutch_word": "zien", "english": "to see", "spanish": "ver", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik zie de berg.", "example_es": "Veo la montaña."},
-  {"dutch_word": "horen", "english": "to hear", "spanish": "oír/escuchar", "word_type": "verb", "level": "a0", "theme": "verbos_basicos"},
-  {"dutch_word": "eten", "english": "to eat", "spanish": "comer", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Wij eten samen.", "example_es": "Comemos juntos."},
-  {"dutch_word": "drinken", "english": "to drink", "spanish": "beber", "word_type": "verb", "level": "a0", "theme": "verbos_basicos"},
-  {"dutch_word": "slapen", "english": "to sleep", "spanish": "dormir", "word_type": "verb", "level": "a0", "theme": "verbos_basicos"},
-  {"dutch_word": "werken", "english": "to work", "spanish": "trabajar", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Zij werkt in het ziekenhuis.", "example_es": "Ella trabaja en el hospital."},
-  {"dutch_word": "wonen", "english": "to live", "spanish": "vivir/residir", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik woon in Amsterdam.", "example_es": "Vivo en Ámsterdam."},
-  {"dutch_word": "spreken", "english": "to speak", "spanish": "hablar", "word_type": "verb", "level": "a0", "theme": "verbos_basicos", "example_nl": "Ik spreek Nederlands.", "example_es": "Hablo neerlandés."},
-  {"dutch_word": "groot", "english": "big", "spanish": "grande", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "klein", "english": "small", "spanish": "pequeño/a", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "nieuw", "english": "new", "spanish": "nuevo/a", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "oud", "english": "old", "spanish": "viejo/a / antiguo/a", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "goed", "english": "good", "spanish": "bueno/a / bien", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "mooi", "english": "beautiful", "spanish": "bonito/a / hermoso/a", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "lekker", "english": "tasty", "spanish": "rico/a / agradable", "word_type": "adjective", "level": "a0", "theme": "adjetivos"},
-  {"dutch_word": "rood", "english": "red", "spanish": "rojo/a", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "blauw", "english": "blue", "spanish": "azul", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "groen", "english": "green", "spanish": "verde", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "geel", "english": "yellow", "spanish": "amarillo/a", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "wit", "english": "white", "spanish": "blanco/a", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "zwart", "english": "black", "spanish": "negro/a", "word_type": "adjective", "level": "a0", "theme": "colores"},
-  {"dutch_word": "één", "english": "one", "spanish": "uno", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "twee", "english": "two", "spanish": "dos", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "drie", "english": "three", "spanish": "tres", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "vier", "english": "four", "spanish": "cuatro", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "vijf", "english": "five", "spanish": "cinco", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "zes", "english": "six", "spanish": "seis", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "zeven", "english": "seven", "spanish": "siete", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "acht", "english": "eight", "spanish": "ocho", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "negen", "english": "nine", "spanish": "nueve", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "tien", "english": "ten", "spanish": "diez", "word_type": "number", "level": "a0", "theme": "numeros"},
-  {"dutch_word": "maandag", "english": "Monday", "spanish": "lunes", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "dinsdag", "english": "Tuesday", "spanish": "martes", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "woensdag", "english": "Wednesday", "spanish": "miércoles", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "donderdag", "english": "Thursday", "spanish": "jueves", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "vrijdag", "english": "Friday", "spanish": "viernes", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "zaterdag", "english": "Saturday", "spanish": "sábado", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "zondag", "english": "Sunday", "spanish": "domingo", "word_type": "noun", "level": "a0", "theme": "dias_semana"},
-  {"dutch_word": "school", "english": "school", "spanish": "escuela / colegio", "article": "de", "plural": "scholen", "word_type": "noun", "level": "a0", "theme": "educacion"},
-  {"dutch_word": "leraar", "english": "teacher", "spanish": "profesor", "article": "de", "plural": "leraren", "word_type": "noun", "level": "a0", "theme": "educacion"},
-  {"dutch_word": "boek", "english": "book", "spanish": "libro", "article": "het", "plural": "boeken", "word_type": "noun", "level": "a0", "theme": "educacion"},
-  {"dutch_word": "pen", "english": "pen", "spanish": "bolígrafo", "article": "de", "plural": "pennen", "word_type": "noun", "level": "a0", "theme": "educacion"},
-  {"dutch_word": "tas", "english": "bag", "spanish": "bolso / mochila", "article": "de", "plural": "tassen", "word_type": "noun", "level": "a0", "theme": "educacion"},
-  {"dutch_word": "auto", "english": "car", "spanish": "coche / carro", "article": "de", "plural": "auto's", "word_type": "noun", "level": "a0", "theme": "transporte"},
-  {"dutch_word": "fiets", "english": "bicycle", "spanish": "bicicleta", "article": "de", "plural": "fietsen", "word_type": "noun", "level": "a0", "theme": "transporte"},
-  {"dutch_word": "trein", "english": "train", "spanish": "tren", "article": "de", "plural": "treinen", "word_type": "noun", "level": "a0", "theme": "transporte"},
-  {"dutch_word": "bus", "english": "bus", "spanish": "autobús", "article": "de", "plural": "bussen", "word_type": "noun", "level": "a0", "theme": "transporte"},
-  {"dutch_word": "zon", "english": "sun", "spanish": "sol", "article": "de", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "regen", "english": "rain", "spanish": "lluvia", "article": "de", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "sneeuw", "english": "snow", "spanish": "nieve", "article": "de", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "boom", "english": "tree", "spanish": "árbol", "article": "de", "plural": "bomen", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "bloem", "english": "flower", "spanish": "flor", "article": "de", "plural": "bloemen", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "zee", "english": "sea", "spanish": "mar", "article": "de", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "berg", "english": "mountain", "spanish": "montaña", "article": "de", "plural": "bergen", "word_type": "noun", "level": "a0", "theme": "naturaleza"},
-  {"dutch_word": "ja", "english": "yes", "spanish": "sí", "word_type": "adverb", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "nee", "english": "no", "spanish": "no", "word_type": "adverb", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "hallo", "english": "hello", "spanish": "hola", "word_type": "phrase", "level": "a0", "theme": "frases_basicas", "example_nl": "Hallo! Hoe gaat het?", "example_es": "¡Hola! ¿Cómo estás?"},
-  {"dutch_word": "goedemorgen", "english": "good morning", "spanish": "buenos días", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "goedemiddag", "english": "good afternoon", "spanish": "buenas tardes", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "goedenavond", "english": "good evening", "spanish": "buenas noches (saludo)", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "tot ziens", "english": "goodbye", "spanish": "hasta la vista / adiós", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "dank je wel", "english": "thank you", "spanish": "muchas gracias", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "alsjeblieft", "english": "please", "spanish": "por favor / aquí tienes", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"},
-  {"dutch_word": "sorry", "english": "sorry", "spanish": "lo siento / perdón", "word_type": "phrase", "level": "a0", "theme": "frases_basicas"}
+  {
+    "dutch_word": "hond",
+    "english": "dog",
+    "spanish": "perro",
+    "article": "de",
+    "plural": "honden",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "De hond loopt in het park.",
+    "example_es": "El perro camina en el parque."
+  },
+  {
+    "dutch_word": "kat",
+    "english": "cat",
+    "spanish": "gato",
+    "article": "de",
+    "plural": "katten",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "De kat slaapt op de bank.",
+    "example_es": "El gato duerme en el sofá."
+  },
+  {
+    "dutch_word": "vogel",
+    "english": "bird",
+    "spanish": "pájaro",
+    "article": "de",
+    "plural": "vogels",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "De vogel zingt in de boom.",
+    "example_es": "El pájaro canta en el árbol."
+  },
+  {
+    "dutch_word": "vis",
+    "english": "fish",
+    "spanish": "pez",
+    "article": "de",
+    "plural": "vissen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "De vis zwemt in het water.",
+    "example_es": "El pez nada en el agua."
+  },
+  {
+    "dutch_word": "paard",
+    "english": "horse",
+    "spanish": "caballo",
+    "article": "het",
+    "plural": "paarden",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "Het paard loopt op het veld.",
+    "example_es": "El caballo corre en el campo."
+  },
+  {
+    "dutch_word": "koe",
+    "english": "cow",
+    "spanish": "vaca",
+    "article": "de",
+    "plural": "koeien",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales",
+    "example_nl": "De koe staat in de wei.",
+    "example_es": "La vaca está en el prado."
+  },
+  {
+    "dutch_word": "varken",
+    "english": "pig",
+    "spanish": "cerdo",
+    "article": "het",
+    "plural": "varkens",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales"
+  },
+  {
+    "dutch_word": "konijn",
+    "english": "rabbit",
+    "spanish": "conejo",
+    "article": "het",
+    "plural": "konijnen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "animales"
+  },
+  {
+    "dutch_word": "appel",
+    "english": "apple",
+    "spanish": "manzana",
+    "article": "de",
+    "plural": "appels",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida",
+    "example_nl": "Ik eet een appel.",
+    "example_es": "Como una manzana."
+  },
+  {
+    "dutch_word": "brood",
+    "english": "bread",
+    "spanish": "pan",
+    "article": "het",
+    "plural": "broden",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida",
+    "example_nl": "Ik eet brood met kaas.",
+    "example_es": "Como pan con queso."
+  },
+  {
+    "dutch_word": "water",
+    "english": "water",
+    "spanish": "agua",
+    "article": "het",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida",
+    "example_nl": "Ik drink water.",
+    "example_es": "Bebo agua."
+  },
+  {
+    "dutch_word": "melk",
+    "english": "milk",
+    "spanish": "leche",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida",
+    "example_nl": "Het kind drinkt melk.",
+    "example_es": "El niño bebe leche."
+  },
+  {
+    "dutch_word": "kaas",
+    "english": "cheese",
+    "spanish": "queso",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida",
+    "example_nl": "Nederlandse kaas is lekker.",
+    "example_es": "El queso holandés está rico."
+  },
+  {
+    "dutch_word": "ei",
+    "english": "egg",
+    "spanish": "huevo",
+    "article": "het",
+    "plural": "eieren",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida"
+  },
+  {
+    "dutch_word": "soep",
+    "english": "soup",
+    "spanish": "sopa",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida"
+  },
+  {
+    "dutch_word": "rijst",
+    "english": "rice",
+    "spanish": "arroz",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "comida"
+  },
+  {
+    "dutch_word": "huis",
+    "english": "house",
+    "spanish": "casa",
+    "article": "het",
+    "plural": "huizen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa",
+    "example_nl": "Ik woon in een groot huis.",
+    "example_es": "Vivo en una casa grande."
+  },
+  {
+    "dutch_word": "deur",
+    "english": "door",
+    "spanish": "puerta",
+    "article": "de",
+    "plural": "deuren",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "raam",
+    "english": "window",
+    "spanish": "ventana",
+    "article": "het",
+    "plural": "ramen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "kamer",
+    "english": "room",
+    "spanish": "habitación",
+    "article": "de",
+    "plural": "kamers",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "keuken",
+    "english": "kitchen",
+    "spanish": "cocina",
+    "article": "de",
+    "plural": "keukens",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "badkamer",
+    "english": "bathroom",
+    "spanish": "baño",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "tafel",
+    "english": "table",
+    "spanish": "mesa",
+    "article": "de",
+    "plural": "tafels",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "stoel",
+    "english": "chair",
+    "spanish": "silla",
+    "article": "de",
+    "plural": "stoelen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "bed",
+    "english": "bed",
+    "spanish": "cama",
+    "article": "het",
+    "plural": "bedden",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "casa"
+  },
+  {
+    "dutch_word": "man",
+    "english": "man",
+    "spanish": "hombre",
+    "article": "de",
+    "plural": "mannen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "personas"
+  },
+  {
+    "dutch_word": "vrouw",
+    "english": "woman",
+    "spanish": "mujer",
+    "article": "de",
+    "plural": "vrouwen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "personas"
+  },
+  {
+    "dutch_word": "kind",
+    "english": "child",
+    "spanish": "niño/niña",
+    "article": "het",
+    "plural": "kinderen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "personas"
+  },
+  {
+    "dutch_word": "jongen",
+    "english": "boy",
+    "spanish": "chico",
+    "article": "de",
+    "plural": "jongens",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "personas"
+  },
+  {
+    "dutch_word": "meisje",
+    "english": "girl",
+    "spanish": "chica",
+    "article": "het",
+    "plural": "meisjes",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "personas"
+  },
+  {
+    "dutch_word": "vader",
+    "english": "father",
+    "spanish": "padre",
+    "article": "de",
+    "plural": "vaders",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "moeder",
+    "english": "mother",
+    "spanish": "madre",
+    "article": "de",
+    "plural": "moeders",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "broer",
+    "english": "brother",
+    "spanish": "hermano",
+    "article": "de",
+    "plural": "broers",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "zus",
+    "english": "sister",
+    "spanish": "hermana",
+    "article": "de",
+    "plural": "zussen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "opa",
+    "english": "grandfather",
+    "spanish": "abuelo",
+    "article": "de",
+    "plural": "opa's",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "oma",
+    "english": "grandmother",
+    "spanish": "abuela",
+    "article": "de",
+    "plural": "oma's",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "familia"
+  },
+  {
+    "dutch_word": "zijn",
+    "english": "to be",
+    "spanish": "ser/estar",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik ben student.",
+    "example_es": "Soy estudiante."
+  },
+  {
+    "dutch_word": "hebben",
+    "english": "to have",
+    "spanish": "tener",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik heb een hond.",
+    "example_es": "Tengo un perro."
+  },
+  {
+    "dutch_word": "gaan",
+    "english": "to go",
+    "spanish": "ir",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik ga naar school.",
+    "example_es": "Voy a la escuela."
+  },
+  {
+    "dutch_word": "komen",
+    "english": "to come",
+    "spanish": "venir",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Hij komt uit Spanje.",
+    "example_es": "Él viene de España."
+  },
+  {
+    "dutch_word": "zien",
+    "english": "to see",
+    "spanish": "ver",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik zie de berg.",
+    "example_es": "Veo la montaña."
+  },
+  {
+    "dutch_word": "horen",
+    "english": "to hear",
+    "spanish": "oír/escuchar",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos"
+  },
+  {
+    "dutch_word": "eten",
+    "english": "to eat",
+    "spanish": "comer",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Wij eten samen.",
+    "example_es": "Comemos juntos."
+  },
+  {
+    "dutch_word": "drinken",
+    "english": "to drink",
+    "spanish": "beber",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos"
+  },
+  {
+    "dutch_word": "slapen",
+    "english": "to sleep",
+    "spanish": "dormir",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos"
+  },
+  {
+    "dutch_word": "werken",
+    "english": "to work",
+    "spanish": "trabajar",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Zij werkt in het ziekenhuis.",
+    "example_es": "Ella trabaja en el hospital."
+  },
+  {
+    "dutch_word": "wonen",
+    "english": "to live",
+    "spanish": "vivir/residir",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik woon in Amsterdam.",
+    "example_es": "Vivo en Ámsterdam."
+  },
+  {
+    "dutch_word": "spreken",
+    "english": "to speak",
+    "spanish": "hablar",
+    "word_type": "verb",
+    "level": "a0",
+    "theme": "verbos_basicos",
+    "example_nl": "Ik spreek Nederlands.",
+    "example_es": "Hablo neerlandés."
+  },
+  {
+    "dutch_word": "groot",
+    "english": "big",
+    "spanish": "grande",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "klein",
+    "english": "small",
+    "spanish": "pequeño/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "nieuw",
+    "english": "new",
+    "spanish": "nuevo/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "oud",
+    "english": "old",
+    "spanish": "viejo/a / antiguo/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "goed",
+    "english": "good",
+    "spanish": "bueno/a / bien",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "mooi",
+    "english": "beautiful",
+    "spanish": "bonito/a / hermoso/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "lekker",
+    "english": "tasty",
+    "spanish": "rico/a / agradable",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "adjetivos"
+  },
+  {
+    "dutch_word": "rood",
+    "english": "red",
+    "spanish": "rojo/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "blauw",
+    "english": "blue",
+    "spanish": "azul",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "groen",
+    "english": "green",
+    "spanish": "verde",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "geel",
+    "english": "yellow",
+    "spanish": "amarillo/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "wit",
+    "english": "white",
+    "spanish": "blanco/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "zwart",
+    "english": "black",
+    "spanish": "negro/a",
+    "word_type": "adjective",
+    "level": "a0",
+    "theme": "colores"
+  },
+  {
+    "dutch_word": "één",
+    "english": "one",
+    "spanish": "uno",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "twee",
+    "english": "two",
+    "spanish": "dos",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "drie",
+    "english": "three",
+    "spanish": "tres",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "vier",
+    "english": "four",
+    "spanish": "cuatro",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "vijf",
+    "english": "five",
+    "spanish": "cinco",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "zes",
+    "english": "six",
+    "spanish": "seis",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "zeven",
+    "english": "seven",
+    "spanish": "siete",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "acht",
+    "english": "eight",
+    "spanish": "ocho",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "negen",
+    "english": "nine",
+    "spanish": "nueve",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "tien",
+    "english": "ten",
+    "spanish": "diez",
+    "word_type": "number",
+    "level": "a0",
+    "theme": "numeros"
+  },
+  {
+    "dutch_word": "maandag",
+    "english": "Monday",
+    "spanish": "lunes",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "dinsdag",
+    "english": "Tuesday",
+    "spanish": "martes",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "woensdag",
+    "english": "Wednesday",
+    "spanish": "miércoles",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "donderdag",
+    "english": "Thursday",
+    "spanish": "jueves",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "vrijdag",
+    "english": "Friday",
+    "spanish": "viernes",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "zaterdag",
+    "english": "Saturday",
+    "spanish": "sábado",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "zondag",
+    "english": "Sunday",
+    "spanish": "domingo",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "dias_semana"
+  },
+  {
+    "dutch_word": "school",
+    "english": "school",
+    "spanish": "escuela / colegio",
+    "article": "de",
+    "plural": "scholen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "educacion"
+  },
+  {
+    "dutch_word": "leraar",
+    "english": "teacher",
+    "spanish": "profesor",
+    "article": "de",
+    "plural": "leraren",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "educacion"
+  },
+  {
+    "dutch_word": "boek",
+    "english": "book",
+    "spanish": "libro",
+    "article": "het",
+    "plural": "boeken",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "educacion"
+  },
+  {
+    "dutch_word": "pen",
+    "english": "pen",
+    "spanish": "bolígrafo",
+    "article": "de",
+    "plural": "pennen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "educacion"
+  },
+  {
+    "dutch_word": "tas",
+    "english": "bag",
+    "spanish": "bolso / mochila",
+    "article": "de",
+    "plural": "tassen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "educacion"
+  },
+  {
+    "dutch_word": "auto",
+    "english": "car",
+    "spanish": "coche / carro",
+    "article": "de",
+    "plural": "auto's",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "transporte"
+  },
+  {
+    "dutch_word": "fiets",
+    "english": "bicycle",
+    "spanish": "bicicleta",
+    "article": "de",
+    "plural": "fietsen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "transporte"
+  },
+  {
+    "dutch_word": "trein",
+    "english": "train",
+    "spanish": "tren",
+    "article": "de",
+    "plural": "treinen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "transporte"
+  },
+  {
+    "dutch_word": "bus",
+    "english": "bus",
+    "spanish": "autobús",
+    "article": "de",
+    "plural": "bussen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "transporte"
+  },
+  {
+    "dutch_word": "zon",
+    "english": "sun",
+    "spanish": "sol",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "regen",
+    "english": "rain",
+    "spanish": "lluvia",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "sneeuw",
+    "english": "snow",
+    "spanish": "nieve",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "boom",
+    "english": "tree",
+    "spanish": "árbol",
+    "article": "de",
+    "plural": "bomen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "bloem",
+    "english": "flower",
+    "spanish": "flor",
+    "article": "de",
+    "plural": "bloemen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "zee",
+    "english": "sea",
+    "spanish": "mar",
+    "article": "de",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "berg",
+    "english": "mountain",
+    "spanish": "montaña",
+    "article": "de",
+    "plural": "bergen",
+    "word_type": "noun",
+    "level": "a0",
+    "theme": "naturaleza"
+  },
+  {
+    "dutch_word": "ja",
+    "english": "yes",
+    "spanish": "sí",
+    "word_type": "adverb",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "nee",
+    "english": "no",
+    "spanish": "no",
+    "word_type": "adverb",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "hallo",
+    "english": "hello",
+    "spanish": "hola",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas",
+    "example_nl": "Hallo! Hoe gaat het?",
+    "example_es": "¡Hola! ¿Cómo estás?"
+  },
+  {
+    "dutch_word": "goedemorgen",
+    "english": "good morning",
+    "spanish": "buenos días",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "goedemiddag",
+    "english": "good afternoon",
+    "spanish": "buenas tardes",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "goedenavond",
+    "english": "good evening",
+    "spanish": "buenas noches (saludo)",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "tot ziens",
+    "english": "goodbye",
+    "spanish": "hasta la vista / adiós",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "dank je wel",
+    "english": "thank you",
+    "spanish": "muchas gracias",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "alsjeblieft",
+    "english": "please",
+    "spanish": "por favor / aquí tienes",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "sorry",
+    "english": "sorry",
+    "spanish": "lo siento / perdón",
+    "word_type": "phrase",
+    "level": "a0",
+    "theme": "frases_basicas"
+  },
+  {
+    "dutch_word": "aap",
+    "english": "monkey",
+    "spanish": "mono",
+    "article": "de",
+    "plural": "apen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "beer",
+    "english": "bear",
+    "spanish": "oso",
+    "article": "de",
+    "plural": "beren",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "muis",
+    "english": "mouse",
+    "spanish": "raton",
+    "article": "de",
+    "plural": "muizen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "schaap",
+    "english": "sheep",
+    "spanish": "oveja",
+    "article": "het",
+    "plural": "schapen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "geit",
+    "english": "goat",
+    "spanish": "cabra",
+    "article": "de",
+    "plural": "geiten",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kip",
+    "english": "chicken",
+    "spanish": "gallina",
+    "article": "de",
+    "plural": "kippen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "haan",
+    "english": "rooster",
+    "spanish": "gallo",
+    "article": "de",
+    "plural": "hanen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "eend",
+    "english": "duck",
+    "spanish": "pato",
+    "article": "de",
+    "plural": "eenden",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "gans",
+    "english": "goose",
+    "spanish": "ganso",
+    "article": "de",
+    "plural": "ganzen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mug",
+    "english": "mosquito",
+    "spanish": "mosquito",
+    "article": "de",
+    "plural": "muggen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bij",
+    "english": "bee",
+    "spanish": "abeja",
+    "article": "de",
+    "plural": "bijen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vlinder",
+    "english": "butterfly",
+    "spanish": "mariposa",
+    "article": "de",
+    "plural": "vlinders",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "spin",
+    "english": "spider",
+    "spanish": "arana",
+    "article": "de",
+    "plural": "spinnen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mier",
+    "english": "ant",
+    "spanish": "hormiga",
+    "article": "de",
+    "plural": "mieren",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "slang",
+    "english": "snake",
+    "spanish": "serpiente",
+    "article": "de",
+    "plural": "slangen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kikker",
+    "english": "frog",
+    "spanish": "rana",
+    "article": "de",
+    "plural": "kikkers",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "schildpad",
+    "english": "turtle",
+    "spanish": "tortuga",
+    "article": "de",
+    "plural": "schildpadden",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "walvis",
+    "english": "whale",
+    "spanish": "ballena",
+    "article": "de",
+    "plural": "walvissen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "haai",
+    "english": "shark",
+    "spanish": "tiburon",
+    "article": "de",
+    "plural": "haaien",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dolfijn",
+    "english": "dolphin",
+    "spanish": "delfin",
+    "article": "de",
+    "plural": "dolfijnen",
+    "word_type": "noun",
+    "theme": "animales",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "banaan",
+    "english": "banana",
+    "spanish": "platano",
+    "article": "de",
+    "plural": "bananen",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "peer",
+    "english": "pear",
+    "spanish": "pera",
+    "article": "de",
+    "plural": "peren",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sinaasappel",
+    "english": "orange",
+    "spanish": "naranja",
+    "article": "de",
+    "plural": "sinaasappels",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "citroen",
+    "english": "lemon",
+    "spanish": "limon",
+    "article": "de",
+    "plural": "citroenen",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "aardbei",
+    "english": "strawberry",
+    "spanish": "fresa",
+    "article": "de",
+    "plural": "aardbeien",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "druif",
+    "english": "grape",
+    "spanish": "uva",
+    "article": "de",
+    "plural": "druiven",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tomaat",
+    "english": "tomato",
+    "spanish": "tomate",
+    "article": "de",
+    "plural": "tomaten",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "aardappel",
+    "english": "potato",
+    "spanish": "patata",
+    "article": "de",
+    "plural": "aardappelen",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wortel",
+    "english": "carrot",
+    "spanish": "zanahoria",
+    "article": "de",
+    "plural": "wortels",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ui",
+    "english": "onion",
+    "spanish": "cebolla",
+    "article": "de",
+    "plural": "uien",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "komkommer",
+    "english": "cucumber",
+    "spanish": "pepino",
+    "article": "de",
+    "plural": "komkommers",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sla",
+    "english": "lettuce",
+    "spanish": "lechuga",
+    "article": "de",
+    "plural": "slasoorten",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "boter",
+    "english": "butter",
+    "spanish": "mantequilla",
+    "article": "de",
+    "plural": "boters",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "suiker",
+    "english": "sugar",
+    "spanish": "azucar",
+    "article": "de",
+    "plural": "suikers",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zout",
+    "english": "salt",
+    "spanish": "sal",
+    "article": "het",
+    "plural": "zouten",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "peper",
+    "english": "pepper",
+    "spanish": "pimienta",
+    "article": "de",
+    "plural": "pepers",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "koffie",
+    "english": "coffee",
+    "spanish": "cafe",
+    "article": "de",
+    "plural": "koffies",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "thee",
+    "english": "tea",
+    "spanish": "te",
+    "article": "de",
+    "plural": "theeen",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sap",
+    "english": "juice",
+    "spanish": "zumo",
+    "article": "het",
+    "plural": "sappen",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bier",
+    "english": "beer",
+    "spanish": "cerveza",
+    "article": "het",
+    "plural": "bieren",
+    "word_type": "noun",
+    "theme": "comida",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vloer",
+    "english": "floor",
+    "spanish": "suelo",
+    "article": "de",
+    "plural": "vloeren",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "muur",
+    "english": "wall",
+    "spanish": "pared",
+    "article": "de",
+    "plural": "muren",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dak",
+    "english": "roof",
+    "spanish": "techo",
+    "article": "het",
+    "plural": "daken",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "trap",
+    "english": "stairs",
+    "spanish": "escalera",
+    "article": "de",
+    "plural": "trappen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lamp",
+    "english": "lamp",
+    "spanish": "lampara",
+    "article": "de",
+    "plural": "lampen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kast",
+    "english": "closet",
+    "spanish": "armario",
+    "article": "de",
+    "plural": "kasten",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bank",
+    "english": "sofa",
+    "spanish": "sofa",
+    "article": "de",
+    "plural": "banken",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "spiegel",
+    "english": "mirror",
+    "spanish": "espejo",
+    "article": "de",
+    "plural": "spiegels",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "klok",
+    "english": "clock",
+    "spanish": "reloj",
+    "article": "de",
+    "plural": "klokken",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kussen",
+    "english": "pillow",
+    "spanish": "almohada",
+    "article": "het",
+    "plural": "kussens",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "deken",
+    "english": "blanket",
+    "spanish": "manta",
+    "article": "de",
+    "plural": "dekens",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fornuis",
+    "english": "stove",
+    "spanish": "cocina",
+    "article": "het",
+    "plural": "fornuizen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "koelkast",
+    "english": "fridge",
+    "spanish": "nevera",
+    "article": "de",
+    "plural": "koelkasten",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "oven",
+    "english": "oven",
+    "spanish": "horno",
+    "article": "de",
+    "plural": "ovens",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bord",
+    "english": "plate",
+    "spanish": "plato",
+    "article": "het",
+    "plural": "borden",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mes",
+    "english": "knife",
+    "spanish": "cuchillo",
+    "article": "het",
+    "plural": "messen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vork",
+    "english": "fork",
+    "spanish": "tenedor",
+    "article": "de",
+    "plural": "vorken",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lepel",
+    "english": "spoon",
+    "spanish": "cuchara",
+    "article": "de",
+    "plural": "lepels",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "glas",
+    "english": "glass",
+    "spanish": "vaso",
+    "article": "het",
+    "plural": "glazen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fles",
+    "english": "bottle",
+    "spanish": "botella",
+    "article": "de",
+    "plural": "flessen",
+    "word_type": "noun",
+    "theme": "casa",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vriend",
+    "english": "friend",
+    "spanish": "amigo",
+    "article": "de",
+    "plural": "vrienden",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vriendin",
+    "english": "female friend",
+    "spanish": "amiga",
+    "article": "de",
+    "plural": "vriendinnen",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "buurman",
+    "english": "neighbor",
+    "spanish": "vecino",
+    "article": "de",
+    "plural": "buurmannen",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "buurvrouw",
+    "english": "neighbor",
+    "spanish": "vecina",
+    "article": "de",
+    "plural": "buurvrouwen",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dokter",
+    "english": "doctor",
+    "spanish": "medico",
+    "article": "de",
+    "plural": "dokters",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "verpleegkundige",
+    "english": "nurse",
+    "spanish": "enfermero",
+    "article": "de",
+    "plural": "verpleegkundigen",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "politie",
+    "english": "police",
+    "spanish": "policia",
+    "article": "de",
+    "plural": "polities",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "agent",
+    "english": "officer",
+    "spanish": "agente",
+    "article": "de",
+    "plural": "agenten",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "student",
+    "english": "student",
+    "spanish": "estudiante",
+    "article": "de",
+    "plural": "studenten",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "collega",
+    "english": "colleague",
+    "spanish": "colega",
+    "article": "de",
+    "plural": "collegas",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "chef",
+    "english": "boss",
+    "spanish": "jefe",
+    "article": "de",
+    "plural": "chefs",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "klant",
+    "english": "customer",
+    "spanish": "cliente",
+    "article": "de",
+    "plural": "klanten",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "baby",
+    "english": "baby",
+    "spanish": "bebe",
+    "article": "de",
+    "plural": "babys",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "oom",
+    "english": "uncle",
+    "spanish": "tio",
+    "article": "de",
+    "plural": "ooms",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tante",
+    "english": "aunt",
+    "spanish": "tia",
+    "article": "de",
+    "plural": "tantes",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "neef",
+    "english": "cousin",
+    "spanish": "primo",
+    "article": "de",
+    "plural": "neven",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nicht",
+    "english": "cousin",
+    "spanish": "prima",
+    "article": "de",
+    "plural": "nichten",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zoon",
+    "english": "son",
+    "spanish": "hijo",
+    "article": "de",
+    "plural": "zonen",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dochter",
+    "english": "daughter",
+    "spanish": "hija",
+    "article": "de",
+    "plural": "dochters",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "familie",
+    "english": "family",
+    "spanish": "familia",
+    "article": "de",
+    "plural": "families",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "boekwinkel",
+    "english": "bookstore",
+    "spanish": "libreria",
+    "article": "de",
+    "plural": "boekwinkels",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "supermarkt",
+    "english": "supermarket",
+    "spanish": "supermercado",
+    "article": "de",
+    "plural": "supermarkten",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "apotheek",
+    "english": "pharmacy",
+    "spanish": "farmacia",
+    "article": "de",
+    "plural": "apotheken",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ziekenhuis",
+    "english": "hospital",
+    "spanish": "hospital",
+    "article": "het",
+    "plural": "ziekenhuizen",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "station",
+    "english": "station",
+    "spanish": "estacion",
+    "article": "het",
+    "plural": "stations",
+    "word_type": "noun",
+    "theme": "transporte",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "halte",
+    "english": "stop",
+    "spanish": "parada",
+    "article": "de",
+    "plural": "haltes",
+    "word_type": "noun",
+    "theme": "transporte",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "straat",
+    "english": "street",
+    "spanish": "calle",
+    "article": "de",
+    "plural": "straten",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "plein",
+    "english": "square",
+    "spanish": "plaza",
+    "article": "het",
+    "plural": "pleinen",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "brug",
+    "english": "bridge",
+    "spanish": "puente",
+    "article": "de",
+    "plural": "bruggen",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "park",
+    "english": "park",
+    "spanish": "parque",
+    "article": "het",
+    "plural": "parken",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "winkel",
+    "english": "shop",
+    "spanish": "tienda",
+    "article": "de",
+    "plural": "winkels",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "markt",
+    "english": "market",
+    "spanish": "mercado",
+    "article": "de",
+    "plural": "markten",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kerk",
+    "english": "church",
+    "spanish": "iglesia",
+    "article": "de",
+    "plural": "kerken",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kantoor",
+    "english": "office",
+    "spanish": "oficina",
+    "article": "het",
+    "plural": "kantoren",
+    "word_type": "noun",
+    "theme": "stad",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "werk",
+    "english": "work",
+    "spanish": "trabajo",
+    "article": "het",
+    "plural": "werken",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "baan",
+    "english": "job",
+    "spanish": "empleo",
+    "article": "de",
+    "plural": "banen",
+    "word_type": "noun",
+    "theme": "personas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "geld",
+    "english": "money",
+    "spanish": "dinero",
+    "article": "het",
+    "plural": "gelden",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kaart",
+    "english": "card",
+    "spanish": "tarjeta",
+    "article": "de",
+    "plural": "kaarten",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sleutel",
+    "english": "key",
+    "spanish": "llave",
+    "article": "de",
+    "plural": "sleutels",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "telefoon",
+    "english": "phone",
+    "spanish": "telefono",
+    "article": "de",
+    "plural": "telefoons",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "computer",
+    "english": "computer",
+    "spanish": "ordenador",
+    "article": "de",
+    "plural": "computers",
+    "word_type": "noun",
+    "theme": "technologie",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tablet",
+    "english": "tablet",
+    "spanish": "tableta",
+    "article": "de",
+    "plural": "tablets",
+    "word_type": "noun",
+    "theme": "technologie",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "camera",
+    "english": "camera",
+    "spanish": "camara",
+    "article": "de",
+    "plural": "cameras",
+    "word_type": "noun",
+    "theme": "technologie",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "foto",
+    "english": "photo",
+    "spanish": "foto",
+    "article": "de",
+    "plural": "fotos",
+    "word_type": "noun",
+    "theme": "technologie",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "video",
+    "english": "video",
+    "spanish": "video",
+    "article": "de",
+    "plural": "videos",
+    "word_type": "noun",
+    "theme": "technologie",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "muziek",
+    "english": "music",
+    "spanish": "musica",
+    "article": "de",
+    "plural": "muzieken",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lied",
+    "english": "song",
+    "spanish": "cancion",
+    "article": "het",
+    "plural": "liederen",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "film",
+    "english": "movie",
+    "spanish": "pelicula",
+    "article": "de",
+    "plural": "films",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "spel",
+    "english": "game",
+    "spanish": "juego",
+    "article": "het",
+    "plural": "spellen",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bal",
+    "english": "ball",
+    "spanish": "pelota",
+    "article": "de",
+    "plural": "ballen",
+    "word_type": "noun",
+    "theme": "sport",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "doel",
+    "english": "goal",
+    "spanish": "gol",
+    "article": "het",
+    "plural": "doelen",
+    "word_type": "noun",
+    "theme": "sport",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wedstrijd",
+    "english": "match",
+    "spanish": "partido",
+    "article": "de",
+    "plural": "wedstrijden",
+    "word_type": "noun",
+    "theme": "sport",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "team",
+    "english": "team",
+    "spanish": "equipo",
+    "article": "het",
+    "plural": "teams",
+    "word_type": "noun",
+    "theme": "sport",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zwembad",
+    "english": "pool",
+    "spanish": "piscina",
+    "article": "het",
+    "plural": "zwembaden",
+    "word_type": "noun",
+    "theme": "sport",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "strand",
+    "english": "beach",
+    "spanish": "playa",
+    "article": "het",
+    "plural": "stranden",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bos",
+    "english": "forest",
+    "spanish": "bosque",
+    "article": "het",
+    "plural": "bossen",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rivier",
+    "english": "river",
+    "spanish": "rio",
+    "article": "de",
+    "plural": "rivieren",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "meer",
+    "english": "lake",
+    "spanish": "lago",
+    "article": "het",
+    "plural": "meren",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "eiland",
+    "english": "island",
+    "spanish": "isla",
+    "article": "het",
+    "plural": "eilanden",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lucht",
+    "english": "air",
+    "spanish": "aire",
+    "article": "de",
+    "plural": "luchten",
+    "word_type": "noun",
+    "theme": "naturaleza",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "avond",
+    "english": "evening",
+    "spanish": "tarde noche",
+    "article": "de",
+    "plural": "avonden",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nacht",
+    "english": "night",
+    "spanish": "noche",
+    "article": "de",
+    "plural": "nachten",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ochtend",
+    "english": "morning",
+    "spanish": "manana",
+    "article": "de",
+    "plural": "ochtenden",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "middag",
+    "english": "afternoon",
+    "spanish": "tarde",
+    "article": "de",
+    "plural": "middagen",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dag",
+    "english": "day",
+    "spanish": "dia",
+    "article": "de",
+    "plural": "dagen",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "week",
+    "english": "week",
+    "spanish": "semana",
+    "article": "de",
+    "plural": "weken",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "maand",
+    "english": "month",
+    "spanish": "mes",
+    "article": "de",
+    "plural": "maanden",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jaar",
+    "english": "year",
+    "spanish": "ano",
+    "article": "het",
+    "plural": "jaren",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "uur",
+    "english": "hour",
+    "spanish": "hora",
+    "article": "het",
+    "plural": "uren",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "minuut",
+    "english": "minute",
+    "spanish": "minuto",
+    "article": "de",
+    "plural": "minuten",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "seconde",
+    "english": "second",
+    "spanish": "segundo",
+    "article": "de",
+    "plural": "seconden",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lente",
+    "english": "spring",
+    "spanish": "primavera",
+    "article": "de",
+    "plural": "lentes",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zomer",
+    "english": "summer",
+    "spanish": "verano",
+    "article": "de",
+    "plural": "zomers",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "herfst",
+    "english": "autumn",
+    "spanish": "otono",
+    "article": "de",
+    "plural": "herfsten",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "winter",
+    "english": "winter",
+    "spanish": "invierno",
+    "article": "de",
+    "plural": "winters",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "januari",
+    "english": "january",
+    "spanish": "enero",
+    "article": "de",
+    "plural": "januaris",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "februari",
+    "english": "february",
+    "spanish": "febrero",
+    "article": "de",
+    "plural": "februaris",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "maart",
+    "english": "march",
+    "spanish": "marzo",
+    "article": "de",
+    "plural": "maarten",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "april",
+    "english": "april",
+    "spanish": "abril",
+    "article": "de",
+    "plural": "aprillen",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mei",
+    "english": "may",
+    "spanish": "mayo",
+    "article": "de",
+    "plural": "meis",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "juni",
+    "english": "june",
+    "spanish": "junio",
+    "article": "de",
+    "plural": "junis",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "juli",
+    "english": "july",
+    "spanish": "julio",
+    "article": "de",
+    "plural": "julis",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "augustus",
+    "english": "august",
+    "spanish": "agosto",
+    "article": "de",
+    "plural": "augustussen",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "september",
+    "english": "september",
+    "spanish": "septiembre",
+    "article": "de",
+    "plural": "septembers",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "oktober",
+    "english": "october",
+    "spanish": "octubre",
+    "article": "de",
+    "plural": "oktobers",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "november",
+    "english": "november",
+    "spanish": "noviembre",
+    "article": "de",
+    "plural": "novembers",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "december",
+    "english": "december",
+    "spanish": "diciembre",
+    "article": "de",
+    "plural": "decembers",
+    "word_type": "noun",
+    "theme": "tiempo",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "moederdag",
+    "english": "mothers day",
+    "spanish": "dia de la madre",
+    "article": "de",
+    "plural": "moederdagen",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "verjaardag",
+    "english": "birthday",
+    "spanish": "cumpleanos",
+    "article": "de",
+    "plural": "verjaardagen",
+    "word_type": "noun",
+    "theme": "familia",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "feest",
+    "english": "party",
+    "spanish": "fiesta",
+    "article": "het",
+    "plural": "feesten",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "cadeau",
+    "english": "gift",
+    "spanish": "regalo",
+    "article": "het",
+    "plural": "cadeaus",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "brief",
+    "english": "letter",
+    "spanish": "carta",
+    "article": "de",
+    "plural": "brieven",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bericht",
+    "english": "message",
+    "spanish": "mensaje",
+    "article": "het",
+    "plural": "berichten",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vraag",
+    "english": "question",
+    "spanish": "pregunta",
+    "article": "de",
+    "plural": "vragen",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "antwoord",
+    "english": "answer",
+    "spanish": "respuesta",
+    "article": "het",
+    "plural": "antwoorden",
+    "word_type": "noun",
+    "theme": "dagelijks",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "taal",
+    "english": "language",
+    "spanish": "idioma",
+    "article": "de",
+    "plural": "talen",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "woord",
+    "english": "word",
+    "spanish": "palabra",
+    "article": "het",
+    "plural": "woorden",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zin",
+    "english": "sentence",
+    "spanish": "frase",
+    "article": "de",
+    "plural": "zinnen",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "les",
+    "english": "lesson",
+    "spanish": "leccion",
+    "article": "de",
+    "plural": "lessen",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "toets",
+    "english": "test",
+    "spanish": "examen",
+    "article": "de",
+    "plural": "toetsen",
+    "word_type": "noun",
+    "theme": "educacion",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lopen",
+    "english": "to walk",
+    "spanish": "caminar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rennen",
+    "english": "to run",
+    "spanish": "correr",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "springen",
+    "english": "to jump",
+    "spanish": "saltar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zitten",
+    "english": "to sit",
+    "spanish": "sentarse",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "staan",
+    "english": "to stand",
+    "spanish": "estar de pie",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "liggen",
+    "english": "to lie",
+    "spanish": "estar tumbado",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lezen",
+    "english": "to read",
+    "spanish": "leer",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "schrijven",
+    "english": "to write",
+    "spanish": "escribir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "leren",
+    "english": "to learn",
+    "spanish": "aprender",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vragen",
+    "english": "to ask",
+    "spanish": "preguntar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "antwoorden",
+    "english": "to answer",
+    "spanish": "responder",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kopen",
+    "english": "to buy",
+    "spanish": "comprar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "verkopen",
+    "english": "to sell",
+    "spanish": "vender",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "betalen",
+    "english": "to pay",
+    "spanish": "pagar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "reizen",
+    "english": "to travel",
+    "spanish": "viajar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wachten",
+    "english": "to wait",
+    "spanish": "esperar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zoeken",
+    "english": "to search",
+    "spanish": "buscar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vinden",
+    "english": "to find",
+    "spanish": "encontrar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "halen",
+    "english": "to get",
+    "spanish": "traer",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "brengen",
+    "english": "to bring",
+    "spanish": "llevar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zetten",
+    "english": "to put",
+    "spanish": "poner",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "openen",
+    "english": "to open",
+    "spanish": "abrir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sluiten",
+    "english": "to close",
+    "spanish": "cerrar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wassen",
+    "english": "to wash",
+    "spanish": "lavar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "douchen",
+    "english": "to shower",
+    "spanish": "ducharse",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "koken",
+    "english": "to cook",
+    "spanish": "cocinar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bakken",
+    "english": "to bake",
+    "spanish": "hornear",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "snijden",
+    "english": "to cut",
+    "spanish": "cortar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "helpen",
+    "english": "to help",
+    "spanish": "ayudar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "spelen",
+    "english": "to play",
+    "spanish": "jugar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zwemmen",
+    "english": "to swim",
+    "spanish": "nadar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fietsen",
+    "english": "to cycle",
+    "spanish": "ir en bici",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rijden",
+    "english": "to drive",
+    "spanish": "conducir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vliegen",
+    "english": "to fly",
+    "spanish": "volar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bellen",
+    "english": "to call",
+    "spanish": "llamar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sturen",
+    "english": "to send",
+    "spanish": "enviar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ontvangen",
+    "english": "to receive",
+    "spanish": "recibir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "beginnen",
+    "english": "to begin",
+    "spanish": "empezar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "stoppen",
+    "english": "to stop",
+    "spanish": "parar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "proberen",
+    "english": "to try",
+    "spanish": "intentar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "denken",
+    "english": "to think",
+    "spanish": "pensar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "weten",
+    "english": "to know",
+    "spanish": "saber",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kennen",
+    "english": "to know",
+    "spanish": "conocer",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "voelen",
+    "english": "to feel",
+    "spanish": "sentir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "houden",
+    "english": "to keep",
+    "spanish": "guardar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "houden van",
+    "english": "to love",
+    "spanish": "amar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lachen",
+    "english": "to laugh",
+    "spanish": "reir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "huilen",
+    "english": "to cry",
+    "spanish": "llorar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zingen",
+    "english": "to sing",
+    "spanish": "cantar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dansen",
+    "english": "to dance",
+    "spanish": "bailar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tekenen",
+    "english": "to draw",
+    "spanish": "dibujar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bouwen",
+    "english": "to build",
+    "spanish": "construir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "gebruiken",
+    "english": "to use",
+    "spanish": "usar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kiezen",
+    "english": "to choose",
+    "spanish": "elegir",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "winnen",
+    "english": "to win",
+    "spanish": "ganar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "verliezen",
+    "english": "to lose",
+    "spanish": "perder",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "passen",
+    "english": "to fit",
+    "spanish": "quedar bien",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "repareren",
+    "english": "to repair",
+    "spanish": "reparar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bezoeken",
+    "english": "to visit",
+    "spanish": "visitar",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "blijven",
+    "english": "to stay",
+    "spanish": "quedarse",
+    "word_type": "verb",
+    "theme": "verbos_basicos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "lang",
+    "english": "long",
+    "spanish": "largo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kort",
+    "english": "short",
+    "spanish": "corto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hoog",
+    "english": "high",
+    "spanish": "alto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "laag",
+    "english": "low",
+    "spanish": "bajo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dik",
+    "english": "thick",
+    "spanish": "grueso",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dun",
+    "english": "thin",
+    "spanish": "delgado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "snel",
+    "english": "fast",
+    "spanish": "rapido",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "langzaam",
+    "english": "slow",
+    "spanish": "lento",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "warm",
+    "english": "warm",
+    "spanish": "calido",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "koud",
+    "english": "cold",
+    "spanish": "frio",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "heet",
+    "english": "hot",
+    "spanish": "caliente",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fris",
+    "english": "fresh",
+    "spanish": "fresco",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nat",
+    "english": "wet",
+    "spanish": "mojado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "droog",
+    "english": "dry",
+    "spanish": "seco",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hard",
+    "english": "hard",
+    "spanish": "duro",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zacht",
+    "english": "soft",
+    "spanish": "suave",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "schoon",
+    "english": "clean",
+    "spanish": "limpio",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vies",
+    "english": "dirty",
+    "spanish": "sucio",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vol",
+    "english": "full",
+    "spanish": "lleno",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "leeg",
+    "english": "empty",
+    "spanish": "vacio",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jong",
+    "english": "young",
+    "spanish": "joven",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "oudere",
+    "english": "older",
+    "spanish": "mayor",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rijk",
+    "english": "rich",
+    "spanish": "rico",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "arm",
+    "english": "poor",
+    "spanish": "pobre",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "duur",
+    "english": "expensive",
+    "spanish": "caro",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "goedkoop",
+    "english": "cheap",
+    "spanish": "barato",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sterk",
+    "english": "strong",
+    "spanish": "fuerte",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zwak",
+    "english": "weak",
+    "spanish": "debil",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "veilig",
+    "english": "safe",
+    "spanish": "seguro",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "gevaarlijk",
+    "english": "dangerous",
+    "spanish": "peligroso",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "makkelijk",
+    "english": "easy",
+    "spanish": "facil",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "moeilijk",
+    "english": "difficult",
+    "spanish": "dificil",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "belangrijk",
+    "english": "important",
+    "spanish": "importante",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "klaar",
+    "english": "ready",
+    "spanish": "listo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "open",
+    "english": "open",
+    "spanish": "abierto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dicht",
+    "english": "closed",
+    "spanish": "cerrado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "donker",
+    "english": "dark",
+    "spanish": "oscuro",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "licht",
+    "english": "light",
+    "spanish": "claro",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vriendelijk",
+    "english": "friendly",
+    "spanish": "amable",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "boos",
+    "english": "angry",
+    "spanish": "enfadado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "blij",
+    "english": "happy",
+    "spanish": "feliz",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "verdrietig",
+    "english": "sad",
+    "spanish": "triste",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "moe",
+    "english": "tired",
+    "spanish": "cansado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ziek",
+    "english": "sick",
+    "spanish": "enfermo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "gezond",
+    "english": "healthy",
+    "spanish": "saludable",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rustig",
+    "english": "calm",
+    "spanish": "tranquilo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "druk",
+    "english": "busy",
+    "spanish": "ocupado",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "stil",
+    "english": "quiet",
+    "spanish": "silencioso",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "luid",
+    "english": "loud",
+    "spanish": "ruidoso",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mooiere",
+    "english": "prettier",
+    "spanish": "mas bonito",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fout",
+    "english": "wrong",
+    "spanish": "incorrecto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "juist",
+    "english": "correct",
+    "spanish": "correcto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "simpel",
+    "english": "simple",
+    "spanish": "simple",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "slim",
+    "english": "smart",
+    "spanish": "inteligente",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dom",
+    "english": "stupid",
+    "spanish": "tonto",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "echt",
+    "english": "real",
+    "spanish": "real",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vals",
+    "english": "false",
+    "spanish": "falso",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "breed",
+    "english": "wide",
+    "spanish": "ancho",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "smal",
+    "english": "narrow",
+    "spanish": "estrecho",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "rond",
+    "english": "round",
+    "spanish": "redondo",
+    "word_type": "adjective",
+    "theme": "adjetivos",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nu",
+    "english": "now",
+    "spanish": "ahora",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "straks",
+    "english": "later",
+    "spanish": "luego",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vroeg",
+    "english": "early",
+    "spanish": "temprano",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "laat",
+    "english": "late",
+    "spanish": "tarde",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hier",
+    "english": "here",
+    "spanish": "aqui",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "daar",
+    "english": "there",
+    "spanish": "alli",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "overal",
+    "english": "everywhere",
+    "spanish": "en todas partes",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ergens",
+    "english": "somewhere",
+    "spanish": "en algun lugar",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nergens",
+    "english": "nowhere",
+    "spanish": "en ninguna parte",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "altijd",
+    "english": "always",
+    "spanish": "siempre",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vaak",
+    "english": "often",
+    "spanish": "a menudo",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "soms",
+    "english": "sometimes",
+    "spanish": "a veces",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nooit",
+    "english": "never",
+    "spanish": "nunca",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "al",
+    "english": "already",
+    "spanish": "ya",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nog",
+    "english": "still",
+    "spanish": "todavia",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "bijna",
+    "english": "almost",
+    "spanish": "casi",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "alleen",
+    "english": "only",
+    "spanish": "solo",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "samen",
+    "english": "together",
+    "spanish": "juntos",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "misschien",
+    "english": "maybe",
+    "spanish": "quizas",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zeker",
+    "english": "certainly",
+    "spanish": "seguro",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "graag",
+    "english": "gladly",
+    "spanish": "con gusto",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "niet",
+    "english": "not",
+    "spanish": "no",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wel",
+    "english": "indeed",
+    "spanish": "si",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ook",
+    "english": "also",
+    "spanish": "tambien",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "toch",
+    "english": "after all",
+    "spanish": "sin embargo",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "morgen",
+    "english": "tomorrow",
+    "spanish": "manana",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "gisteren",
+    "english": "yesterday",
+    "spanish": "ayer",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vandaag",
+    "english": "today",
+    "spanish": "hoy",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "buiten",
+    "english": "outside",
+    "spanish": "afuera",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "binnen",
+    "english": "inside",
+    "spanish": "adentro",
+    "word_type": "adverb",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik",
+    "english": "I",
+    "spanish": "yo",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jij",
+    "english": "you",
+    "spanish": "tu",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "u",
+    "english": "you formal",
+    "spanish": "usted",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hij",
+    "english": "he",
+    "spanish": "el",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zij",
+    "english": "she",
+    "spanish": "ella",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wij",
+    "english": "we",
+    "spanish": "nosotros",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jullie",
+    "english": "you plural",
+    "spanish": "ustedes",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ze",
+    "english": "they",
+    "spanish": "ellos",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mij",
+    "english": "me",
+    "spanish": "me",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jou",
+    "english": "you obj",
+    "spanish": "te",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hem",
+    "english": "him",
+    "spanish": "lo",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "haar",
+    "english": "her",
+    "spanish": "la",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ons",
+    "english": "us",
+    "spanish": "nos",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hen",
+    "english": "them",
+    "spanish": "los",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "mijn",
+    "english": "my",
+    "spanish": "mi",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "jouw",
+    "english": "your",
+    "spanish": "tu",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "uw",
+    "english": "your formal",
+    "spanish": "su",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hun",
+    "english": "their",
+    "spanish": "su de ellos",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wie",
+    "english": "who",
+    "spanish": "quien",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wat",
+    "english": "what",
+    "spanish": "que",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "waar",
+    "english": "where",
+    "spanish": "donde",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "wanneer",
+    "english": "when",
+    "spanish": "cuando",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "waarom",
+    "english": "why",
+    "spanish": "por que",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hoe",
+    "english": "how",
+    "spanish": "como",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "welke",
+    "english": "which",
+    "spanish": "cual",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dit",
+    "english": "this",
+    "spanish": "esto",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dat",
+    "english": "that",
+    "spanish": "eso",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "deze",
+    "english": "this",
+    "spanish": "este",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "die",
+    "english": "that",
+    "spanish": "ese",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "iets",
+    "english": "something",
+    "spanish": "algo",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "niets",
+    "english": "nothing",
+    "spanish": "nada",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "iedereen",
+    "english": "everyone",
+    "spanish": "todos",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "niemand",
+    "english": "nobody",
+    "spanish": "nadie",
+    "word_type": "pronoun",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "in",
+    "english": "in",
+    "spanish": "en",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "op",
+    "english": "on",
+    "spanish": "sobre",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "onder",
+    "english": "under",
+    "spanish": "debajo de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "naast",
+    "english": "next to",
+    "spanish": "al lado de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tussen",
+    "english": "between",
+    "spanish": "entre",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "voor",
+    "english": "in front of",
+    "spanish": "delante de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "achter",
+    "english": "behind",
+    "spanish": "detras de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "boven",
+    "english": "above",
+    "spanish": "encima de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tegenover",
+    "english": "opposite",
+    "spanish": "enfrente de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "met",
+    "english": "with",
+    "spanish": "con",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "zonder",
+    "english": "without",
+    "spanish": "sin",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "naar",
+    "english": "to",
+    "spanish": "a",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "van",
+    "english": "from/of",
+    "spanish": "de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "uit",
+    "english": "out of",
+    "spanish": "de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tot",
+    "english": "until",
+    "spanish": "hasta",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "door",
+    "english": "through",
+    "spanish": "a traves de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "om",
+    "english": "around",
+    "spanish": "alrededor de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "over",
+    "english": "about/over",
+    "spanish": "sobre",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "langs",
+    "english": "along",
+    "spanish": "a lo largo de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tijdens",
+    "english": "during",
+    "spanish": "durante",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "na",
+    "english": "after",
+    "spanish": "despues de",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vooraf",
+    "english": "beforehand",
+    "spanish": "de antemano",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "vanaf",
+    "english": "from",
+    "spanish": "desde",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "sinds",
+    "english": "since",
+    "spanish": "desde",
+    "word_type": "preposition",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "en",
+    "english": "and",
+    "spanish": "y",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "of",
+    "english": "or",
+    "spanish": "o",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "maar",
+    "english": "but",
+    "spanish": "pero",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "want",
+    "english": "because",
+    "spanish": "porque",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dus",
+    "english": "so",
+    "spanish": "asi que",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "als",
+    "english": "if",
+    "spanish": "si",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "omdat",
+    "english": "because",
+    "spanish": "porque",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "terwijl",
+    "english": "while",
+    "spanish": "mientras",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "dan",
+    "english": "then",
+    "spanish": "entonces",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "voordat",
+    "english": "before",
+    "spanish": "antes de que",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "nadat",
+    "english": "after",
+    "spanish": "despues de que",
+    "word_type": "conjunction",
+    "theme": "gramatica_basica",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hoe gaat het",
+    "english": "how are you",
+    "spanish": "como estas",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik heet",
+    "english": "my name is",
+    "spanish": "me llamo",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "aangenaam",
+    "english": "nice to meet you",
+    "spanish": "mucho gusto",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "tot morgen",
+    "english": "see you tomorrow",
+    "spanish": "hasta manana",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "welterusten",
+    "english": "good night",
+    "spanish": "buenas noches",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "geen probleem",
+    "english": "no problem",
+    "spanish": "no hay problema",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "natuurlijk",
+    "english": "of course",
+    "spanish": "claro",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "geen idee",
+    "english": "no idea",
+    "spanish": "ni idea",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik begrijp het",
+    "english": "I understand",
+    "spanish": "lo entiendo",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik begrijp het niet",
+    "english": "I do not understand",
+    "spanish": "no lo entiendo",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "langzaam alstublieft",
+    "english": "slowly please",
+    "spanish": "despacio por favor",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "kun je helpen",
+    "english": "can you help",
+    "spanish": "puedes ayudar",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "waar is het toilet",
+    "english": "where is the toilet",
+    "spanish": "donde esta el bano",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "hoeveel kost het",
+    "english": "how much is it",
+    "spanish": "cuanto cuesta",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik wil graag",
+    "english": "I would like",
+    "spanish": "me gustaria",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "ik hou van je",
+    "english": "I love you",
+    "spanish": "te quiero",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "fijne dag",
+    "english": "have a nice day",
+    "spanish": "que tengas buen dia",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  },
+  {
+    "dutch_word": "eet smakelijk",
+    "english": "enjoy your meal",
+    "spanish": "buen provecho",
+    "word_type": "phrase",
+    "theme": "frases_basicas",
+    "level": "a0"
+  }
 ]

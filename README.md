@@ -98,10 +98,10 @@ pip install -r requirements.txt
 # Seed the database (first run)
 python scripts/seed_content.py
 
-# (Optional) Generate gTTS audio files
+# Generate gTTS audio files
 python scripts/download_audio.py
 
-# (Optional) Populate vocabulary images via Pixabay (requires free API key)
+# Populate vocabulary images via Pixabay (requires free API key)
 # Set PIXABAY_API_KEY in backend/.env first — see .env.example
 python scripts/populate_images.py --level a0
 python scripts/populate_images.py --level a1
