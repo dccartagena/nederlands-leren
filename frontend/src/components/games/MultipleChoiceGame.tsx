@@ -58,13 +58,13 @@ export default function MultipleChoiceGame() {
 
   return (
     <div className="space-y-5 max-w-md mx-auto">
-      <div className="flex justify-between text-sm text-gray-500">
+      <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
         <span>Aciertos: {score.correct}/{score.total}</span>
       </div>
 
-      <div className="p-5 rounded-2xl bg-white border-2 border-dutch-200 text-center">
-        <p className="text-sm text-gray-500 mb-1">¿Cómo se dice en neerlandés?</p>
-        <p className="text-2xl font-bold text-gray-800">{question.correct.spanish}</p>
+      <div className="p-5 rounded-2xl bg-white dark:bg-gray-800 border-2 border-dutch-200 dark:border-dutch-800 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">¿Cómo se dice en neerlandés?</p>
+        <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{question.correct.spanish}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -73,10 +73,10 @@ export default function MultipleChoiceGame() {
           const isSelected = selected === i
           let cls = 'p-3 rounded-xl border-2 text-sm font-medium transition-colors '
           if (selected !== null) {
-            cls += isCorrect ? 'border-green-500 bg-green-50 text-green-700' :
-              isSelected ? 'border-red-400 bg-red-50 text-red-600' : 'border-gray-100 text-gray-400'
+            cls += isCorrect ? 'border-green-500 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300' :
+              isSelected ? 'border-red-400 bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-300' : 'border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-600'
           } else {
-            cls += 'border-gray-200 hover:border-dutch-400 hover:bg-dutch-50 text-gray-800 cursor-pointer'
+            cls += 'border-gray-200 dark:border-gray-600 hover:border-dutch-400 hover:bg-dutch-50 dark:hover:border-dutch-500 dark:hover:bg-dutch-950 text-gray-800 dark:text-gray-200 cursor-pointer'
           }
           return (
             <motion.button key={i} whileTap={{ scale: 0.97 }} className={cls} onClick={() => handleSelect(i)}>
@@ -89,7 +89,7 @@ export default function MultipleChoiceGame() {
       {selected !== null && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           {feedback && (
-            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-sm text-amber-800">
+            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-sm text-amber-800 dark:text-amber-300">
               {fbLoading ? 'Cargando retroalimentación…' : feedback}
             </div>
           )}

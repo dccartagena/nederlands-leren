@@ -51,10 +51,10 @@ export default function WordMatchGame() {
 
   const btnClass = (id: number, selected: boolean) => {
     const base = 'px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all '
-    if (matched.has(id)) return base + 'border-green-400 bg-green-50 text-green-700 opacity-60'
-    if (errors.has(id)) return base + 'border-red-400 bg-red-50 text-red-700 animate-shake'
-    if (selected) return base + 'border-dutch-500 bg-dutch-100 text-dutch-700'
-    return base + 'border-gray-200 hover:border-dutch-400 hover:bg-dutch-50 text-gray-800 cursor-pointer'
+    if (matched.has(id)) return base + 'border-green-400 bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 opacity-60'
+    if (errors.has(id)) return base + 'border-red-400 bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 animate-shake'
+    if (selected) return base + 'border-dutch-500 bg-dutch-100 dark:bg-dutch-900 text-dutch-700 dark:text-dutch-300'
+    return base + 'border-gray-200 dark:border-gray-600 hover:border-dutch-400 hover:bg-dutch-50 dark:hover:border-dutch-500 dark:hover:bg-dutch-950 text-gray-800 dark:text-gray-200 cursor-pointer'
   }
 
   return (
@@ -81,7 +81,7 @@ export default function WordMatchGame() {
                 key={p.id}
                 disabled={matched.has(p.id)}
                 onClick={() => !matched.has(p.id) && setSelectedDutch(p.id)}
-                className={btnClass(p.id, selectedDutch === p.id)}
+                className={btnClass(p.id, selectedDutch === p.id) + ' w-full text-left break-words'}
               >
                 {p.dutch}
               </button>
@@ -94,7 +94,7 @@ export default function WordMatchGame() {
                 key={p.id}
                 disabled={matched.has(p.id)}
                 onClick={() => !matched.has(p.id) && setSelectedSpanish(p.id)}
-                className={btnClass(p.id, selectedSpanish === p.id)}
+                className={btnClass(p.id, selectedSpanish === p.id) + ' w-full text-left break-words'}
               >
                 {p.spanish}
               </button>

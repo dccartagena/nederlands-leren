@@ -38,7 +38,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)]">
+    <div className="flex flex-col h-[calc(100dvh-10rem)] md:h-[calc(100dvh-8rem)]">
       <h1 className="text-xl font-bold mb-3">Chat con IA</h1>
       <div className="flex-1 overflow-y-auto space-y-3 pb-2">
         <AnimatePresence initial={false}>
@@ -54,7 +54,7 @@ export default function Chat() {
                 className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
                   msg.role === 'user'
                     ? 'bg-dutch-700 text-white rounded-br-sm'
-                    : 'bg-white border border-gray-200 text-gray-800 rounded-bl-sm'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-sm'
                 }`}
               >
                 {msg.content}
@@ -66,16 +66,16 @@ export default function Chat() {
         {loading && (
           <div className="flex gap-2">
             <Bot size={20} className="mt-1 text-dutch-600 shrink-0" />
-            <div className="bg-white border border-gray-200 px-4 py-2 rounded-2xl rounded-bl-sm text-sm text-gray-400 animate-pulse">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-2xl rounded-bl-sm text-sm text-gray-400 animate-pulse">
               Escribiendo…
             </div>
           </div>
         )}
         <div ref={bottomRef} />
       </div>
-      <div className="flex gap-2 pt-3 border-t border-gray-200">
+      <div className="flex gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
         <input
-          className="flex-1 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-dutch-500 text-sm"
+          className="flex-1 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-dutch-500 text-sm"
           placeholder="Escribe en neerlandés o español…"
           value={input}
           onChange={e => setInput(e.target.value)}

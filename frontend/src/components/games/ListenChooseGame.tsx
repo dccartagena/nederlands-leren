@@ -32,11 +32,11 @@ export default function ListenChooseGame() {
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <p className="text-gray-600 text-sm text-center">Escucha y elige la palabra correcta</p>
+      <p className="text-gray-600 dark:text-gray-400 text-sm text-center">Escucha y elige la palabra correcta</p>
 
       <button
         onClick={playAudio}
-        className="w-24 h-24 rounded-full bg-dutch-100 hover:bg-dutch-200 text-dutch-700 flex flex-col items-center justify-center gap-1 transition-colors text-sm font-medium"
+        className="w-24 h-24 rounded-full bg-dutch-100 hover:bg-dutch-200 dark:bg-dutch-900 dark:hover:bg-dutch-800 text-dutch-700 dark:text-dutch-300 flex flex-col items-center justify-center gap-1 transition-colors text-sm font-medium"
       >
         <Volume2 size={32} />
         Escuchar
@@ -48,10 +48,10 @@ export default function ListenChooseGame() {
           const isSelected = selected === opt.id
           let cls = 'p-4 rounded-xl border-2 text-center font-medium transition-colors cursor-pointer '
           if (selected !== null) {
-            cls += isCorrect ? 'border-green-500 bg-green-50 text-green-700' :
-              isSelected ? 'border-red-400 bg-red-50 text-red-700' : 'border-gray-200 text-gray-400'
+            cls += isCorrect ? 'border-green-500 bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300' :
+              isSelected ? 'border-red-400 bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300' : 'border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-600'
           } else {
-            cls += 'border-gray-200 hover:border-dutch-400 hover:bg-dutch-50 text-gray-800'
+            cls += 'border-gray-200 dark:border-gray-600 hover:border-dutch-400 hover:bg-dutch-50 dark:hover:border-dutch-500 dark:hover:bg-dutch-950 text-gray-800 dark:text-gray-200'
           }
           return (
             <motion.button

@@ -17,12 +17,12 @@ export default function Progress() {
         </div>
       )}
 
-      <div className="p-4 rounded-xl bg-white border border-gray-200">
+      <div className="p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
         <h2 className="font-semibold mb-2 flex items-center gap-2"><BookOpen size={18} /> Tarjetas pendientes hoy</h2>
         {dueCards?.length === 0 ? (
           <p className="text-green-600 text-sm">¡Todo al día! Vuelve mañana.</p>
         ) : (
-          <p className="text-gray-700">{dueCards?.length} tarjetas para repasar</p>
+          <p className="text-gray-700 dark:text-gray-300">{dueCards?.length} tarjetas para repasar</p>
         )}
       </div>
     </div>
@@ -31,10 +31,10 @@ export default function Progress() {
 
 function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
   return (
-    <div className="flex flex-col items-center p-5 rounded-xl bg-white border border-gray-200">
+    <div className="flex flex-col items-center p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
       {icon}
       <div className="text-2xl font-bold mt-2">{value}</div>
-      <div className="text-sm text-gray-500">{label}</div>
+      <div className="text-sm text-gray-500 dark:text-gray-400">{label}</div>
     </div>
   )
 }

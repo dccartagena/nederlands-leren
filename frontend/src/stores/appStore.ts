@@ -14,7 +14,7 @@ export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       level: 'a0',
-      theme: undefined,
+      theme: 'dark',
       audioEnabled: true,
       setLevel: (level) => set({ level }),
       setTheme: (theme) => set({ theme }),
