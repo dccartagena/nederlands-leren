@@ -14,6 +14,7 @@ class VocabularyItem(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     dutch_word = Column(String(100), nullable=False, index=True)
+    english = Column(String(200))
     spanish = Column(String(200), nullable=False)
     article = Column(String(10))          # de / het / None (for verbs, etc.)
     plural = Column(String(100))

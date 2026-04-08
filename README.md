@@ -35,8 +35,9 @@ nederlands-leren/
 │   │   └── main.py            # FastAPI application factory
 │   ├── alembic/               # Database migrations
 │   ├── scripts/
-│   │   ├── seed_content.py    # Populate DB from data/ JSON files
-│   │   └── download_audio.py  # Generate gTTS audio for all vocab
+│   │   ├── seed_content.py      # Populate DB from data/ JSON files
+│   │   ├── download_audio.py    # Generate gTTS audio for all vocab
+│   │   └── populate_images.py   # Fetch CC0 images from Pixabay → image_url
 │   ├── Dockerfile             # Production image
 │   ├── Dockerfile.dev         # Dev image (hot-reload)
 │   └── requirements.txt
@@ -99,6 +100,11 @@ python scripts/seed_content.py
 
 # (Optional) Generate gTTS audio files
 python scripts/download_audio.py
+
+# (Optional) Populate vocabulary images via Pixabay (requires free API key)
+# Set PIXABAY_API_KEY in backend/.env first — see .env.example
+python scripts/populate_images.py --level a0
+python scripts/populate_images.py --level a1
 
 # Start the API
 uvicorn app.main:app --reload
@@ -163,6 +169,7 @@ All settings are in `backend/app/core/config.py` and read from environment varia
 | `ANTHROPIC_API_KEY` | _(empty)_ | Used when provider is `anthropic` |
 | `MISTRAL_API_KEY` | _(empty)_ | Used when provider is `mistral` |
 | `REMOTE_MODEL` | `gpt-4o-mini` | Model name for remote providers |
+| `PIXABAY_API_KEY` | _(empty)_ | Free key from [pixabay.com/api/docs](https://pixabay.com/api/docs/) — used by `populate_images.py` |
 | `AUDIO_DIR` | `…/data/audio` | Where audio files are stored/served |
 
 ---
@@ -202,6 +209,7 @@ All content is plain JSON in `data/` — no code changes needed.
 ```json
 {
   "dutch_word": "bibliotheek",
+  "english": "library",
   "spanish": "biblioteca",
   "article": "de",
   "plural": "bibliotheken",
@@ -238,16 +246,21 @@ cd backend && python scripts/seed_content.py
 
 ## TODO
 
+### Games
 - [ ] Fill-in-Blank game component
 - [ ] Sentence Unscramble game component
-- [ ] Story Mode game component (text + audio + comprehension)
+- [ ] Story Mode game component (text + audio + comprehension questions)
+
+### Content
+- [ ] Populate vocabulary images: `cd backend && python scripts/populate_images.py` (requires `PIXABAY_API_KEY` in `.env`)
 - [ ] Tatoeba audio downloader (native Dutch speech, CC BY 2.0)
-- [ ] Image association (Unsplash API / bundled CC0 images)
+- [ ] A1 grammar JSON content
+
+### Frontend
 - [ ] User progress dashboard charts
 - [ ] Achievement badges (first 10 words, 7-day streak, …)
-- [ ] Settings page (LLM provider toggling, audio on/off, theme)
-- [ ] Enroll-all button in Lesson page (add all vocab to SR deck with one click)
-- [ ] A1 grammar JSON content
+- [ ] Settings page (LLM provider toggling, audio on/off, dark/light theme)
+- [ ] Enroll-all button in Lesson page (add all vocab to SR deck at once)
 - [ ] A1 stories JSON content
 - [ ] Mobile responsive polish pass
 - [ ] PostgreSQL migration for production

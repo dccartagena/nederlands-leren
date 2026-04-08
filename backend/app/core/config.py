@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     MISTRAL_API_KEY: str = ""
     REMOTE_MODEL: str = "gpt-4o-mini"
 
+    # Images
+    PIXABAY_API_KEY: str = ""
+
     # App
     SECRET_KEY: str = "change-me-in-production"
     DEBUG: bool = False
