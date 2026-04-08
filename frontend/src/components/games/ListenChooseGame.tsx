@@ -16,7 +16,7 @@ export default function ListenChooseGame() {
 
   const playAudio = () => {
     if (!data?.audio_files?.length) return
-    const audio = new Audio(`/audio/${data.audio_files[0]}`)
+    const audio = new Audio(`/${data.audio_files[0]}`)
     audio.play().catch(() => {})
   }
 

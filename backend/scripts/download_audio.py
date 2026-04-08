@@ -41,7 +41,7 @@ def generate_gtts_for_all():
                 af = AudioFile(
                     vocab_item_id=item.id,
                     sentence_text_nl=text,
-                    file_path=str(path.relative_to(AUDIO_DIR.parent)),
+                    file_path=str(path.relative_to(AUDIO_DIR)),
                     source="gtts",
                     license="CC0",
                 )
