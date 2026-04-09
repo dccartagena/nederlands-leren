@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchVocabulary, getFeedback } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
@@ -24,9 +24,13 @@ export default function MultipleChoiceGame() {
   const [score, setScore] = useState({ correct: 0, total: 0 })
   const [question, setQuestion] = useState<ReturnType<typeof buildQuestion>>(null)
 
-  if (!question && vocab && vocab.length >= 4) {
-    setQuestion(buildQuestion(vocab))
-  }
+  useEffect(() => {
+    if (vocab && vocab.length >= 4) {
+      setQuestion(buildQuestion(vocab))
+      setSelected(null)
+      setFeedback(null)
+    }
+  }, [vocab])
 
   const next = () => {
     setSelected(null)

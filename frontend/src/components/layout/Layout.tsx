@@ -1,5 +1,6 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import { Home, BookOpen, Gamepad2, BarChart2, MessageCircle } from 'lucide-react'
+import { useAppStore } from '@/stores/appStore'
 
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Inicio' },
@@ -10,12 +11,31 @@ const navItems = [
 ]
 
 export default function Layout() {
+  const level = useAppStore(s => s.level)
+  const setLevel = useAppStore(s => s.setLevel)
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top nav */}
       <header className="sticky top-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <span className="text-xl font-bold text-dutch-700 dark:text-dutch-400">🇳🇱 Nederlands Leren</span>
+          <div className="flex items-center gap-3">
+            <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 text-sm font-medium">
+              {(['a0', 'a1'] as const).map(l => (
+                <button
+                  key={l}
+                  onClick={() => setLevel(l)}
+                  className={`px-3 py-1 transition-colors ${
+                    level === l
+                      ? 'bg-dutch-600 text-white'
+                      : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  {l.toUpperCase()}
+                </button>
+              ))}
+            </div>
           <nav className="hidden md:flex gap-1">
             {navItems.map(({ to, icon: Icon, label }) => (
               <NavLink
@@ -34,6 +54,7 @@ export default function Layout() {
               </NavLink>
             ))}
           </nav>
+          </div>
         </div>
       </header>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchFillBlank, getFeedback } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
@@ -17,6 +17,11 @@ export default function FillBlankGame() {
     queryKey: ['fill-blank', level, fetchKey],
     queryFn: () => fetchFillBlank(level),
   })
+
+  useEffect(() => {
+    setSelected(null)
+    setFeedback(null)
+  }, [exercise])
 
   const next = () => {
     setSelected(null)
