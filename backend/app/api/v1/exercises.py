@@ -5,9 +5,34 @@ import random
 import re
 
 from app.db.session import get_db
-from app.db.models import VocabularyItem
+from app.db.models import VocabularyItem, AudioFile
+from app.services.audio_service import synthesize_if_missing
 
 router = APIRouter()
+
+
+def _get_audio_filename(item: VocabularyItem, db: Session) -> Optional[str]:
+    """Return a filename (relative to AUDIO_DIR) for the item, synthesizing if needed."""
+    if item.audio_files:
+        return item.audio_files[0].file_path
+
+    text = f"{item.article} {item.dutch_word}" if item.article else item.dutch_word
+    try:
+        path = synthesize_if_missing(text)
+        filename = path.name
+        af = AudioFile(
+            vocab_item_id=item.id,
+            sentence_text_nl=text,
+            file_path=filename,
+            source="gtts",
+            license="CC0",
+        )
+        db.add(af)
+        db.commit()
+        db.refresh(af)
+        return filename
+    except Exception:
+        return None
 
 
 @router.get("/listen-choose")
@@ -29,10 +54,12 @@ def listen_choose_exercise(
     options = distractors + [correct]
     random.shuffle(options)
 
+    audio_filename = _get_audio_filename(correct, db)
+
     return {
         "correct_id": correct.id,
         "correct_dutch": correct.dutch_word,
-        "audio_files": [af.file_path for af in correct.audio_files],
+        "audio_files": [audio_filename] if audio_filename else [],
         "options": [
             {"id": o.id, "spanish": o.spanish, "image_url": o.image_url}
             for o in options
