@@ -20,11 +20,12 @@ def _get_audio_filename(item: VocabularyItem, db: Session) -> Optional[str]:
     try:
         path = synthesize_if_missing(text)
         filename = path.name
+        source = "voxtral" if filename.startswith("voxtral_") else "gtts"
         af = AudioFile(
             vocab_item_id=item.id,
             sentence_text_nl=text,
             file_path=filename,
-            source="gtts",
+            source=source,
             license="CC0",
         )
         db.add(af)

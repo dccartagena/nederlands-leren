@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = "ollama"  # "ollama" | "openai" | "anthropic" | "mistral" | "gemini"
     OLLAMA_BASE_URL: str = "http://ollama:11434"
     OLLAMA_MODEL: str = "mistral:7b-instruct-q4_K_M"
+
+    # TTS — Voxtral via Ollama is primary; gTTS is the internet-based fallback
+    TTS_PROVIDER: str = "voxtral"  # "voxtral" | "gtts"
+    OLLAMA_TTS_MODEL: str = "hf.co/bartowski/Voxtral-4B-TTS-2603-GGUF:Q4_K_M"
     OPENAI_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
     MISTRAL_API_KEY: str = ""
