@@ -90,7 +90,6 @@ export default function FillBlankGame() {
 
       {selected !== null && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
-          {selected !== null && !exercise.options[selected] && null}
           {fbLoading && (
             <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 text-sm text-amber-600 dark:text-amber-400 animate-pulse">
               Cargando retroalimentación…

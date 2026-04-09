@@ -138,8 +138,8 @@ def unscramble_exercise(
         return {"error": "Not enough vocabulary items with example sentences for this level/theme"}
 
     item = random.choice(candidates)
-    # Strip trailing punctuation for cleaner token display, keep it to re-attach
-    sentence = item.example_nl.rstrip('.')
+    # Strip a single trailing period for cleaner token display, keep it to re-attach
+    sentence = item.example_nl.removesuffix('.')
     trailing_punct = '.' if item.example_nl.endswith('.') else ''
     words = sentence.split()
 

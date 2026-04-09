@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function UnscrambleGame() {
   const level = useAppStore(s => s.level)
   const [fetchKey, setFetchKey] = useState(0)
-  const [chosen, setChosen] = useState<string[]>([])
+  const [chosen, setChosen] = useState<Array<{ word: string; srcIdx: number }>>([])
   const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set())
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null)
   const [score, setScore] = useState({ correct: 0, total: 0 })
@@ -31,30 +31,24 @@ export default function UnscrambleGame() {
 
   const addWord = (word: string, idx: number) => {
     if (result !== null) return
-    setChosen(c => [...c, word])
+    setChosen(c => [...c, { word, srcIdx: idx }])
     setUsedIndices(u => new Set([...u, idx]))
   }
 
   const removeWord = (chosenIdx: number) => {
     if (result !== null) return
-    // Find the first available source index that matches this word
-    const word = chosen[chosenIdx]
-    const sourceIdx = exercise!.shuffled_words.findIndex(
-      (w, i) => w === word && !Array.from(usedIndices).slice(0, chosenIdx).includes(i) && usedIndices.has(i)
-    )
+    const { srcIdx } = chosen[chosenIdx]
     setChosen(c => c.filter((_, i) => i !== chosenIdx))
-    if (sourceIdx !== -1) {
-      setUsedIndices(u => {
-        const next = new Set(u)
-        next.delete(sourceIdx)
-        return next
-      })
-    }
+    setUsedIndices(u => {
+      const next = new Set(u)
+      next.delete(srcIdx)
+      return next
+    })
   }
 
   const checkAnswer = () => {
     if (!exercise || result !== null) return
-    const attempt = chosen.join(' ') + exercise.trailing_punct
+    const attempt = chosen.map(c => c.word).join(' ') + exercise.trailing_punct
     const isCorrect = attempt === exercise.correct_sentence
     setResult(isCorrect ? 'correct' : 'wrong')
     setScore(s => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
@@ -83,9 +77,9 @@ export default function UnscrambleGame() {
       {/* Answer area */}
       <div className="min-h-[3rem] p-3 rounded-xl border-2 border-dashed border-dutch-300 dark:border-dutch-700 bg-dutch-50 dark:bg-dutch-950 flex flex-wrap gap-2">
         <AnimatePresence>
-          {chosen.map((word, i) => (
+          {chosen.map(({ word, srcIdx }, i) => (
             <motion.button
-              key={`${word}-${i}`}
+              key={`${srcIdx}-${i}`}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
