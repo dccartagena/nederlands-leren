@@ -16,7 +16,12 @@ _XP_MAP = {1: 2, 2: 5, 3: 10, 4: 15}
 
 def _orm_to_card(sr: SRCard) -> Card:
     card = Card()
-    card.stability = sr.stability or 0.0
+    stability = sr.stability or 0.0
+    # FSRS raises ZeroDivisionError (stability ** -param) when stability is 0.0
+    # for cards that have already been reviewed (state > New). Use minimum of 1.0.
+    if stability == 0.0 and (sr.state or 0) > 0:
+        stability = 1.0
+    card.stability = stability
     card.difficulty = sr.difficulty or 5.0
     card.state = State(sr.state)
     card.due = sr.due_date or datetime.now(timezone.utc)
