@@ -7,11 +7,12 @@ The interface and all explanations are in **Spanish** — aimed at Spanish speak
 
 ## Features
 
-- **7 game types**: Flashcards (FSRS spaced repetition), Listen & Choose, Word Match, Multiple Choice, Fill in Blank, Sentence Unscramble, Story Mode
+- **4 of 7 game types implemented**: Flashcards (FSRS spaced repetition), Listen & Choose, Word Match, Multiple Choice — Fill in Blank, Sentence Unscramble, and Story Mode are under construction
 - **Spaced repetition** with the [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki) — cards schedule themselves
-- **LLM integration**: grammar explanations, wrong-answer feedback, dynamic exercise generation, and Dutch conversation chat
-- **Local-first AI**: Ollama (Mistral 7B / Qwen 2.5 7B Q4) as the primary LLM; remote API key (OpenAI / Anthropic / Mistral / Gemini) as optional fallback
+- **LLM integration**: grammar explanations, real-time wrong-answer feedback (Multiple Choice), dynamic exercise generation, and Dutch conversation chat
+- **Multi-provider AI**: Ollama (local, primary), OpenAI, Anthropic, Mistral, and Gemini — switchable per chat session; app falls back gracefully when no LLM is available
 - **Audio**: gTTS synthesis fallback; Tatoeba / Common Voice downloads for native speech
+- **Dark mode** support throughout the UI
 - Single-user — no authentication needed; progress persists in SQLite (dev) or PostgreSQL (prod)
 
 ---
@@ -61,8 +62,7 @@ nederlands-leren/
 │   │   ├── a0_words.json      # ~100 A0 Dutch↔Spanish words with examples
 │   │   └── a1_words.json      # ~70 A1 words (modals, city, travel, health …)
 │   ├── grammar/
-│   │   ├── a0_grammar.json    # Present tense, articles, pronouns, negation …
-│   │   └── a1_grammar.json    # Past tense, separable verbs, modal verbs …
+│   │   └── a0_grammar.json    # Present tense, articles, pronouns, negation …
 │   ├── stories/
 │   │   └── a0_stories.json    # Short graded stories with comprehension questions
 │   └── audio/                 # Generated / downloaded audio files (gitignored)
@@ -188,15 +188,15 @@ All settings are in `backend/app/core/config.py` and read from environment varia
 | GET | `/api/v1/stories/` | Story list (`?level=a0`) |
 | GET | `/api/v1/stories/{slug}` | Story detail |
 | GET | `/api/v1/progress/user` | User stats (XP, streak) |
-| GET | `/api/v1/progress/due` | Due FSRS cards |
+| GET | `/api/v1/progress/due` | Due FSRS cards (`?limit`, default 20, max 50) |
 | POST | `/api/v1/progress/review` | Submit review rating (1–4) |
 | POST | `/api/v1/progress/enroll/{id}` | Add vocab item to SR deck |
 | GET | `/api/v1/exercises/listen-choose` | Listen & choose exercise |
-| GET | `/api/v1/exercises/word-match` | Word match pairs |
+| GET | `/api/v1/exercises/word-match` | Word match pairs (`?count`, default 6, max 10) |
 | POST | `/api/v1/llm/explain` | Explain a Dutch word/phrase |
 | POST | `/api/v1/llm/feedback` | Wrong-answer feedback |
-| POST | `/api/v1/llm/generate-exercise` | Dynamic exercise generation |
-| POST | `/api/v1/llm/chat` | Dutch conversation chat |
+| POST | `/api/v1/llm/generate-exercise` | Dynamic exercise generation (backend only) |
+| POST | `/api/v1/llm/chat` | Dutch conversation chat (optional `provider` override) |
 
 Full interactive docs at `/docs` when the API is running.
 
@@ -256,14 +256,16 @@ cd backend && python scripts/seed_content.py
 ### Content
 - [ ] Populate vocabulary images: `cd backend && python scripts/populate_images.py` (requires `PIXABAY_API_KEY` in `.env`)
 - [ ] Tatoeba audio downloader (native Dutch speech, CC BY 2.0)
-- [ ] A1 grammar JSON content
 
 ### Frontend
 - [ ] User progress dashboard charts
 - [ ] Achievement badges (first 10 words, 7-day streak, …)
-- [ ] Settings page (LLM provider toggling, audio on/off, dark/light theme)
+- [ ] Settings page (audio on/off; LLM provider default)
 - [ ] Enroll-all button in Lesson page (add all vocab to SR deck at once)
-- [ ] A1 stories JSON content
 - [ ] Mobile responsive polish pass
 - [ ] PostgreSQL migration for production
 - [ ] CI/CD pipeline
+
+### Content
+- [ ] A1 stories JSON content
+- [ ] A1 grammar JSON content (`data/grammar/a1_grammar.json`)
