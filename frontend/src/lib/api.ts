@@ -75,6 +75,9 @@ export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4) =>
 export const enrollCard = (vocab_item_id: number) =>
   api.post(`/progress/enroll/${vocab_item_id}`).then(r => r.data)
 
+export const enrollAll = (ids: number[]) =>
+  Promise.all(ids.map(id => enrollCard(id)))
+
 // ── Grammar ──────────────────────────────────────────────────────────────────
 export interface GrammarTopic {
   id: number
@@ -140,3 +143,25 @@ export const fetchListenChoose = (level = 'a0', theme?: string) =>
 
 export const fetchWordMatch = (level = 'a0', theme?: string, count = 6) =>
   api.get('/exercises/word-match', { params: { level, theme, count } }).then(r => r.data)
+
+export interface FillBlankExercise {
+  sentence_with_blank: string
+  sentence_es: string
+  correct_id: number
+  correct_word: string
+  options: Array<{ id: number; dutch_word: string; article?: string }>
+}
+
+export const fetchFillBlank = (level = 'a0', theme?: string) =>
+  api.get<FillBlankExercise>('/exercises/fill-blank', { params: { level, theme } }).then(r => r.data)
+
+export interface UnscrambleExercise {
+  vocab_id: number
+  shuffled_words: string[]
+  correct_sentence: string
+  sentence_es: string
+  trailing_punct: string
+}
+
+export const fetchUnscramble = (level = 'a0', theme?: string) =>
+  api.get<UnscrambleExercise>('/exercises/unscramble', { params: { level, theme } }).then(r => r.data)

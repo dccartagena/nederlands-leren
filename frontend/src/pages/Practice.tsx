@@ -3,12 +3,18 @@ import FlashcardGame from '@/components/games/FlashcardGame'
 import ListenChooseGame from '@/components/games/ListenChooseGame'
 import WordMatchGame from '@/components/games/WordMatchGame'
 import MultipleChoiceGame from '@/components/games/MultipleChoiceGame'
+import FillBlankGame from '@/components/games/FillBlankGame'
+import UnscrambleGame from '@/components/games/UnscrambleGame'
+import StoryModeGame from '@/components/games/StoryModeGame'
 
 const GAMES: Record<string, React.ComponentType> = {
   flashcard: FlashcardGame,
   'listen-choose': ListenChooseGame,
   'word-match': WordMatchGame,
   'multiple-choice': MultipleChoiceGame,
+  'fill-blank': FillBlankGame,
+  unscramble: UnscrambleGame,
+  story: StoryModeGame,
 }
 
 const LABELS: Record<string, string> = {
