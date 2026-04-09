@@ -1,12 +1,16 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { fetchVocabulary, fetchGrammar } from '@/lib/api'
+import { fetchVocabulary, fetchGrammar, enrollAll } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
+import { BookOpen } from 'lucide-react'
 
 export default function Lesson() {
   const { level: paramLevel } = useParams()
   const storeLevel = useAppStore(s => s.level)
   const level = (paramLevel as 'a0' | 'a1') || storeLevel
+  const [enrolling, setEnrolling] = useState(false)
+  const [enrolled, setEnrolled] = useState(false)
 
   const { data: vocab, isLoading: loadingVocab } = useQuery({
     queryKey: ['vocabulary', level],
@@ -17,13 +21,35 @@ export default function Lesson() {
     queryFn: () => fetchGrammar(level),
   })
 
+  const handleEnrollAll = async () => {
+    if (!vocab?.length || enrolling) return
+    setEnrolling(true)
+    try {
+      await enrollAll(vocab.map(v => v.id))
+      setEnrolled(true)
+    } catch { /* ignore individual errors */ }
+    setEnrolling(false)
+  }
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Lección — Nivel {level.toUpperCase()}</h1>
 
       {/* Vocabulary section */}
       <section>
-        <h2 className="text-lg font-semibold mb-3">Vocabulario ({vocab?.length ?? '…'})</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold">Vocabulario ({vocab?.length ?? '…'})</h2>
+          {vocab && vocab.length > 0 && (
+            <button
+              onClick={handleEnrollAll}
+              disabled={enrolling || enrolled}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-dutch-700 text-white hover:bg-dutch-600 disabled:opacity-50 transition-colors"
+            >
+              <BookOpen size={14} />
+              {enrolled ? '✓ Añadidas al repaso' : enrolling ? 'Añadiendo…' : 'Añadir todo al repaso'}
+            </button>
+          )}
+        </div>
         {loadingVocab ? (
           <p className="text-gray-500 dark:text-gray-400">Cargando…</p>
         ) : (
