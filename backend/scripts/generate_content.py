@@ -61,16 +61,31 @@ def _print_json(data: object) -> None:
 
 
 def _save_vocabulary(items: list, db) -> int:
-    """Persist generated vocabulary items, skipping duplicates."""
+    """Persist generated vocabulary items, skipping duplicates.
+
+    Licence/attribution metadata (``example_source``, ``example_license``,
+    ``attribution``) that are not model columns are mapped into the ``notes``
+    field so that CC attribution information survives DB persistence.
+    """
     saved = 0
     for w in items:
         existing = db.query(models.VocabularyItem).filter_by(
             dutch_word=w.get("dutch_word"), level=w.get("level")
         ).first()
         if not existing:
-            db.add(models.VocabularyItem(**{
-                k: v for k, v in w.items() if hasattr(models.VocabularyItem, k)
-            }))
+            data = {k: v for k, v in w.items() if hasattr(models.VocabularyItem, k)}
+            # Map attribution metadata into notes when no notes are set
+            if not data.get("notes"):
+                parts = []
+                if w.get("example_source"):
+                    parts.append(f"Source: {w['example_source']}")
+                if w.get("example_license"):
+                    parts.append(f"Licence: {w['example_license']}")
+                if w.get("attribution"):
+                    parts.append(f"Attribution: {w['attribution']}")
+                if parts:
+                    data["notes"] = " | ".join(parts)
+            db.add(models.VocabularyItem(**data))
             saved += 1
     db.commit()
     return saved
@@ -161,10 +176,18 @@ async def cmd_lesson(args: argparse.Namespace) -> None:
         db = SessionLocal()
         try:
             vocab_saved = _save_vocabulary(lesson.get("vocabulary", []), db)
-            story_saved = _save_story(lesson.get("story", {}), db)
+            story = lesson.get("story")
+            story_status = "0 stories (invalid story payload)"
+            if isinstance(story, dict) and story.get("slug"):
+                story_saved = _save_story(story, db)
+                story_status = "1 story" if story_saved else "0 stories (duplicate)"
+            else:
+                print(
+                    "\n⚠ Lesson story could not be parsed into a valid payload; skipping story save.",
+                    file=sys.stderr,
+                )
             print(
-                f"\n✓ Saved {vocab_saved} vocabulary items and "
-                f"{'1 story' if story_saved else '0 stories (duplicate)'} to database.",
+                f"\n✓ Saved {vocab_saved} vocabulary items and {story_status} to database.",
                 file=sys.stderr,
             )
         finally:

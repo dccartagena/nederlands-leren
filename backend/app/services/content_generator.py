@@ -196,8 +196,8 @@ async def generate_lesson(
     )
 
     return {
-        "level": level,
-        "theme": theme,
+        "level": level.lower(),
+        "theme": theme.lower(),
         "vocabulary": vocab,
         "grammar_tip": grammar_tip,
         "story": story,

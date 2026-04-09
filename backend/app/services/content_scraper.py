@@ -5,9 +5,12 @@ Sources used:
 - Tatoeba     (CC BY 2.0):    Dutch sentences with Spanish translations
 - Wiktionary  (CC BY-SA 3.0): Dutch word definitions, articles, inflected forms
 
-All network calls are fire-and-forget with graceful fallback: if a source is
-unreachable the function returns an empty result rather than raising.
+Network behaviour:
+- Tatoeba: failures are swallowed and return an empty list (best-effort).
+- Wiktionary: transport/HTTP errors propagate so callers can return 503;
+  only a genuine "page not found" response returns {}.
 """
+import asyncio
 import logging
 import re
 from typing import Any, Dict, List, Optional
@@ -101,7 +104,14 @@ async def fetch_wiktionary_entry(word: str) -> Dict[str, Any]:
     """Fetch Dutch word information from the Dutch Wiktionary.
 
     Returns a dict with keys: dutch_word, article, plural, word_type,
-    example_nl, source, license.  Returns {} when the word is not found.
+    example_nl, source, license when the word is found.
+
+    Returns {} only when the word genuinely does not exist in Wiktionary
+    (page_id == -1 or no revisions).
+
+    Raises httpx.HTTPError / httpx.TimeoutException for transport or HTTP
+    failures so that callers can distinguish "not found" from "unavailable"
+    and return the appropriate status code (404 vs 503).
     """
     params: Dict[str, Any] = {
         "action": "query",
@@ -112,27 +122,25 @@ async def fetch_wiktionary_entry(word: str) -> Dict[str, Any]:
         "format": "json",
     }
     async with httpx.AsyncClient(timeout=15.0) as client:
-        try:
-            resp = await client.get(DUTCH_WIKTIONARY_API_URL, params=params)
-            resp.raise_for_status()
-            data = resp.json()
-            pages = data.get("query", {}).get("pages", {})
-            for page_id, page in pages.items():
-                if page_id == "-1":
-                    return {}
-                revisions = page.get("revisions", [])
-                if not revisions:
-                    return {}
-                rev = revisions[0]
-                # MediaWiki API returns content in different paths depending on version
-                content: str = (
-                    rev.get("slots", {}).get("main", {}).get("*", "")
-                    or rev.get("*", "")
-                )
-                return _parse_wiktionary_wikitext(word, content)
-        except Exception as exc:
-            logger.warning("Wiktionary fetch failed for '%s': %s", word, exc)
-            return {}
+        # Let transport/HTTP errors propagate — callers handle 503
+        resp = await client.get(DUTCH_WIKTIONARY_API_URL, params=params)
+        resp.raise_for_status()
+        data = resp.json()
+        pages = data.get("query", {}).get("pages", {})
+        for page_id, page in pages.items():
+            if page_id == "-1":
+                return {}
+            revisions = page.get("revisions", [])
+            if not revisions:
+                return {}
+            rev = revisions[0]
+            # MediaWiki API returns content in different paths depending on version
+            content: str = (
+                rev.get("slots", {}).get("main", {}).get("*", "")
+                or rev.get("*", "")
+            )
+            return _parse_wiktionary_wikitext(word, content)
+        return {}
 
 
 def _parse_wiktionary_wikitext(word: str, content: str) -> Dict[str, Any]:
@@ -194,29 +202,43 @@ async def scrape_vocabulary_from_tatoeba(
     words: List[str],
     level: str,
     theme: str,
+    concurrency: int = 5,
 ) -> List[Dict[str, Any]]:
     """Return vocabulary stubs enriched with Tatoeba example sentences.
 
     For each word in *words* the function fetches up to two example sentences
-    from Tatoeba and returns a list of partial VocabularyItem dicts (without
-    article, plural, etc. — those should come from the LLM generator or manual
-    curation).
+    from Tatoeba concurrently (capped at *concurrency* simultaneous requests)
+    and returns a list of partial VocabularyItem dicts (without article, plural,
+    etc. — those should come from the LLM generator or manual curation).
+
+    Attribution metadata required by the CC BY 2.0 licence is preserved in
+    the ``notes`` field so that it survives a round-trip through the DB.
     """
-    results: List[Dict[str, Any]] = []
-    for word in words:
-        sentences = await fetch_tatoeba_sentences(word, limit=2)
+    semaphore = asyncio.Semaphore(concurrency)
+
+    async def _fetch(word: str) -> Dict[str, Any]:
+        async with semaphore:
+            sentences = await fetch_tatoeba_sentences(word, limit=2)
         entry: Dict[str, Any] = {
             "dutch_word": word,
             "level": level.lower(),
             "theme": theme,
         }
         if sentences:
-            entry["example_nl"] = sentences[0]["nl"]
-            entry["example_es"] = sentences[0].get("es", "")
-            entry["example_source"] = sentences[0]["source"]
-            entry["example_license"] = sentences[0]["license"]
-        results.append(entry)
-    return results
+            first = sentences[0]
+            entry["example_nl"] = first["nl"]
+            entry["example_es"] = first.get("es", "")
+            # Carry attribution/licence through; also stored in notes for DB persistence.
+            entry["example_source"] = first["source"]
+            entry["example_license"] = first["license"]
+            entry["attribution"] = first["attribution"]
+            entry["notes"] = (
+                f"Source: {first['source']} | Licence: {first['license']} | "
+                f"Attribution: {first['attribution']}"
+            )
+        return entry
+
+    return list(await asyncio.gather(*[_fetch(w) for w in words]))
 
 
 # ---------------------------------------------------------------------------
