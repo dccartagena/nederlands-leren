@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: production
     container_name: nl-api
     env_file: .env
     environment:
@@ -27,6 +28,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: production
     container_name: nl-frontend
     ports:
       - "80:80"
