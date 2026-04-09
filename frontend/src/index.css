@@ -8,6 +8,10 @@
     --foreground: 222.2 84% 4.9%;
   }
 
+  html {
+    font-size: 17px;
+  }
+
   body {
     @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans;
   }
