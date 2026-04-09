@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 LEVEL_DESCRIPTIONS: Dict[str, str] = {
-    "a0": "principiante absoluto (sin conocimiento previo de neerlandés)",
-    "a1": "principiante (puede entender y usar expresiones básicas cotidianas)",
-    "a2": "elemental (puede entender frases de uso habitual en situaciones cotidianas)",
-    "b1": "intermedio (puede entender los puntos principales en situaciones cotidianas)",
-    "b2": "intermedio-alto (puede entender textos complejos sobre temas concretos y abstractos)",
-    "c1": "avanzado (puede entender textos largos y exigentes)",
+    "a0": "absolute beginner (no prior knowledge of Dutch)",
+    "a1": "beginner (can understand and use basic everyday expressions)",
+    "a2": "elementary (can understand commonly used phrases in everyday situations)",
+    "b1": "intermediate (can understand the main points in everyday situations)",
+    "b2": "upper-intermediate (can understand complex texts on concrete and abstract topics)",
+    "c1": "advanced (can understand long and demanding texts)",
 }
 
 THEMES_BY_LEVEL: Dict[str, List[str]] = {
@@ -61,9 +61,9 @@ async def generate_vocabulary(
     """
     level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
     prompt = (
-        f"Genera {count} palabras en neerlandés para nivel {level.upper()} ({level_desc}), "
-        f"tema '{theme}'.\n"
-        "Devuelve ÚNICAMENTE un array JSON válido con este esquema exacto (sin texto adicional):\n"
+        f"Generate {count} Dutch words for level {level.upper()} ({level_desc}), "
+        f"theme '{theme}'.\n"
+        "Return ONLY a valid JSON array with this exact schema (no additional text):\n"
         "[\n"
         "  {\n"
         '    "dutch_word": "hond",\n'
@@ -78,9 +78,9 @@ async def generate_vocabulary(
         '    "example_es": "El perro camina en el parque."\n'
         "  }\n"
         "]\n"
-        f'Todos los items deben tener level="{level.lower()}" y theme="{theme}". '
-        "El campo 'article' es 'de', 'het' o null para verbos/adverbios. "
-        "Los ejemplos deben ser frases simples apropiadas para el nivel."
+        f'All items must have level="{level.lower()}" and theme="{theme}". '
+        "The 'article' field is 'de', 'het', or null for verbs/adverbs. "
+        "Examples must be simple sentences appropriate for the level."
     )
     raw = await llm_service.chat_completion(
         [{"role": "user", "content": prompt}],
@@ -101,20 +101,20 @@ async def generate_grammar_topic(
     """
     level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
     prompt = (
-        f"Crea un tema de gramática neerlandesa para hispanohablantes de nivel {level.upper()} ({level_desc}).\n"
-        f"Tema: '{topic_name_es}' (en neerlandés: '{topic_name_nl}')\n\n"
-        "Devuelve ÚNICAMENTE un objeto JSON válido con este esquema exacto (sin texto adicional):\n"
+        f"Create a Dutch grammar topic for Spanish-speaking learners at level {level.upper()} ({level_desc}).\n"
+        f"Topic: '{topic_name_es}' (in Dutch: '{topic_name_nl}')\n\n"
+        "Return ONLY a valid JSON object with this exact schema (no additional text):\n"
         "{\n"
         f'  "slug": "{slug}",\n'
         f'  "name_nl": "{topic_name_nl}",\n'
         f'  "name_es": "{topic_name_es}",\n'
         f'  "level": "{level.lower()}",\n'
-        '  "description_es": "Explicación detallada en español de 3-5 oraciones...",\n'
+        '  "description_es": "Detailed explanation in Spanish, 3-5 sentences...",\n'
         '  "examples_json": [\n'
-        '    {"nl": "ejemplo en neerlandés", "es": "nota o traducción en español"}\n'
+        '    {"nl": "example in Dutch", "es": "note or translation in Spanish"}\n'
         '  ]\n'
         "}\n"
-        "Incluye 4-6 ejemplos concretos y útiles."
+        "Include 4-6 concrete and useful examples."
     )
     raw = await llm_service.chat_completion(
         [{"role": "user", "content": prompt}],
@@ -139,29 +139,29 @@ async def generate_story(
     word_count = _STORY_WORD_COUNTS.get(level.lower(), "100-150")
 
     prompt = (
-        f"Crea una historia corta en neerlandés para aprendices de nivel {level.upper()} ({level_desc}), "
-        f"tema '{theme}'. {title_hint}\n"
-        f"La historia debe tener {word_count} palabras en neerlandés, usando vocabulario apropiado para el nivel.\n\n"
-        "Devuelve ÚNICAMENTE un objeto JSON válido con este esquema (sin texto adicional):\n"
+        f"Create a short story in Dutch for learners at level {level.upper()} ({level_desc}), "
+        f"theme '{theme}'. {title_hint}\n"
+        f"The story must be {word_count} words in Dutch, using vocabulary appropriate for the level.\n\n"
+        "Return ONLY a valid JSON object with this schema (no additional text):\n"
         "{\n"
         '  "slug": "...",\n'
         '  "title_nl": "...",\n'
         '  "title_es": "...",\n'
         f'  "level": "{level.lower()}",\n'
         f'  "theme": "{theme}",\n'
-        '  "content_nl": "Historia completa en neerlandés...",\n'
-        '  "content_es": "Traducción completa al español...",\n'
+        '  "content_nl": "Full story in Dutch...",\n'
+        '  "content_es": "Full Spanish translation...",\n'
         '  "questions_json": [\n'
         '    {\n'
-        '      "question_es": "¿Pregunta de comprensión en español?",\n'
-        '      "options": ["Opción A", "Opción B", "Opción C", "Opción D"],\n'
+        '      "question_es": "Comprehension question in Spanish?",\n'
+        '      "options": ["Option A", "Option B", "Option C", "Option D"],\n'
         '      "answer_index": 0,\n'
-        '      "explanation_es": "Explicación de la respuesta correcta."\n'
+        '      "explanation_es": "Explanation of the correct answer in Spanish."\n'
         '    }\n'
         '  ]\n'
         "}\n"
-        "Incluye 3 preguntas de comprensión. Usa el campo 'slug' basado en el título en neerlandés "
-        "(minúsculas, guiones en lugar de espacios)."
+        "Include 3 comprehension questions. Use the 'slug' field based on the Dutch title "
+        "(lowercase, hyphens instead of spaces)."
     )
     raw = await llm_service.chat_completion(
         [{"role": "user", "content": prompt}],
@@ -186,9 +186,9 @@ async def generate_lesson(
     story = await generate_story(level, theme)
 
     grammar_tip_prompt = (
-        f"Da un consejo gramatical breve (2-3 oraciones) en español para un aprendiz de neerlandés "
-        f"de nivel {level.upper()}, relevante para el tema '{theme}'. "
-        "Incluye un ejemplo corto en neerlandés con traducción al español."
+        f"Give a brief grammar tip (2-3 sentences) in Spanish for a Dutch learner "
+        f"at level {level.upper()}, relevant to the theme '{theme}'. "
+        "Include a short Dutch example sentence with its Spanish translation."
     )
     grammar_tip = await llm_service.chat_completion(
         [{"role": "user", "content": grammar_tip_prompt}],
@@ -215,52 +215,52 @@ async def generate_game_exercise(
     game_type: fill_blank | multiple_choice | unscramble | word_match
     Returns a plain dict whose shape matches the relevant exercises API response.
     """
-    vocab_hint = f" usando algunas de estas palabras: {', '.join(vocabulary)}" if vocabulary else ""
+    vocab_hint = f" using some of these words: {', '.join(vocabulary)}" if vocabulary else ""
 
     if game_type == "fill_blank":
         prompt = (
-            f"Crea un ejercicio de completar-el-espacio-en-blanco en neerlandés para nivel {level.upper()}"
-            f", tema '{theme}'{vocab_hint}.\n"
-            "Devuelve ÚNICAMENTE JSON (sin texto adicional):\n"
+            f"Create a fill-in-the-blank exercise in Dutch for level {level.upper()}"
+            f", theme '{theme}'{vocab_hint}.\n"
+            "Return ONLY JSON (no additional text):\n"
             "{\n"
             '  "sentence_with_blank": "De ___ loopt in het park.",\n'
             '  "sentence_es": "El ___ camina en el parque.",\n'
             '  "correct_word": "hond",\n'
             '  "options": ["hond", "kat", "vis", "vogel"],\n'
             '  "correct_index": 0,\n'
-            '  "explanation_es": "Explicación corta en español."\n'
+            '  "explanation_es": "Short explanation in Spanish."\n'
             "}"
         )
     elif game_type == "multiple_choice":
         prompt = (
-            f"Crea una pregunta de opción múltiple en neerlandés para nivel {level.upper()}"
-            f", tema '{theme}'{vocab_hint}.\n"
-            "Devuelve ÚNICAMENTE JSON (sin texto adicional):\n"
+            f"Create a multiple-choice question in Dutch for level {level.upper()}"
+            f", theme '{theme}'{vocab_hint}.\n"
+            "Return ONLY JSON (no additional text):\n"
             "{\n"
-            '  "question_nl": "Pregunta en neerlandés",\n'
-            '  "question_es": "Pregunta en español",\n'
-            '  "options": ["Opción A", "Opción B", "Opción C", "Opción D"],\n'
+            '  "question_nl": "Question in Dutch",\n'
+            '  "question_es": "Question in Spanish",\n'
+            '  "options": ["Option A", "Option B", "Option C", "Option D"],\n'
             '  "correct_index": 0,\n'
-            '  "explanation_es": "Explicación de la respuesta correcta."\n'
+            '  "explanation_es": "Explanation of the correct answer in Spanish."\n'
             "}"
         )
     elif game_type == "unscramble":
         prompt = (
-            f"Crea un ejercicio de ordenar-palabras en neerlandés para nivel {level.upper()}"
-            f", tema '{theme}'{vocab_hint}.\n"
-            "Devuelve ÚNICAMENTE JSON (sin texto adicional):\n"
+            f"Create a word-order exercise in Dutch for level {level.upper()}"
+            f", theme '{theme}'{vocab_hint}.\n"
+            "Return ONLY JSON (no additional text):\n"
             "{\n"
             '  "correct_sentence": "De hond loopt in het park.",\n'
             '  "sentence_es": "El perro camina en el parque.",\n'
             '  "shuffled_words": ["in", "park.", "het", "hond", "De", "loopt"],\n'
-            '  "explanation_es": "Pista gramatical opcional."\n'
+            '  "explanation_es": "Optional grammar hint in Spanish."\n'
             "}"
         )
     elif game_type == "word_match":
         prompt = (
-            f"Crea 5 pares de palabras neerlandés–español para un juego de emparejamiento, "
-            f"nivel {level.upper()}, tema '{theme}'{vocab_hint}.\n"
-            "Devuelve ÚNICAMENTE JSON (sin texto adicional):\n"
+            f"Create 5 Dutch–Spanish word pairs for a matching game, "
+            f"level {level.upper()}, theme '{theme}'{vocab_hint}.\n"
+            "Return ONLY JSON (no additional text):\n"
             "{\n"
             '  "pairs": [\n'
             '    {"dutch": "hond", "spanish": "perro"}\n'
@@ -269,9 +269,9 @@ async def generate_game_exercise(
         )
     else:
         prompt = (
-            f"Crea un ejercicio de neerlandés de tipo '{game_type}' para nivel {level.upper()}, "
-            f"tema '{theme}'{vocab_hint}.\n"
-            "Devuelve ÚNICAMENTE JSON (sin texto adicional) con los campos relevantes para este tipo de ejercicio."
+            f"Create a Dutch exercise of type '{game_type}' for level {level.upper()}, "
+            f"theme '{theme}'{vocab_hint}.\n"
+            "Return ONLY JSON (no additional text) with the relevant fields for this exercise type."
         )
 
     raw = await llm_service.chat_completion(

@@ -1,6 +1,6 @@
 """
 LLM service — Ollama local primary, remote API fallback.
-All prompts are in Spanish (app language for explanations).
+System instructions are in English; Dutch and Spanish are used for content details.
 """
 import logging
 from typing import List, Dict, Any, Optional
@@ -12,10 +12,10 @@ logger = logging.getLogger(__name__)
 
 
 SYSTEM_PROMPT = (
-    "Eres un profesor de neerlandés para hispanohablantes. "
-    "Explicas conceptos usando analogías con el español. "
-    "Sé conciso y usa ejemplos prácticos. "
-    "Cuando des ejemplos en neerlandés, incluye también la traducción al español."
+    "You are a Dutch language teacher for Spanish-speaking learners. "
+    "Explain concepts using analogies with Spanish where helpful. "
+    "Be concise and use practical examples. "
+    "When giving examples in Dutch, always include the Spanish translation."
 )
 
 
@@ -85,31 +85,31 @@ async def chat_completion(
                 return await _call_ollama(messages, settings.OLLAMA_MODEL)
         except Exception as fallback_err:
             logger.error("Fallback LLM also failed: %s", fallback_err)
-            raise RuntimeError("Todos los proveedores de LLM fallaron.") from fallback_err
+            raise RuntimeError("All LLM providers failed.") from fallback_err
 
 
 async def explain(word_or_phrase: str, context_sentence: Optional[str] = None) -> str:
-    ctx = f' en la oración: "{context_sentence}"' if context_sentence else ""
-    prompt = f'Explica la palabra o frase neerlandesa "{word_or_phrase}"{ctx}. Incluye: significado, uso gramatical, y un ejemplo adicional.'
+    ctx = f' in the sentence: "{context_sentence}"' if context_sentence else ""
+    prompt = f'Explain the Dutch word or phrase "{word_or_phrase}"{ctx}. Include: meaning, grammatical usage, and an additional example with its Spanish translation.'
     return await chat_completion([{"role": "user", "content": prompt}])
 
 
 async def feedback(question: str, correct_answer: str, user_answer: str) -> str:
     prompt = (
-        f"El estudiante respondió incorrectamente.\n"
-        f"Pregunta: {question}\n"
-        f"Respuesta correcta: {correct_answer}\n"
-        f"Respuesta del estudiante: {user_answer}\n\n"
-        "Explica por qué la respuesta correcta es correcta y da un truco para recordarla."
+        f"The student answered incorrectly.\n"
+        f"Question: {question}\n"
+        f"Correct answer: {correct_answer}\n"
+        f"Student's answer: {user_answer}\n\n"
+        "Explain in Spanish why the correct answer is right and give a memory tip."
     )
     return await chat_completion([{"role": "user", "content": prompt}])
 
 
 async def generate_exercise(theme: str, level: str, exercise_type: str, word: Optional[str] = None) -> str:
-    word_hint = f" usando la palabra '{word}'" if word else ""
+    word_hint = f" using the word '{word}'" if word else ""
     prompt = (
-        f"Crea un ejercicio de tipo '{exercise_type}' en neerlandés para nivel {level.upper()}, "
-        f"tema '{theme}'{word_hint}. "
-        "Devuelve JSON con campos: sentence_nl, sentence_es, blank_word (si aplica), options (lista de 4 si es multiple choice), correct_index."
+        f"Create a '{exercise_type}' exercise in Dutch for level {level.upper()}, "
+        f"theme '{theme}'{word_hint}. "
+        "Return JSON with fields: sentence_nl, sentence_es, blank_word (if applicable), options (list of 4 for multiple choice), correct_index."
     )
     return await chat_completion([{"role": "user", "content": prompt}])
