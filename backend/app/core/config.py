@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     class Config:
-        env_file = ".env"
+        env_file = str(REPO_ROOT / ".env")  # project root instead of cwd
         case_sensitive = True
 
 
