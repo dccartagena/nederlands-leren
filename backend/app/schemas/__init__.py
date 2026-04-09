@@ -131,3 +131,4 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
+    provider: Optional[str] = None  # ollama | openai | anthropic | mistral | gemini

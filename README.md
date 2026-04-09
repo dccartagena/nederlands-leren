@@ -10,7 +10,7 @@ The interface and all explanations are in **Spanish** — aimed at Spanish speak
 - **7 game types**: Flashcards (FSRS spaced repetition), Listen & Choose, Word Match, Multiple Choice, Fill in Blank, Sentence Unscramble, Story Mode
 - **Spaced repetition** with the [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki) — cards schedule themselves
 - **LLM integration**: grammar explanations, wrong-answer feedback, dynamic exercise generation, and Dutch conversation chat
-- **Local-first AI**: Ollama (Mistral 7B / Qwen 2.5 7B Q4) as the primary LLM; remote API key (OpenAI / Anthropic / Mistral) as optional fallback
+- **Local-first AI**: Ollama (Mistral 7B / Qwen 2.5 7B Q4) as the primary LLM; remote API key (OpenAI / Anthropic / Mistral / Gemini) as optional fallback
 - **Audio**: gTTS synthesis fallback; Tatoeba / Common Voice downloads for native speech
 - Single-user — no authentication needed; progress persists in SQLite (dev) or PostgreSQL (prod)
 
@@ -162,13 +162,15 @@ All settings are in `backend/app/core/config.py` and read from environment varia
 | Variable | Default | Description |
 |---|---|---|
 | `DATABASE_URL` | `sqlite:///…/data/app.db` | SQLAlchemy connection string |
-| `LLM_PROVIDER` | `ollama` | `ollama` \| `openai` \| `anthropic` \| `mistral` |
+| `LLM_PROVIDER` | `ollama` | `ollama` \| `openai` \| `anthropic` \| `mistral` \| `gemini` |
 | `OLLAMA_BASE_URL` | `http://ollama:11434` | Ollama endpoint |
 | `OLLAMA_MODEL` | `mistral:7b-instruct-q4_K_M` | Model to use with Ollama |
 | `OPENAI_API_KEY` | _(empty)_ | Used when provider is `openai` |
 | `ANTHROPIC_API_KEY` | _(empty)_ | Used when provider is `anthropic` |
 | `MISTRAL_API_KEY` | _(empty)_ | Used when provider is `mistral` |
+| `GEMINI_API_KEY` | _(empty)_ | Used when provider is `gemini` |
 | `REMOTE_MODEL` | `gpt-4o-mini` | Model name for remote providers |
+| `GEMINI_MODEL` | `gemini/gemini-2.0-flash` | Model name used when provider is `gemini` |
 | `PIXABAY_API_KEY` | _(empty)_ | Free key from [pixabay.com/api/docs](https://pixabay.com/api/docs/) — used by `populate_images.py` |
 | `AUDIO_DIR` | `…/data/audio` | Where audio files are stored/served |
 

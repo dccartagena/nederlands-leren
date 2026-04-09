@@ -34,11 +34,17 @@ async def _call_ollama(messages: List[Dict[str, str]], model: str) -> str:
         return data["message"]["content"]
 
 
-async def _call_litellm(messages: List[Dict[str, str]]) -> str:
+def _remote_model_for(provider: str) -> str:
+    if provider == "gemini":
+        return settings.GEMINI_MODEL
+    return settings.REMOTE_MODEL
+
+
+async def _call_litellm(messages: List[Dict[str, str]], provider_override: Optional[str] = None) -> str:
     import litellm  # lazy import so missing key doesn't crash at startup
 
-    model = settings.REMOTE_MODEL
-    provider = settings.LLM_PROVIDER
+    provider = provider_override or settings.LLM_PROVIDER
+    model = _remote_model_for(provider)
 
     # Set appropriate API key
     kwargs: Dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.7}
@@ -48,21 +54,27 @@ async def _call_litellm(messages: List[Dict[str, str]]) -> str:
         kwargs["api_key"] = settings.ANTHROPIC_API_KEY
     elif provider == "mistral" and settings.MISTRAL_API_KEY:
         kwargs["api_key"] = settings.MISTRAL_API_KEY
+    elif provider == "gemini" and settings.GEMINI_API_KEY:
+        kwargs["api_key"] = settings.GEMINI_API_KEY
 
     response = await litellm.acompletion(**kwargs)
     return response.choices[0].message.content
 
 
-async def chat_completion(messages: List[Dict[str, str]], inject_system: bool = True) -> str:
+async def chat_completion(
+    messages: List[Dict[str, str]],
+    inject_system: bool = True,
+    provider_override: Optional[str] = None,
+) -> str:
     if inject_system:
         messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
 
-    provider = settings.LLM_PROVIDER
+    provider = provider_override or settings.LLM_PROVIDER
     try:
         if provider == "ollama":
             return await _call_ollama(messages, settings.OLLAMA_MODEL)
         else:
-            return await _call_litellm(messages)
+            return await _call_litellm(messages, provider_override=provider)
     except Exception as primary_err:
         logger.warning("Primary LLM failed (%s), trying fallback: %s", provider, primary_err)
         # If Ollama fails, try remote; if remote fails, try Ollama

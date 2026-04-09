@@ -121,8 +121,18 @@ export const explainWord = (word_or_phrase: string, context_sentence?: string) =
 export const getFeedback = (question: string, correct_answer: string, user_answer: string) =>
   api.post<{ feedback: string }>('/llm/feedback', { question, correct_answer, user_answer }).then(r => r.data)
 
-export const sendChat = (messages: Array<{ role: string; content: string }>) =>
-  api.post<{ reply: string }>('/llm/chat', { messages }).then(r => r.data)
+export type LLMProvider = 'default' | 'ollama' | 'openai' | 'anthropic' | 'mistral' | 'gemini'
+
+export const sendChat = (
+  messages: Array<{ role: string; content: string }>,
+  provider: LLMProvider = 'default'
+) =>
+  api
+    .post<{ reply: string }>('/llm/chat', {
+      messages,
+      provider: provider === 'default' ? undefined : provider,
+    })
+    .then(r => r.data)
 
 // ── Exercises ────────────────────────────────────────────────────────────────
 export const fetchListenChoose = (level = 'a0', theme?: string) =>

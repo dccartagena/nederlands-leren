@@ -38,7 +38,7 @@ async def generate_exercise(req: GenerateExerciseRequest):
 async def chat(req: ChatRequest):
     messages = [{"role": m.role, "content": m.content} for m in req.messages]
     try:
-        reply = await llm_service.chat_completion(messages)
+        reply = await llm_service.chat_completion(messages, provider_override=req.provider)
         return {"reply": reply}
     except Exception as e:
         raise HTTPException(status_code=503, detail=str(e))

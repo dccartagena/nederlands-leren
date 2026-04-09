@@ -19,13 +19,15 @@ class Settings(BaseSettings):
     DATA_DIR: Path = REPO_ROOT / "data"
 
     # LLM — Ollama local is primary; remote key is optional fallback
-    LLM_PROVIDER: str = "ollama"  # "ollama" | "openai" | "anthropic" | "mistral"
+    LLM_PROVIDER: str = "ollama"  # "ollama" | "openai" | "anthropic" | "mistral" | "gemini"
     OLLAMA_BASE_URL: str = "http://ollama:11434"
     OLLAMA_MODEL: str = "mistral:7b-instruct-q4_K_M"
     OPENAI_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
     MISTRAL_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
     REMOTE_MODEL: str = "gpt-4o-mini"
+    GEMINI_MODEL: str = "gemini/gemini-2.0-flash"
 
     # Images
     PIXABAY_API_KEY: str = ""

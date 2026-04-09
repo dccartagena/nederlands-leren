@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { sendChat } from '@/lib/api'
+import type { LLMProvider } from '@/lib/api'
 import { Send, Bot, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -14,6 +15,7 @@ export default function Chat() {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [provider, setProvider] = useState<LLMProvider>('default')
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function Chat() {
     setInput('')
     setLoading(true)
     try {
-      const { reply } = await sendChat(newMessages)
+      const { reply } = await sendChat(newMessages, provider)
       setMessages(m => [...m, { role: 'assistant', content: reply }])
     } catch {
       setMessages(m => [...m, { role: 'assistant', content: 'Lo siento, hay un problema de conexión.' }])
@@ -39,7 +41,22 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-[calc(100dvh-10rem)] md:h-[calc(100dvh-8rem)]">
-      <h1 className="text-xl font-bold mb-3">Chat con IA</h1>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h1 className="text-xl font-bold">Chat con IA</h1>
+        <select
+          value={provider}
+          onChange={e => setProvider(e.target.value as LLMProvider)}
+          className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm"
+          disabled={loading}
+        >
+          <option value="default">Proveedor por defecto</option>
+          <option value="gemini">Gemini API</option>
+          <option value="ollama">Ollama local</option>
+          <option value="openai">OpenAI API</option>
+          <option value="anthropic">Anthropic API</option>
+          <option value="mistral">Mistral API</option>
+        </select>
+      </div>
       <div className="flex-1 overflow-y-auto space-y-3 pb-2">
         <AnimatePresence initial={false}>
           {messages.map((msg, i) => (
