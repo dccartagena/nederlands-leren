@@ -47,7 +47,8 @@ export default function FlashcardGame() {
 
   const playAudio = (path: string) => {
     if (!audioEnabled) return
-    const audio = new Audio(`/${path}`)
+    const url = path.startsWith('audio/') ? `/${path}` : `/audio/${path}`
+    const audio = new Audio(url)
     audio.play().catch(() => {})
   }
 
