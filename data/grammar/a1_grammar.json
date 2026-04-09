@@ -1,0 +1,75 @@
+[
+  {
+    "slug": "vergelijkingen",
+    "name_nl": "Vergelijkingen: comparatief en superlatief",
+    "name_es": "Comparativos y superlativos",
+    "level": "a1",
+    "description_es": "En neerlandés el comparativo se forma añadiendo '-er' al adjetivo (zoals in español '-er' → 'más …'). Para adjetivos largos también se puede usar 'meer'. El superlativo añade '-st' (o 'meest' para adjetivos largos) y suele ir precedido del artículo 'het' cuando funciona como predicado.",
+    "examples_json": [
+      {"nl": "groot → groter → het grootst", "es": "grande → más grande → el más grande"},
+      {"nl": "snel → sneller → het snelst", "es": "rápido → más rápido → el más rápido"},
+      {"nl": "interessant → interessanter → het interessantst", "es": "interesante → más interesante → el más interesante"},
+      {"nl": "Mijn fiets is groter dan jouw fiets.", "es": "Mi bicicleta es más grande que tu bicicleta."},
+      {"nl": "Dit is het goedkoopste restaurant in de stad.", "es": "Este es el restaurante más barato de la ciudad."},
+      {"nl": "Uitzonderingen: goed → beter → het best; veel → meer → het meest", "es": "Irregulares: bueno, más/mucho también son irregulares en neerlandés"}
+    ]
+  },
+  {
+    "slug": "modale-werkwoorden",
+    "name_nl": "Modale werkwoorden",
+    "name_es": "Verbos modales",
+    "level": "a1",
+    "description_es": "Los verbos modales neerlandeses expresan posibilidad, permiso, obligación o deseo. Son auxiliares que se combinan con el infinitivo al final de la oración. Los principales son: kunnen (poder), mogen (tener permiso/poder), moeten (deber/tener que), willen (querer) y zullen (ir a/futuro).",
+    "examples_json": [
+      {"nl": "Ik kan Nederlands spreken.", "es": "Yo puedo hablar neerlandés. (kunnen = poder/saber)"},
+      {"nl": "Mag ik een vraag stellen?", "es": "¿Puedo hacer una pregunta? (mogen = tener permiso)"},
+      {"nl": "Je moet elke dag oefenen.", "es": "Debes practicar cada día. (moeten = deber)"},
+      {"nl": "Hij wil naar Amsterdam gaan.", "es": "Él quiere ir a Ámsterdam. (willen = querer)"},
+      {"nl": "Zullen we naar de markt gaan?", "es": "¿Vamos al mercado? (zullen = propuesta/futuro)"},
+      {"nl": "Conjugación: ik kan, jij kunt, hij kan, wij kunnen", "es": "Los modales tienen conjugación irregular en singular"}
+    ]
+  },
+  {
+    "slug": "het-perfectum",
+    "name_nl": "Het perfectum (voltooid tegenwoordige tijd)",
+    "name_es": "El pretérito perfecto",
+    "level": "a1",
+    "description_es": "El pretérito perfecto se usa para hablar de acciones pasadas. Se forma con el auxiliar 'hebben' o 'zijn' + el participio pasado (voltooid deelwoord). Los verbos de movimiento o cambio de estado usan 'zijn'; la mayoría usa 'hebben'. El participio regular se forma con 'ge-' + raíz + '-d'/'-t' (la regla 't kofschip ayuda a decidir).",
+    "examples_json": [
+      {"nl": "Ik heb gegeten. (hebben + ge- + raíz + -en → gegeten)", "es": "He comido."},
+      {"nl": "Zij heeft gewerkt. (ge- + werk + -t → gewerkt, porque 'k' está en 't kofschip')", "es": "Ella ha trabajado."},
+      {"nl": "Wij zijn naar school gegaan. (gaan → gegaan, con zijn)", "es": "Hemos ido al colegio."},
+      {"nl": "Hij is gisteren aangekomen. (aankomen → aangekomen, con zijn)", "es": "Él llegó ayer."},
+      {"nl": "Truc 't kofschip: si la raíz termina en t, k, f, s, ch, p → participio con -t; si no → -d", "es": "La regla ''t kofschip' determina si el participio acaba en -t o -d"}
+    ]
+  },
+  {
+    "slug": "voorzetsels-plaats",
+    "name_nl": "Voorzetsels van plaats",
+    "name_es": "Preposiciones de lugar",
+    "level": "a1",
+    "description_es": "Las preposiciones de lugar indican dónde se encuentra algo. En neerlandés es importante distinguir 'op' (encima de / en superficies), 'in' (dentro de), 'aan' (junto a, colgado de), 'naast' (al lado de), 'voor' (delante de), 'achter' (detrás de), 'tussen' (entre) y 'bij' (en casa de / cerca de).",
+    "examples_json": [
+      {"nl": "De sleutels liggen op tafel.", "es": "Las llaves están encima de la mesa. (op = sobre superficies)"},
+      {"nl": "De melk staat in de koelkast.", "es": "La leche está en la nevera. (in = dentro de)"},
+      {"nl": "Het schilderij hangt aan de muur.", "es": "El cuadro cuelga de la pared. (aan = junto a / colgado de)"},
+      {"nl": "De supermarkt is naast de bank.", "es": "El supermercado está al lado del banco. (naast = al lado de)"},
+      {"nl": "Hij woont bij zijn ouders.", "es": "Él vive en casa de sus padres. (bij = en casa de)"},
+      {"nl": "De school staat tussen het park en de bibliotheek.", "es": "La escuela está entre el parque y la biblioteca. (tussen = entre)"}
+    ]
+  },
+  {
+    "slug": "er-constructies",
+    "name_nl": "Het woordje 'er'",
+    "name_es": "El pronombre 'er' y sus usos",
+    "level": "a1",
+    "description_es": "'Er' es una de las palabras más versátiles del neerlandés. Tiene tres usos principales: (1) existencial — 'er is/zijn' equivale a 'hay'; (2) adverbial de lugar — reemplaza a un lugar ya mencionado, como 'allí'; (3) pronominal — se combina con preposiciones para sustituir a cosas (er + aan → eraan, er + in → erin, etc.).",
+    "examples_json": [
+      {"nl": "Er zijn drie appels op tafel.", "es": "Hay tres manzanas en la mesa. (existencial)"},
+      {"nl": "Amsterdam is mooi. Ik ga er graag heen.", "es": "Ámsterdam es bonita. Me gusta ir allí. (lugar)"},
+      {"nl": "Heb je aan het feest gedacht? — Ja, ik heb eraan gedacht.", "es": "¿Pensaste en la fiesta? — Sí, pensé en ella. (er + aan)"},
+      {"nl": "Zit er melk in de koffie? — Ja, er zit melk in.", "es": "¿Hay leche en el café? — Sí, hay leche. (existencial)"},
+      {"nl": "Hij houdt van muziek. Hij houdt er erg van.", "es": "Le encanta la música. Le gusta mucho. (er + van)"}
+    ]
+  }
+]
