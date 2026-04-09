@@ -23,10 +23,29 @@ TATOEBA_SEARCH_URL = "https://tatoeba.org/api_v0/search"
 DUTCH_WIKTIONARY_API_URL = "https://nl.wiktionary.org/w/api.php"
 
 
+def _format_cc_notes(
+    source: Optional[str],
+    license: Optional[str],
+    attribution: Optional[str],
+) -> str:
+    """Format CC licence metadata into a human-readable notes string.
+
+    Used consistently wherever licence information is serialised into the
+    ``notes`` column of a VocabularyItem (or any similar text field).
+    """
+    parts = []
+    if source:
+        parts.append(f"Source: {source}")
+    if license:
+        parts.append(f"Licence: {license}")
+    if attribution:
+        parts.append(f"Attribution: {attribution}")
+    return " | ".join(parts)
+
+
 # ---------------------------------------------------------------------------
 # Tatoeba  (CC BY 2.0)
 # ---------------------------------------------------------------------------
-
 
 async def fetch_tatoeba_sentences(
     word: str,
@@ -215,14 +234,16 @@ async def scrape_vocabulary_from_tatoeba(
     the ``notes`` field so that it survives a round-trip through the DB.
     """
     semaphore = asyncio.Semaphore(concurrency)
+    level_norm = level.lower()
+    theme_norm = theme.lower()
 
     async def _fetch(word: str) -> Dict[str, Any]:
         async with semaphore:
             sentences = await fetch_tatoeba_sentences(word, limit=2)
         entry: Dict[str, Any] = {
             "dutch_word": word,
-            "level": level.lower(),
-            "theme": theme,
+            "level": level_norm,
+            "theme": theme_norm,
         }
         if sentences:
             first = sentences[0]
@@ -232,10 +253,7 @@ async def scrape_vocabulary_from_tatoeba(
             entry["example_source"] = first["source"]
             entry["example_license"] = first["license"]
             entry["attribution"] = first["attribution"]
-            entry["notes"] = (
-                f"Source: {first['source']} | Licence: {first['license']} | "
-                f"Attribution: {first['attribution']}"
-            )
+            entry["notes"] = _format_cc_notes(first["source"], first["license"], first["attribution"])
         return entry
 
     return list(await asyncio.gather(*[_fetch(w) for w in words]))

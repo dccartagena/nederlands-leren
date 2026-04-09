@@ -49,6 +49,7 @@ from app.core.config import settings  # noqa: E402  (after sys.path patch)
 from app.db.session import SessionLocal, engine  # noqa: E402
 from app.db import models  # noqa: E402
 from app.services import content_generator, content_scraper  # noqa: E402
+from app.services.content_scraper import _format_cc_notes  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -76,15 +77,13 @@ def _save_vocabulary(items: list, db) -> int:
             data = {k: v for k, v in w.items() if hasattr(models.VocabularyItem, k)}
             # Map attribution metadata into notes when no notes are set
             if not data.get("notes"):
-                parts = []
-                if w.get("example_source"):
-                    parts.append(f"Source: {w['example_source']}")
-                if w.get("example_license"):
-                    parts.append(f"Licence: {w['example_license']}")
-                if w.get("attribution"):
-                    parts.append(f"Attribution: {w['attribution']}")
-                if parts:
-                    data["notes"] = " | ".join(parts)
+                notes = _format_cc_notes(
+                    w.get("example_source"),
+                    w.get("example_license"),
+                    w.get("attribution"),
+                )
+                if notes:
+                    data["notes"] = notes
             db.add(models.VocabularyItem(**data))
             saved += 1
     db.commit()
