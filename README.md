@@ -100,6 +100,7 @@ nederlands-leren/
 ### Prerequisites
 
 - Python 3.12+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
 - Node 20+ (install via [nvm](https://github.com/nvm-sh/nvm): `nvm install 20`)
 - Ollama running locally with a model pulled (optional — app falls back gracefully)
 
@@ -109,11 +110,11 @@ nederlands-leren/
 cd backend
 
 # Create and activate virtual environment
-python3 -m venv .venv
+uv venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 
 # Seed the database (first run)
 python scripts/seed_content.py
@@ -234,7 +235,7 @@ Full interactive docs at `http://localhost:8000/docs` when the API is running.
 ```bash
 cd backend
 source .venv/bin/activate
-pip install -r requirements-dev.txt
+uv pip install -r requirements-dev.txt
 
 SECRET_KEY=any-non-default-value pytest --cov=app --cov-report=term-missing
 ```
@@ -273,7 +274,7 @@ npm run format         # Prettier
 ### Pre-commit hooks
 
 ```bash
-pip install pre-commit
+uv pip install pre-commit
 pre-commit install
 ```
 
@@ -423,6 +424,7 @@ nederlands-leren/
 ### Prerequisites
 
 - Python 3.12+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
 - Node 20+ (install via [nvm](https://github.com/nvm-sh/nvm): `nvm install 20`)
 - Ollama running locally with a model pulled (optional — app falls back gracefully)
 
@@ -432,11 +434,11 @@ nederlands-leren/
 cd backend
 
 # Create and activate virtual environment
-python3 -m venv .venv
+uv venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 
 # Seed the database (first run)
 python scripts/seed_content.py
