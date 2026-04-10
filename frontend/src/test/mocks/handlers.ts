@@ -1,0 +1,149 @@
+import { http, HttpResponse } from 'msw'
+
+const BASE = '/api/v1'
+
+// ── Fixtures ─────────────────────────────────────────────────────────────────
+
+export const mockVocabItem = {
+  id: 1,
+  dutch_word: 'hond',
+  spanish: 'perro',
+  article: 'de',
+  level: 'a0',
+  theme: 'animales',
+  audio_files: [{ id: 1, file_path: 'gtts_abc123.mp3' }],
+}
+
+export const mockVocabList = [
+  mockVocabItem,
+  { ...mockVocabItem, id: 2, dutch_word: 'kat', spanish: 'gato', audio_files: [] },
+  { ...mockVocabItem, id: 3, dutch_word: 'vis', spanish: 'pez', audio_files: [] },
+  { ...mockVocabItem, id: 4, dutch_word: 'vogel', spanish: 'pájaro', audio_files: [] },
+]
+
+export const mockUserProgress = {
+  id: 1,
+  username: 'learner',
+  xp_total: 120,
+  streak_days: 3,
+  last_activity_date: '2026-04-10',
+}
+
+export const mockDueCards = [
+  {
+    id: 1,
+    vocab_item: mockVocabItem,
+    state: 0,
+    reps: 0,
+    lapses: 0,
+  },
+]
+
+export const mockReviewResponse = {
+  card_id: 1,
+  next_due: '2026-04-11T10:00:00Z',
+  stability: 1.5,
+  state: 1,
+  xp_earned: 10,
+}
+
+export const mockGrammarTopics = [
+  { id: 1, slug: 'de-het', name_nl: 'De en het', name_es: 'Los artículos', level: 'a0' },
+]
+
+export const mockStories = [
+  {
+    id: 1,
+    slug: 'het-huis',
+    title_nl: 'Het huis',
+    title_es: 'La casa',
+    level: 'a0',
+    content_nl: 'Er was een huis.',
+    content_es: 'Había una casa.',
+    questions_json: [
+      {
+        question_es: '¿Qué había?',
+        options: ['een huis', 'een auto', 'een kat'],
+        answer_index: 0,
+      },
+    ],
+  },
+]
+
+export const mockFillBlank = {
+  sentence_with_blank: 'De ___ loopt in het park.',
+  sentence_es: 'El ___ pasea en el parque.',
+  correct_id: 1,
+  correct_word: 'hond',
+  options: [
+    { id: 1, dutch_word: 'hond', article: 'de' },
+    { id: 2, dutch_word: 'kat', article: 'de' },
+    { id: 3, dutch_word: 'vis', article: 'de' },
+    { id: 4, dutch_word: 'vogel', article: 'de' },
+  ],
+}
+
+export const mockUnscramble = {
+  vocab_id: 1,
+  shuffled_words: ['park', 'De', 'in', 'het', 'loopt', 'hond'],
+  correct_sentence: 'De hond loopt in het park.',
+  sentence_es: 'El perro camina en el parque.',
+  trailing_punct: '.',
+}
+
+export const mockListenChoose = {
+  correct_id: 1,
+  correct_dutch: 'hond',
+  audio_files: ['gtts_abc123.mp3'],
+  options: [
+    { id: 1, spanish: 'perro', image_url: null },
+    { id: 2, spanish: 'gato', image_url: null },
+    { id: 3, spanish: 'pez', image_url: null },
+    { id: 4, spanish: 'pájaro', image_url: null },
+  ],
+}
+
+export const mockWordMatch = {
+  pairs: [
+    { id: 1, dutch: 'hond', spanish: 'perro' },
+    { id: 2, dutch: 'kat', spanish: 'gato' },
+    { id: 3, dutch: 'vis', spanish: 'pez' },
+  ],
+}
+
+// ── Handlers ─────────────────────────────────────────────────────────────────
+
+export const handlers = [
+  // Vocabulary
+  http.get(`${BASE}/vocabulary/`, () => HttpResponse.json(mockVocabList)),
+  http.get(`${BASE}/vocabulary/:id`, () => HttpResponse.json(mockVocabItem)),
+
+  // Progress
+  http.get(`${BASE}/progress/user`, () => HttpResponse.json(mockUserProgress)),
+  http.get(`${BASE}/progress/due`, () => HttpResponse.json(mockDueCards)),
+  http.post(`${BASE}/progress/review`, () => HttpResponse.json(mockReviewResponse)),
+  http.post(`${BASE}/progress/enroll/:id`, () => HttpResponse.json({ id: 1, vocab_item_id: 1 })),
+
+  // Grammar
+  http.get(`${BASE}/grammar/`, () => HttpResponse.json(mockGrammarTopics)),
+  http.get(`${BASE}/grammar/:slug`, () => HttpResponse.json(mockGrammarTopics[0])),
+
+  // Stories
+  http.get(`${BASE}/stories/`, () => HttpResponse.json(mockStories)),
+  http.get(`${BASE}/stories/:slug`, () => HttpResponse.json(mockStories[0])),
+
+  // LLM
+  http.post(`${BASE}/llm/explain`, () =>
+    HttpResponse.json({ explanation: 'Hond significa perro.' })
+  ),
+  http.post(`${BASE}/llm/feedback`, () =>
+    HttpResponse.json({ feedback: 'La respuesta correcta es hond.' })
+  ),
+  http.post(`${BASE}/llm/chat`, () => HttpResponse.json({ reply: 'Hallo! Hoe gaat het?' })),
+
+  // Exercises
+  http.get(`${BASE}/exercises/listen-choose`, () => HttpResponse.json(mockListenChoose)),
+  http.get(`${BASE}/exercises/word-match`, () => HttpResponse.json(mockWordMatch)),
+  http.get(`${BASE}/exercises/fill-blank`, () => HttpResponse.json(mockFillBlank)),
+  http.get(`${BASE}/exercises/unscramble`, () => HttpResponse.json(mockUnscramble)),
+]
