@@ -1,31 +1,31 @@
 """
 Pydantic schemas for request/response validation.
 """
-from pydantic import BaseModel, ConfigDict
-from typing import Optional, List, Any
 from datetime import datetime
+from typing import Any
 
+from pydantic import BaseModel, ConfigDict, Field
 
 # ── Vocabulary ──────────────────────────────────────────────────────────────
 
 class VocabularyItemBase(BaseModel):
     dutch_word: str
     spanish: str
-    article: Optional[str] = None
-    plural: Optional[str] = None
-    word_type: Optional[str] = None
+    article: str | None = None
+    plural: str | None = None
+    word_type: str | None = None
     level: str
     theme: str
-    image_url: Optional[str] = None
-    notes: Optional[str] = None
-    example_nl: Optional[str] = None
-    example_es: Optional[str] = None
+    image_url: str | None = None
+    notes: str | None = None
+    example_nl: str | None = None
+    example_es: str | None = None
 
 
 class VocabularyItemOut(VocabularyItemBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    audio_files: List["AudioFileOut"] = []
+    audio_files: list["AudioFileOut"] = []
 
 
 # ── Audio ────────────────────────────────────────────────────────────────────
@@ -34,9 +34,9 @@ class AudioFileOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     file_path: str
-    source: Optional[str] = None
-    license: Optional[str] = None
-    sentence_text_nl: Optional[str] = None
+    source: str | None = None
+    license: str | None = None
+    sentence_text_nl: str | None = None
 
 
 # ── Grammar ──────────────────────────────────────────────────────────────────
@@ -48,8 +48,8 @@ class GrammarTopicOut(BaseModel):
     name_nl: str
     name_es: str
     level: str
-    description_es: Optional[str] = None
-    examples_json: Optional[Any] = None
+    description_es: str | None = None
+    examples_json: Any | None = None
 
 
 # ── Stories ──────────────────────────────────────────────────────────────────
@@ -61,18 +61,18 @@ class StoryOut(BaseModel):
     title_nl: str
     title_es: str
     level: str
-    content_nl: Optional[str] = None
-    content_es: Optional[str] = None
-    audio_path: Optional[str] = None
-    questions_json: Optional[Any] = None
-    theme: Optional[str] = None
+    content_nl: str | None = None
+    content_es: str | None = None
+    audio_path: str | None = None
+    questions_json: Any | None = None
+    theme: str | None = None
 
 
 # ── Progress / FSRS ──────────────────────────────────────────────────────────
 
 class ReviewRequest(BaseModel):
     card_id: int
-    rating: int  # 1=Again, 2=Hard, 3=Good, 4=Easy
+    rating: int = Field(..., ge=1, le=4, description="1=Again, 2=Hard, 3=Good, 4=Easy")
 
 
 class ReviewResponse(BaseModel):
@@ -100,35 +100,35 @@ class UserProgressOut(BaseModel):
     username: str
     xp_total: int
     streak_days: int
-    last_activity_date: Optional[str] = None
+    last_activity_date: str | None = None
 
 
 # ── LLM ──────────────────────────────────────────────────────────────────────
 
 class ExplainRequest(BaseModel):
-    word_or_phrase: str
-    context_sentence: Optional[str] = None
+    word_or_phrase: str = Field(..., max_length=200)
+    context_sentence: str | None = Field(None, max_length=500)
 
 
 class FeedbackRequest(BaseModel):
-    question: str
-    correct_answer: str
-    user_answer: str
-    vocab_item_id: Optional[int] = None
+    question: str = Field(..., max_length=500)
+    correct_answer: str = Field(..., max_length=200)
+    user_answer: str = Field(..., max_length=200)
+    vocab_item_id: int | None = None
 
 
 class GenerateExerciseRequest(BaseModel):
-    theme: str
-    level: str
-    exercise_type: str  # fill_blank, multiple_choice, unscramble
-    word: Optional[str] = None
+    theme: str = Field(..., max_length=100)
+    level: str = Field(..., max_length=10)
+    exercise_type: str = Field(..., max_length=50)  # fill_blank, multiple_choice, unscramble
+    word: str | None = Field(None, max_length=200)
 
 
 class ChatMessage(BaseModel):
-    role: str  # user | assistant
-    content: str
+    role: str = Field(..., pattern=r"^(user|assistant|system)$")
+    content: str = Field(..., max_length=4000)
 
 
 class ChatRequest(BaseModel):
-    messages: List[ChatMessage]
-    provider: Optional[str] = None  # ollama | openai | anthropic | mistral | gemini
+    messages: list[ChatMessage] = Field(..., max_length=50)
+    provider: str | None = Field(None, pattern=r"^(ollama|openai|anthropic|mistral|gemini)$")
