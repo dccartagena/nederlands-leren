@@ -1,0 +1,272 @@
+{
+  "a0": [
+    {
+      "slug": "artikelen-de-het",
+      "name_nl": "Lidwoorden: de en het (Basics)",
+      "name_es": "Artículos: de y het (Conceptos básicos)"
+    },
+    {
+      "slug": "persoonlijke-voornaamwoorden",
+      "name_nl": "Persoonlijke voornaamwoorden",
+      "name_es": "Pronombres personales"
+    },
+    {
+      "slug": "zijn-hebben",
+      "name_nl": "Werkwoorden zijn en hebben",
+      "name_es": "Verbos zijn (ser/estar) y hebben (tener)"
+    },
+    {
+      "slug": "getallen-a0",
+      "name_nl": "Getallen en klokkijken",
+      "name_es": "Números y la hora"
+    },
+    {
+      "slug": "begroetingen",
+      "name_nl": "Begroetingen en beleefdheden",
+      "name_es": "Saludos y expresiones de cortesía"
+    },
+    {
+      "slug": "familie-en-voorstellen",
+      "name_nl": "Familie en jezelf voorstellen",
+      "name_es": "La familia y presentarse a sí mismo"
+    },
+    {
+      "slug": "kleuren-en-objecten",
+      "name_nl": "Kleuren en dagelijkse objecten",
+      "name_es": "Colores y objetos cotidianos"
+    },
+    {
+      "slug": "basis-negatie",
+      "name_nl": "Negatie: Niet en Geen",
+      "name_es": "Negación: Niet y Geen"
+    }
+  ],
+  "a1": [
+    {
+      "slug": "tegenwoordige-tijd-basis",
+      "name_nl": "Tegenwoordige tijd (stam + t)",
+      "name_es": "Presente (formación de la raíz + t)"
+    },
+    {
+      "slug": "verbal-logic-hacer",
+      "name_nl": "Verbaal logica: Hacer vs. Doen/Maken",
+      "name_es": "Lógica verbal: Hacer frente a Doen/Maken"
+    },
+    {
+      "slug": "woordvolgorde-basis",
+      "name_nl": "Basiswoordvolgorde (SVO)",
+      "name_es": "Orden básico de la oración (SVO)"
+    },
+    {
+      "slug": "meervoud-basis",
+      "name_nl": "Meervoudsvorming (-en / -s)",
+      "name_es": "Formación del plural (-en / -s)"
+    },
+    {
+      "slug": "bijvoeglijke-naamwoorden-buiging",
+      "name_nl": "Bijvoeglijke naamwoorden en de -e verbuiging",
+      "name_es": "Adjetivos y la declinación de la -e"
+    },
+    {
+      "slug": "prepositional-precision-spatial",
+      "name_nl": "Voorzetsels: 'En' mapping naar In, Op, Aan",
+      "name_es": "Preposiciones: Mapeo de 'En' a In, Op, Aan"
+    },
+    {
+      "slug": "vraagwoorden-inversie",
+      "name_nl": "Vraagwoorden en inversie",
+      "name_es": "Interrogativos e inversión"
+    },
+    {
+      "slug": "onregelmatige-werkwoorden-a1",
+      "name_nl": "Veelgebruikte onregelmatige werkwoorden (A1)",
+      "name_es": "Verbos irregulares comunes (A1)"
+    },
+    {
+      "slug": "false-friends-a1",
+      "name_nl": "Valse vrienden: Eventueel, Monster, Slim",
+      "name_es": "Falsos amigos: Eventueel, Monster, Slim"
+    },
+    {
+      "slug": "modale-werkwoorden-a1",
+      "name_nl": "Modale werkwoorden: kunnen, mogen, moeten, willen",
+      "name_es": "Verbos modales: poder, deber, querer"
+    },
+    {
+      "slug": "eten-en-drinken",
+      "name_nl": "Woordenschat: Eten, drinken en boodschappen",
+      "name_es": "Vocabulario: Comida, bebida y compras"
+    },
+    {
+      "slug": "dagindeling-en-routines",
+      "name_nl": "Dagindeling en dagelijkse routines",
+      "name_es": "Horarios y rutinas diarias"
+    },
+    {
+      "slug": "wonen-en-huis",
+      "name_nl": "Wonen: Het huis en de inrichting",
+      "name_es": "Vivienda: La casa y el mobiliario"
+    },
+    {
+      "slug": "lichaam-en-gezondheid-basis",
+      "name_nl": "Het lichaam en basis gezondheid",
+      "name_es": "El cuerpo y salud básica"
+    },
+    {
+      "slug": "weer-en-seizoenen",
+      "name_nl": "Het weer en de seizoenen",
+      "name_es": "El tiempo y las estaciones"
+    },
+    {
+      "slug": "vrije-tijd-en-hobbys",
+      "name_nl": "Vrije tijd, hobby's en sport",
+      "name_es": "Tiempo libre, pasatiempos y deporte"
+    }
+  ],
+  "a2": [
+    {
+      "slug": "verbal-logic-poner",
+      "name_nl": "Verbaal logica: Poner vs. Zetten, Leggen, Stoppen",
+      "name_es": "Lógica verbal: Poner frente a Zetten, Leggen, Stoppen"
+    },
+    {
+      "slug": "verleden-tijd-zwak",
+      "name_nl": "Imperfectum: Zwakke werkwoorden ('t kofschip)",
+      "name_es": "Pretérito: Verbos débiles ('t kofschip)"
+    },
+    {
+      "slug": "verleden-tijd-sterk",
+      "name_nl": "Imperfectum: Sterke werkwoorden (Vocaalwissel)",
+      "name_es": "Pretérito: Verbos fuertes (Cambio vocálico)"
+    },
+    {
+      "slug": "bezittelijke-voornaamwoorden",
+      "name_nl": "Bezittelijke voornaamwoorden",
+      "name_es": "Pronombres posesivos"
+    },
+    {
+      "slug": "comparatief-superlatief",
+      "name_nl": "Vergrotende en overtreffende trap",
+      "name_es": "Comparativos y superlativos"
+    },
+    {
+      "slug": "scheidbare-werkwoorden-intro",
+      "name_nl": "Scheidbare werkwoorden: Introductie",
+      "name_es": "Verbos separables: Introducción"
+    },
+    {
+      "slug": "perfectum-hebben-zijn",
+      "name_nl": "Voltooid deelwoord: Hebben of Zijn?",
+      "name_es": "Participio: ¿Hebben o Zijn?"
+    },
+    {
+      "slug": "bijzinnen-omdat-als",
+      "name_nl": "Bijzinnen: omdat, als, dat (Woordvolgorde)",
+      "name_es": "Oraciones subordinadas: porque, si, que (Orden)"
+    },
+    {
+      "slug": "reflexieve-werkwoorden-contrast",
+      "name_nl": "Reflexieve werkwoorden vs. Spaans 'se'",
+      "name_es": "Verbos reflexivos frente al 'se' español"
+    },
+    {
+      "slug": "er-plaats",
+      "name_nl": "Het gebruik van 'Er' (Plaats en Onderwerp)",
+      "name_es": "El uso de 'Er' (Lugar y Sujeto)"
+    },
+    {
+      "slug": "reizen-en-vervoer",
+      "name_nl": "Woordenschat: Reizen en openbaar vervoer",
+      "name_es": "Vocabulario: Viajes y transporte público"
+    },
+    {
+      "slug": "werk-en-solliciteren-a2",
+      "name_nl": "Werk: Beroepen en de werkvloer",
+      "name_es": "Trabajo: Profesiones y el entorno laboral"
+    }
+  ],
+  "b1": [
+    {
+      "slug": "false-friends-b1",
+      "name_nl": "Valse vrienden: Gemeen, Enkel, Brutaal",
+      "name_es": "Falsos amigos: Gemeen, Enkel, Brutaal"
+    },
+    {
+      "slug": "prepositionele-objecten",
+      "name_nl": "Vaste voorzetsels (Wachten op, denken aan)",
+      "name_es": "Preposiciones fijas (Wachten op, denken aan)"
+    },
+    {
+      "slug": "separable-particles-af-uit",
+      "name_nl": "Deeltjes: Betekenis van af- en uit-",
+      "name_es": "Partículas: Significado de af- y uit-"
+    },
+    {
+      "slug": "separable-particles-op-aan",
+      "name_nl": "Deeltjes: Betekenis van op- en aan-",
+      "name_es": "Partículas: Significado de op- y aan-"
+    },
+    {
+      "slug": "passief-tegenwoordig",
+      "name_nl": "Lijdende vorm (Worden + Voltooid deelwoord)",
+      "name_es": "Voz pasiva (Worden + Participio)"
+    },
+    {
+      "slug": "er-prepositioneel",
+      "name_nl": "Combinaties met Er (erop, eraan, ervan)",
+      "name_es": "Combinaciones con Er (erop, eraan, ervan)"
+    },
+    {
+      "slug": "om-te-constructies",
+      "name_nl": "Infinitiefconstructies met om … te",
+      "name_es": "Construcciones de infinitivo con om … te"
+    },
+    {
+      "slug": "relatieve-zinnen-die-dat",
+      "name_nl": "Betrekkelijke bijzinnen: die en dat",
+      "name_es": "Oraciones de relativo: die y dat"
+    }
+  ],
+  "b2": [
+    {
+      "slug": "woordvorming-prefixen",
+      "name_nl": "Woordvorming: be-, ge-, ver-, ont-, her-",
+      "name_es": "Formación de palabras: be-, ge-, ver-, ont-, her-"
+    },
+    {
+      "slug": "bijwoorden-tijd-volgorde",
+      "name_nl": "Plaats van bijwoorden in de zin (T-M-P)",
+      "name_es": "Posición de los adverbios (T-M-P)"
+    },
+    {
+      "slug": "conjunctions-advanced",
+      "name_nl": "Complexe voegwoorden (tenzij, mits, doordat)",
+      "name_es": "Conjunciones complejas (tenzij, mits, doordat)"
+    },
+    {
+      "slug": "subjuntivo-contrast",
+      "name_nl": "De aanvoegende wijs vs. Spaans Subjuntivo",
+      "name_es": "El subjuntivo neerlandés frente al español"
+    },
+    {
+      "slug": "indirecte-rede-b2",
+      "name_nl": "Indirecte rede en gerapporteerde taal",
+      "name_es": "Discurso indirecto y estilo reportado"
+    },
+    {
+      "slug": "nominalisering-abstract",
+      "name_nl": "Nominalisering en abstracte zinsconstructies",
+      "name_es": "Nominalización y construcciones abstractas"
+    },
+    {
+      "slug": "idiomatische-uitdrukkingen",
+      "name_nl": "Idiomatische uitdrukkingen en spreekwoorden",
+      "name_es": "Expresiones idiomáticas y refranes"
+    },
+    {
+      "slug": "complexe-bijzinnen-b2",
+      "name_nl": "Uitgebreide nominale groepen en tangconstructies",
+      "name_es": "Grupos nominales extensos y estructuras de pinza"
+    }
+  ]
+}

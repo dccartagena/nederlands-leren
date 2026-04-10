@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
@@ -10,6 +10,7 @@ class Base(DeclarativeBase):
 
 class VocabularyItem(Base):
     __tablename__ = "vocabulary_items"
+    __table_args__ = (UniqueConstraint("dutch_word", "level", name="uq_vocab_word_level"),)
 
     id = Column(Integer, primary_key=True, index=True)
     dutch_word = Column(String(100), nullable=False, index=True)

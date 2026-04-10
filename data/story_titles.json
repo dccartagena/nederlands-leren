@@ -1,0 +1,64 @@
+{
+  "a0": {
+    "alfabet_uitspraak": { "title_nl": "Het alfabet en uitspraakregels", "title_es": "El alfabeto y reglas de pronunciación" },
+    "begroetingen": { "title_nl": "Sociale begroetingen en etiquette", "title_es": "Saludos sociales y etiqueta" },
+    "persoonlijke_voornaamwoorden": { "title_nl": "Persoonlijke voornaamwoorden", "title_es": "Pronombres personales" },
+    "getallen_basis": { "title_nl": "Basisgetallen en tellen", "title_es": "Números básicos y contar" },
+    "werkwoorden_basis": { "title_nl": "Zijn en hebben in de tegenwoordige tijd", "title_es": "Ser/estar y tener en presente" }
+  },
+  "a1": {
+    "familie": { "title_nl": "Mijn familie en stamboom", "title_es": "Mi familia y árbol genealógico" },
+    "boodschappen": { "title_nl": "Boodschappen doen en de supermarkt", "title_es": "Hacer la compra y el supermercado" },
+    "huis_wonen": { "title_nl": "Mijn huis en dagelijks leven", "title_es": "Mi casa y la vida cotidiana" },
+    "tijd_klok": { "title_nl": "Hoe laat is het? Tijd en cijfers", "title_es": "¿Qué hora es? Tiempo y números" },
+    "dagelijkse_routine": { "title_nl": "Dagelijkse routine en regelmatige werkwoorden", "title_es": "Rutina diaria y verbos regulares" }
+  },
+  "a2": {
+    "huisarts": { "title_nl": "De huisarts en het zorgsysteem", "title_es": "El médico de cabecera y el sistema de salud" },
+    "apotheek": { "title_nl": "Medicijnen en de apotheek", "title_es": "Medicamentos y la farmacia" },
+    "hobbys_vrije_tijd": { "title_nl": "Hobby's en sporten", "title_es": "Aficiones y deportes" },
+    "buurt_interactie": { "title_nl": "Interactie met de buren", "title_es": "Interacción con los vecinos" },
+    "openbaar_vervoer": { "title_nl": "Reizen met de NS en OV-chipkaart", "title_es": "Viajar con la NS y la tarjeta de transporte" },
+    "borrelcultuur": { "title_nl": "De borrelcultuur en sociale conventies", "title_es": "La cultura del borrel y convenciones sociales" },
+    "positiewerkwoorden": { "title_nl": "Staan, liggen, zitten en hangen", "title_es": "Verbos de posición: estar de pie, tumbado, sentado y colgado" },
+    "weer_klimaat": { "title_nl": "Het Nederlandse weer en klimaat", "title_es": "El clima y tiempo neerlandés" },
+    "kleding_kopen": { "title_nl": "Kleding kopen en maten", "title_es": "Comprar ropa y tallas" },
+    "stad_wegwijs": { "title_nl": "Wegwijs in de stad en richtingen", "title_es": "Orientarse en la ciudad y direcciones" },
+    "tradities_feestdagen": { "title_nl": "Feestdagen en tradities", "title_es": "Festivos y tradiciones" },
+    "solliciteren_basis": { "title_nl": "Een cv maken en solliciteren", "title_es": "Crear un CV y solicitar empleo" }
+  },
+  "b1": {
+    "scrum_agile": { "title_nl": "Agile werken en Scrum-ceremonies", "title_es": "Trabajo Agile y ceremonias de Scrum" },
+    "software_development": { "title_nl": "Technisch overleg en code reviews", "title_es": "Reuniones técnicas y revisiones de código" },
+    "stakeholder_management": { "title_nl": "Stakeholdermanagement voor consultants", "title_es": "Gestión de stakeholders para consultores" },
+    "project_planning": { "title_nl": "Projectplanning en deadlines", "title_es": "Planificación de proyectos y plazos" },
+    "risicomanagement": { "title_nl": "Risicobeheersing in projecten", "title_es": "Control de riesgos en proyectos" },
+    "huurmarkt": { "title_nl": "De woningmarkt: Huren en contracten", "title_es": "El mercado inmobiliario: Alquiler y contratos" },
+    "onderwijssysteem": { "title_nl": "Het Nederlandse onderwijssysteem", "title_es": "El sistema educativo neerlandés" },
+    "duurzaamheid": { "title_nl": "Recycling en milieubewustzijn", "title_es": "Reciclaje y conciencia ambiental" },
+    "energie_transitie": { "title_nl": "De energietransitie en klimaatdoelen", "title_es": "La transición energética y objetivos climáticos" },
+    "lokale_politiek": { "title_nl": "De gemeente en lokale politiek", "title_es": "El municipio y política local" },
+    "er_kwantitatief": { "title_nl": "Het gebruik van 'er' (kwantitatief)", "title_es": "El uso de 'er' (cuantitativo)" },
+    "inversie_v2": { "title_nl": "Geavanceerde zinsbouw en inversie", "title_es": "Sintaxis avanzada e inversión" },
+    "zakelijke_communicatie": { "title_nl": "Professionele e-mails en verslagen", "title_es": "Correos profesionales e informes" },
+    "presentatie_technieken": { "title_nl": "Effectief presenteren voor klanten", "title_es": "Presentar de forma efectiva ante clientes" },
+    "lijdende_vorm": { "title_nl": "De lijdende vorm in rapportages", "title_es": "La voz pasiva en reportes" }
+  },
+  "b2": {
+    "hypotheek_koopmarkt": { "title_nl": "Een huis kopen: Hypotheken en notaris", "title_es": "Comprar una casa: Hipotecas y notario" },
+    "inkomstenbelasting_30_ruling": { "title_nl": "Belastingaangifte en de 30%-regeling", "title_es": "Declaración de impuestos y el '30% ruling'" },
+    "btw_zzp": { "title_nl": "Ondernemen als ZZP'er en de BTW", "title_es": "Emprender como autónomo (ZZP) y el IVA" },
+    "juridisch_loket": { "title_nl": "Rechtshulp en het Juridisch Loket", "title_es": "Asistencia legal y el Juridisch Loket" },
+    "conflictbeheersing": { "title_nl": "Omgaan met conflicten op de werkvloer", "title_es": "Gestión de conflictos en el trabajo" },
+    "bedrijfsstrategie": { "title_nl": "Bedrijfsstrategie en visie", "title_es": "Estrategia empresarial y visión" },
+    "ethiek_technologie": { "title_nl": "Filosofie en ethiek in tech", "title_es": "Filosofía y ética en tecnología" },
+    "academisch_onderzoek": { "title_nl": "Wetenschap en academisch schrijven", "title_es": "Ciencia y escritura académica" },
+    "moderne_geschiedenis": { "title_nl": "Moderne geschiedenis van Nederland", "title_es": "Historia moderna de los Países Bajos" },
+    "interculturele_communicatie": { "title_nl": "Cultuurverschillen op de werkvloer", "title_es": "Diferencias culturales en el trabajo" },
+    "poldermodel": { "title_nl": "Het Poldermodel en de vakbonden", "title_es": "El Poldermodel y los sindicatos" },
+    "stikstofcrisis": { "title_nl": "Milieubeleid en de stikstofcrisis", "title_es": "Política ambiental y crisis del nitrógeno" },
+    "rechtspraak": { "title_nl": "Het Nederlandse rechtssysteem", "title_es": "El sistema judicial neerlandés" },
+    "nederlandse_literatuur": { "title_nl": "De canon van de Nederlandse literatuur", "title_es": "El canon de la literatura neerlandesa" },
+    "valse_vrienden": { "title_nl": "Valse vrienden: Spaans vs. Nederlands", "title_es": "Falsos amigos: Español vs. Neerlandés" }
+  }
+}
