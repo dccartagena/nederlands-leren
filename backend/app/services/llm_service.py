@@ -3,9 +3,10 @@ LLM service — Ollama local primary, remote API fallback.
 System instructions are in English; Dutch and Spanish are used for content details.
 """
 import logging
-from typing import List, Dict, Any, Optional
+from typing import Any
 
 import httpx
+
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -19,7 +20,7 @@ SYSTEM_PROMPT = (
 )
 
 
-async def _call_ollama(messages: List[Dict[str, str]], model: str) -> str:
+async def _call_ollama(messages: list[dict[str, str]], model: str) -> str:
     url = f"{settings.OLLAMA_BASE_URL}/api/chat"
     payload = {
         "model": model,
@@ -40,14 +41,14 @@ def _remote_model_for(provider: str) -> str:
     return settings.REMOTE_MODEL
 
 
-async def _call_litellm(messages: List[Dict[str, str]], provider_override: Optional[str] = None) -> str:
+async def _call_litellm(messages: list[dict[str, str]], provider_override: str | None = None) -> str:
     import litellm  # lazy import so missing key doesn't crash at startup
 
     provider = provider_override or settings.LLM_PROVIDER
     model = _remote_model_for(provider)
 
     # Set appropriate API key
-    kwargs: Dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.7}
+    kwargs: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.7}
     if provider == "openai" and settings.OPENAI_API_KEY:
         kwargs["api_key"] = settings.OPENAI_API_KEY
     elif provider == "anthropic" and settings.ANTHROPIC_API_KEY:
@@ -62,9 +63,9 @@ async def _call_litellm(messages: List[Dict[str, str]], provider_override: Optio
 
 
 async def chat_completion(
-    messages: List[Dict[str, str]],
+    messages: list[dict[str, str]],
     inject_system: bool = True,
-    provider_override: Optional[str] = None,
+    provider_override: str | None = None,
 ) -> str:
     if inject_system:
         messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
@@ -88,7 +89,7 @@ async def chat_completion(
             raise RuntimeError("All LLM providers failed.") from fallback_err
 
 
-async def explain(word_or_phrase: str, context_sentence: Optional[str] = None) -> str:
+async def explain(word_or_phrase: str, context_sentence: str | None = None) -> str:
     ctx = f' in the sentence: "{context_sentence}"' if context_sentence else ""
     prompt = f'Explain the Dutch word or phrase "{word_or_phrase}"{ctx}. Include: meaning, grammatical usage, and an additional example with its Spanish translation.'
     return await chat_completion([{"role": "user", "content": prompt}])
@@ -105,7 +106,7 @@ async def feedback(question: str, correct_answer: str, user_answer: str) -> str:
     return await chat_completion([{"role": "user", "content": prompt}])
 
 
-async def generate_exercise(theme: str, level: str, exercise_type: str, word: Optional[str] = None) -> str:
+async def generate_exercise(theme: str, level: str, exercise_type: str, word: str | None = None) -> str:
     word_hint = f" using the word '{word}'" if word else ""
     prompt = (
         f"Create a '{exercise_type}' exercise in Dutch for level {level.upper()}, "

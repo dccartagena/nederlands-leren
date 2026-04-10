@@ -13,7 +13,7 @@ Network behaviour:
 import asyncio
 import logging
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import httpx
 
@@ -24,9 +24,9 @@ DUTCH_WIKTIONARY_API_URL = "https://nl.wiktionary.org/w/api.php"
 
 
 def _format_cc_notes(
-    source: Optional[str],
-    license: Optional[str],
-    attribution: Optional[str],
+    source: str | None,
+    license: str | None,
+    attribution: str | None,
 ) -> str:
     """Format CC licence metadata into a human-readable notes string.
 
@@ -52,7 +52,7 @@ async def fetch_tatoeba_sentences(
     source_lang: str = "nld",
     target_lang: str = "spa",
     limit: int = 5,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Fetch Dutch example sentences containing *word* from Tatoeba.
 
     Each result includes the Dutch sentence, the Spanish translation (when
@@ -67,7 +67,7 @@ async def fetch_tatoeba_sentences(
     Returns:
         List of dicts with keys: nl, es, source, license.
     """
-    params: Dict[str, Any] = {
+    params: dict[str, Any] = {
         "from": source_lang,
         "to": target_lang,
         "query": word,
@@ -78,7 +78,7 @@ async def fetch_tatoeba_sentences(
             resp = await client.get(TATOEBA_SEARCH_URL, params=params)
             resp.raise_for_status()
             data = resp.json()
-            results: List[Dict[str, Any]] = []
+            results: list[dict[str, Any]] = []
             for entry in data.get("results", []):
                 nl_text: str = entry.get("text", "")
                 if not nl_text:
@@ -119,7 +119,7 @@ def _extract_translation(translations_payload: Any, target_lang: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-async def fetch_wiktionary_entry(word: str) -> Dict[str, Any]:
+async def fetch_wiktionary_entry(word: str) -> dict[str, Any]:
     """Fetch Dutch word information from the Dutch Wiktionary.
 
     Returns a dict with keys: dutch_word, article, plural, word_type,
@@ -132,7 +132,7 @@ async def fetch_wiktionary_entry(word: str) -> Dict[str, Any]:
     failures so that callers can distinguish "not found" from "unavailable"
     and return the appropriate status code (404 vs 503).
     """
-    params: Dict[str, Any] = {
+    params: dict[str, Any] = {
         "action": "query",
         "titles": word,
         "prop": "revisions",
@@ -162,9 +162,9 @@ async def fetch_wiktionary_entry(word: str) -> Dict[str, Any]:
         return {}
 
 
-def _parse_wiktionary_wikitext(word: str, content: str) -> Dict[str, Any]:
+def _parse_wiktionary_wikitext(word: str, content: str) -> dict[str, Any]:
     """Parse Dutch Wiktionary wikitext to extract basic word information."""
-    result: Dict[str, Any] = {
+    result: dict[str, Any] = {
         "dutch_word": word,
         "source": "wiktionary",
         "license": "CC BY-SA 3.0",
@@ -218,11 +218,11 @@ def _parse_wiktionary_wikitext(word: str, content: str) -> Dict[str, Any]:
 
 
 async def scrape_vocabulary_from_tatoeba(
-    words: List[str],
+    words: list[str],
     level: str,
     theme: str,
     concurrency: int = 5,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Return vocabulary stubs enriched with Tatoeba example sentences.
 
     For each word in *words* the function fetches up to two example sentences
@@ -237,10 +237,10 @@ async def scrape_vocabulary_from_tatoeba(
     level_norm = level.lower()
     theme_norm = theme.lower()
 
-    async def _fetch(word: str) -> Dict[str, Any]:
+    async def _fetch(word: str) -> dict[str, Any]:
         async with semaphore:
             sentences = await fetch_tatoeba_sentences(word, limit=2)
-        entry: Dict[str, Any] = {
+        entry: dict[str, Any] = {
             "dutch_word": word,
             "level": level_norm,
             "theme": theme_norm,
@@ -269,7 +269,7 @@ async def scrape_word(
     level: str = "a1",
     theme: str = "general",
     sentence_limit: int = 3,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Fetch all available open-source data for a single Dutch word.
 
     Combines Wiktionary metadata with Tatoeba example sentences.
@@ -279,7 +279,7 @@ async def scrape_word(
     wiki_data = await fetch_wiktionary_entry(word)
     sentences = await fetch_tatoeba_sentences(word, limit=sentence_limit)
 
-    entry: Dict[str, Any] = {
+    entry: dict[str, Any] = {
         "dutch_word": word,
         "level": level.lower(),
         "theme": theme,

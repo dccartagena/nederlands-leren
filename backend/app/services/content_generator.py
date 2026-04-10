@@ -7,7 +7,7 @@ LLM to return strict JSON so that results can be persisted directly.
 """
 import json
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from app.services import llm_service
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # Level / theme metadata
 # ---------------------------------------------------------------------------
 
-LEVEL_DESCRIPTIONS: Dict[str, str] = {
+LEVEL_DESCRIPTIONS: dict[str, str] = {
     "a0": "absolute beginner (no prior knowledge of Dutch)",
     "a1": "beginner (can understand and use basic everyday expressions)",
     "a2": "elementary (can understand commonly used phrases in everyday situations)",
@@ -26,7 +26,7 @@ LEVEL_DESCRIPTIONS: Dict[str, str] = {
     "c1": "advanced (can understand long and demanding texts)",
 }
 
-THEMES_BY_LEVEL: Dict[str, List[str]] = {
+THEMES_BY_LEVEL: dict[str, list[str]] = {
     "a0": ["animales", "familia", "colores", "numeros", "comida", "cuerpo"],
     "a1": ["ciudad", "transporte", "trabajo", "tiempo", "ropa", "salud", "educacion"],
     "a2": ["viajes", "naturaleza", "cultura", "medios", "compras", "ocio"],
@@ -36,7 +36,7 @@ THEMES_BY_LEVEL: Dict[str, List[str]] = {
 }
 
 # Word counts per level for generated stories
-_STORY_WORD_COUNTS: Dict[str, str] = {
+_STORY_WORD_COUNTS: dict[str, str] = {
     "a0": "60-80",
     "a1": "100-130",
     "a2": "150-200",
@@ -54,7 +54,7 @@ async def generate_vocabulary(
     level: str,
     theme: str,
     count: int = 10,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Generate vocabulary items using LLM for a given CEFR level and theme.
 
     Returns a list of dicts compatible with the VocabularyItem DB model.
@@ -94,7 +94,7 @@ async def generate_grammar_topic(
     topic_name_es: str,
     topic_name_nl: str,
     slug: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Generate a grammar topic with description and examples using LLM.
 
     Returns a dict compatible with the GrammarTopic DB model.
@@ -126,10 +126,10 @@ async def generate_grammar_topic(
 async def generate_story(
     level: str,
     theme: str,
-    title_nl: Optional[str] = None,
-    title_es: Optional[str] = None,
-    slug: Optional[str] = None,
-) -> Dict[str, Any]:
+    title_nl: str | None = None,
+    title_es: str | None = None,
+    slug: str | None = None,
+) -> dict[str, Any]:
     """Generate a reading story with comprehension questions using LLM.
 
     Returns a dict compatible with the Story DB model.
@@ -177,7 +177,7 @@ async def generate_lesson(
     level: str,
     theme: str,
     vocab_count: int = 5,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Generate a complete lesson: vocabulary + grammar tip + story.
 
     Calls the individual generators and assembles the result.
@@ -208,8 +208,8 @@ async def generate_game_exercise(
     level: str,
     theme: str,
     game_type: str,
-    vocabulary: Optional[List[str]] = None,
-) -> Dict[str, Any]:
+    vocabulary: list[str] | None = None,
+) -> dict[str, Any]:
     """Generate a specific game exercise using LLM.
 
     game_type: fill_blank | multiple_choice | unscramble | word_match
@@ -298,7 +298,7 @@ def _strip_markdown_fences(text: str) -> str:
     return text.strip()
 
 
-def _parse_json_list(raw: str) -> List[Dict[str, Any]]:
+def _parse_json_list(raw: str) -> list[dict[str, Any]]:
     """Extract a JSON array from raw LLM output."""
     text = _strip_markdown_fences(raw)
     try:
@@ -323,7 +323,7 @@ def _parse_json_list(raw: str) -> List[Dict[str, Any]]:
     return []
 
 
-def _parse_json_object(raw: str) -> Dict[str, Any]:
+def _parse_json_object(raw: str) -> dict[str, Any]:
     """Extract a JSON object from raw LLM output."""
     text = _strip_markdown_fences(raw)
     try:

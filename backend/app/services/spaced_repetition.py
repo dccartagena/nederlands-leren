@@ -1,12 +1,12 @@
 """
 FSRS spaced-repetition service wrapper using fsrs 6.x (Scheduler API).
 """
-from datetime import datetime, timezone
-from fsrs import Scheduler, Card, Rating, State
+from datetime import UTC, datetime
+
+from fsrs import Card, Rating, Scheduler, State
 from sqlalchemy.orm import Session
 
-from app.db.models import SRCard, VocabularyItem, User
-
+from app.db.models import SRCard, User
 
 _scheduler = Scheduler()
 
@@ -24,7 +24,7 @@ def _orm_to_card(sr: SRCard) -> Card:
     card.stability = stability
     card.difficulty = sr.difficulty or 5.0
     card.state = State(sr.state)
-    card.due = sr.due_date or datetime.now(timezone.utc)
+    card.due = sr.due_date or datetime.now(UTC)
     card.last_review = sr.last_review
     return card
 
@@ -60,7 +60,7 @@ def review_card(db: Session, card_id: int, rating_int: int, user_id: int):
 
 
 def get_due_cards(db: Session, user_id: int, limit: int = 20):
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     return (
         db.query(SRCard)
         .filter(SRCard.user_id == user_id, SRCard.due_date <= now)
