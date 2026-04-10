@@ -1,12 +1,18 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-import os
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
-from app.core.config import settings
-from app.db.session import engine
-from app.db import models
 from app.api.v1.router import api_router
+from app.core.config import settings
+from app.db import models
+from app.db.session import engine
+
+limiter = Limiter(key_func=get_remote_address)
 
 
 def create_application() -> FastAPI:
@@ -15,6 +21,10 @@ def create_application() -> FastAPI:
         version="1.0.0",
         description="Dutch language learning app — Dutch ↔ Spanish",
     )
+
+    # Rate limiting
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
     app.add_middleware(
         CORSMiddleware,

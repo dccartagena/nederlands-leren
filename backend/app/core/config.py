@@ -1,7 +1,7 @@
-from pydantic_settings import BaseSettings
 from pathlib import Path
-from typing import List
 
+from pydantic import model_validator
+from pydantic_settings import BaseSettings
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
 REPO_ROOT = BACKEND_DIR.parent  # project root
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = f"sqlite:///{REPO_ROOT}/data/app.db"
 
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:3000", "http://localhost:80", "http://localhost"]
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000", "http://localhost:80", "http://localhost"]
 
     # Directories
     AUDIO_DIR: Path = REPO_ROOT / "data" / "audio"
@@ -36,9 +36,19 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "change-me-in-production"
     DEBUG: bool = False
 
+    @model_validator(mode="after")
+    def validate_secret_key(self) -> "Settings":
+        if self.SECRET_KEY == "change-me-in-production":
+            raise ValueError(
+                "SECRET_KEY must be changed from the default value before running the application. "
+                "Set a strong random value in your .env file: SECRET_KEY=<random-64-char-string>"
+            )
+        return self
+
     class Config:
         env_file = str(REPO_ROOT / ".env")  # project root instead of cwd
         case_sensitive = True
+        extra = "ignore"
 
 
 settings = Settings()

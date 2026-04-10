@@ -1,8 +1,7 @@
-from sqlalchemy import (
-    Column, Integer, String, Float, DateTime, ForeignKey, Text, Boolean, JSON
-)
+from datetime import UTC, datetime
+
+from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, relationship
-from datetime import datetime, timezone
 
 
 class Base(DeclarativeBase):
@@ -76,7 +75,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), default="learner")
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
     settings_json = Column(JSON, default=dict)
     xp_total = Column(Integer, default=0)
     streak_days = Column(Integer, default=0)
@@ -101,7 +100,7 @@ class SRCard(Base):
     reps = Column(Integer, default=0)
     lapses = Column(Integer, default=0)
     state = Column(Integer, default=0)  # 0=New, 1=Learning, 2=Review, 3=Relearning
-    due_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    due_date = Column(DateTime, default=lambda: datetime.now(UTC))
     last_review = Column(DateTime)
 
     user = relationship("User", back_populates="sr_cards")
@@ -113,7 +112,7 @@ class LearningSession(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    started_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    started_at = Column(DateTime, default=lambda: datetime.now(UTC))
     ended_at = Column(DateTime)
     xp_earned = Column(Integer, default=0)
     exercises_completed = Column(Integer, default=0)
