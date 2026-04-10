@@ -1,17 +1,17 @@
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
 
-from app.db.session import get_db
 from app.db.models import GrammarTopic
+from app.db.session import get_db
 from app.schemas import GrammarTopicOut
 
 router = APIRouter()
 
 
-@router.get("/", response_model=List[GrammarTopicOut])
+@router.get("/", response_model=list[GrammarTopicOut])
 def list_grammar(
-    level: Optional[str] = Query(None),
+    level: str | None = Query(None),
     db: Session = Depends(get_db),
 ):
     q = db.query(GrammarTopic)

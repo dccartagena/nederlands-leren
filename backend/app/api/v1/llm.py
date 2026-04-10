@@ -1,12 +1,17 @@
-from fastapi import APIRouter, HTTPException
-from app.schemas import ExplainRequest, FeedbackRequest, GenerateExerciseRequest, ChatRequest
+from fastapi import APIRouter, HTTPException, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+from app.schemas import ChatRequest, ExplainRequest, FeedbackRequest, GenerateExerciseRequest
 from app.services import llm_service
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/explain")
-async def explain_word(req: ExplainRequest):
+@limiter.limit("30/minute")
+async def explain_word(request: Request, req: ExplainRequest):
     try:
         result = await llm_service.explain(req.word_or_phrase, req.context_sentence)
         return {"explanation": result}
@@ -15,7 +20,8 @@ async def explain_word(req: ExplainRequest):
 
 
 @router.post("/feedback")
-async def get_feedback(req: FeedbackRequest):
+@limiter.limit("30/minute")
+async def get_feedback(request: Request, req: FeedbackRequest):
     try:
         result = await llm_service.feedback(req.question, req.correct_answer, req.user_answer)
         return {"feedback": result}
@@ -24,7 +30,8 @@ async def get_feedback(req: FeedbackRequest):
 
 
 @router.post("/generate-exercise")
-async def generate_exercise(req: GenerateExerciseRequest):
+@limiter.limit("20/minute")
+async def generate_exercise(request: Request, req: GenerateExerciseRequest):
     try:
         result = await llm_service.generate_exercise(
             req.theme, req.level, req.exercise_type, req.word
@@ -35,7 +42,8 @@ async def generate_exercise(req: GenerateExerciseRequest):
 
 
 @router.post("/chat")
-async def chat(req: ChatRequest):
+@limiter.limit("20/minute")
+async def chat(request: Request, req: ChatRequest):
     messages = [{"role": m.role, "content": m.content} for m in req.messages]
     try:
         reply = await llm_service.chat_completion(messages, provider_override=req.provider)

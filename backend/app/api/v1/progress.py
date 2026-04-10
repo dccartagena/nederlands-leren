@@ -1,10 +1,10 @@
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List
 
+from app.db.models import User, VocabularyItem
 from app.db.session import get_db
-from app.db.models import User, SRCard, VocabularyItem
-from app.schemas import ReviewRequest, ReviewResponse, DueCardOut, UserProgressOut
+from app.schemas import DueCardOut, ReviewRequest, ReviewResponse, UserProgressOut
 from app.services import spaced_repetition
 
 router = APIRouter()
@@ -27,7 +27,7 @@ def get_user_progress(db: Session = Depends(get_db)):
     return _ensure_user(db)
 
 
-@router.get("/due", response_model=List[DueCardOut])
+@router.get("/due", response_model=list[DueCardOut])
 def get_due_cards(limit: int = Query(20, le=50), db: Session = Depends(get_db)):
     _ensure_user(db)
     cards = spaced_repetition.get_due_cards(db, DEFAULT_USER_ID, limit)
@@ -45,7 +45,10 @@ def record_review(req: ReviewRequest, db: Session = Depends(get_db)):
     _ensure_user(db)
     if req.rating not in (1, 2, 3, 4):
         raise HTTPException(status_code=400, detail="Rating must be 1–4")
-    sr, xp = spaced_repetition.review_card(db, req.card_id, req.rating, DEFAULT_USER_ID)
+    try:
+        sr, xp = spaced_repetition.review_card(db, req.card_id, req.rating, DEFAULT_USER_ID)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
     return ReviewResponse(
         card_id=sr.id,
         next_due=sr.due_date,

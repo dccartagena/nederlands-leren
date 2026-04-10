@@ -15,14 +15,17 @@ GET  /content/scrape/word/{word}     — Combined Wiktionary + Tatoeba for one w
 GET  /content/levels                — Available CEFR levels with descriptions
 GET  /content/themes/{level}        — Suggested themes for a level
 """
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel, Field
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from app.services import content_generator, content_scraper
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 
 # ---------------------------------------------------------------------------
@@ -46,9 +49,9 @@ class GenerateGrammarRequest(BaseModel):
 class GenerateStoryRequest(BaseModel):
     level: str
     theme: str
-    title_nl: Optional[str] = None
-    title_es: Optional[str] = None
-    slug: Optional[str] = None
+    title_nl: str | None = None
+    title_es: str | None = None
+    slug: str | None = None
 
 
 class GenerateLessonRequest(BaseModel):
@@ -64,13 +67,13 @@ class GenerateExerciseRequest(BaseModel):
         ...,
         description="Exercise type: fill_blank | multiple_choice | unscramble | word_match",
     )
-    vocabulary: Optional[List[str]] = Field(
+    vocabulary: list[str] | None = Field(
         None, description="Optional Dutch words to use as hints"
     )
 
 
 class ScrapeTatoebaRequest(BaseModel):
-    words: List[str] = Field(..., description="Dutch words to look up")
+    words: list[str] = Field(..., description="Dutch words to look up")
     level: str
     theme: str
 
@@ -81,7 +84,8 @@ class ScrapeTatoebaRequest(BaseModel):
 
 
 @router.post("/generate/vocabulary", summary="Generate vocabulary with LLM")
-async def generate_vocabulary(req: GenerateVocabularyRequest) -> Dict[str, Any]:
+@limiter.limit("10/minute")
+async def generate_vocabulary(request: Request, req: GenerateVocabularyRequest) -> dict[str, Any]:
     """Use the configured LLM to generate *count* vocabulary items for the
     given CEFR level and thematic category.
 
@@ -96,7 +100,8 @@ async def generate_vocabulary(req: GenerateVocabularyRequest) -> Dict[str, Any]:
 
 
 @router.post("/generate/grammar", summary="Generate grammar topic with LLM")
-async def generate_grammar(req: GenerateGrammarRequest) -> Dict[str, Any]:
+@limiter.limit("10/minute")
+async def generate_grammar(request: Request, req: GenerateGrammarRequest) -> dict[str, Any]:
     """Generate a GrammarTopic — including description and worked examples —
     using the configured LLM.
     """
@@ -114,7 +119,8 @@ async def generate_grammar(req: GenerateGrammarRequest) -> Dict[str, Any]:
 
 
 @router.post("/generate/story", summary="Generate reading story with LLM")
-async def generate_story(req: GenerateStoryRequest) -> Dict[str, Any]:
+@limiter.limit("10/minute")
+async def generate_story(request: Request, req: GenerateStoryRequest) -> dict[str, Any]:
     """Generate a Story — Dutch text, Spanish translation, and comprehension
     questions — using the configured LLM.
     """
@@ -132,7 +138,8 @@ async def generate_story(req: GenerateStoryRequest) -> Dict[str, Any]:
 
 
 @router.post("/generate/lesson", summary="Generate complete lesson with LLM")
-async def generate_lesson(req: GenerateLessonRequest) -> Dict[str, Any]:
+@limiter.limit("5/minute")
+async def generate_lesson(request: Request, req: GenerateLessonRequest) -> dict[str, Any]:
     """Generate a full lesson bundle: vocabulary list, a grammar tip, and a
     short story — all tailored to the requested CEFR level and theme.
     """
@@ -146,7 +153,8 @@ async def generate_lesson(req: GenerateLessonRequest) -> Dict[str, Any]:
 
 
 @router.post("/generate/exercise", summary="Generate game exercise with LLM")
-async def generate_exercise(req: GenerateExerciseRequest) -> Dict[str, Any]:
+@limiter.limit("20/minute")
+async def generate_exercise(request: Request, req: GenerateExerciseRequest) -> dict[str, Any]:
     """Generate a single game exercise (fill_blank, multiple_choice, unscramble,
     or word_match) using the configured LLM.
     """
@@ -175,7 +183,7 @@ async def generate_exercise(req: GenerateExerciseRequest) -> Dict[str, Any]:
 async def scrape_tatoeba_word(
     word: str,
     limit: int = Query(5, ge=1, le=20),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Return up to *limit* Dutch example sentences from Tatoeba.org that
     contain the given word, together with their Spanish translations.
 
@@ -192,7 +200,7 @@ async def scrape_tatoeba_word(
     "/scrape/tatoeba",
     summary="Bulk-enrich a word list with Tatoeba examples (CC BY 2.0)",
 )
-async def scrape_tatoeba_bulk(req: ScrapeTatoebaRequest) -> Dict[str, Any]:
+async def scrape_tatoeba_bulk(req: ScrapeTatoebaRequest) -> dict[str, Any]:
     """For each word in *words*, fetch example sentences from Tatoeba and
     return partial VocabularyItem dicts enriched with the first matching sentence.
     """
@@ -209,7 +217,7 @@ async def scrape_tatoeba_bulk(req: ScrapeTatoebaRequest) -> Dict[str, Any]:
     "/scrape/wiktionary/{word}",
     summary="Fetch Dutch Wiktionary entry (CC BY-SA 3.0)",
 )
-async def scrape_wiktionary(word: str) -> Dict[str, Any]:
+async def scrape_wiktionary(word: str) -> dict[str, Any]:
     """Fetch article, plural form, word type, and an example sentence for a
     Dutch word from the Dutch Wiktionary.
 
@@ -235,7 +243,7 @@ async def scrape_word(
     level: str = Query("a1"),
     theme: str = Query("general"),
     sentence_limit: int = Query(3, ge=1, le=10),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Return all available open-source data for a Dutch word: Wiktionary
     metadata (article, plural, word_type) merged with Tatoeba example sentences.
 
@@ -255,7 +263,7 @@ async def scrape_word(
 
 
 @router.get("/levels", summary="List available CEFR levels")
-def get_levels() -> Dict[str, Any]:
+def get_levels() -> dict[str, Any]:
     """Return the supported CEFR levels together with human-readable descriptions."""
     return {
         "levels": [
@@ -266,7 +274,7 @@ def get_levels() -> Dict[str, Any]:
 
 
 @router.get("/themes/{level}", summary="Get suggested themes for a CEFR level")
-def get_themes_for_level(level: str) -> Dict[str, Any]:
+def get_themes_for_level(level: str) -> dict[str, Any]:
     """Return a list of suggested thematic categories for the given CEFR level."""
     themes = content_generator.THEMES_BY_LEVEL.get(level.lower(), [])
     return {"level": level.lower(), "themes": themes}

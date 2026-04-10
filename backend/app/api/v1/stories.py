@@ -1,17 +1,17 @@
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
 
-from app.db.session import get_db
 from app.db.models import Story
+from app.db.session import get_db
 from app.schemas import StoryOut
 
 router = APIRouter()
 
 
-@router.get("/", response_model=List[StoryOut])
+@router.get("/", response_model=list[StoryOut])
 def list_stories(
-    level: Optional[str] = Query(None),
+    level: str | None = Query(None),
     db: Session = Depends(get_db),
 ):
     q = db.query(Story)

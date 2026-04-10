@@ -1,17 +1,28 @@
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
-from typing import Optional
 import random
 import re
 
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.orm import Session
+
+from app.db.models import AudioFile, VocabularyItem
 from app.db.session import get_db
-from app.db.models import VocabularyItem, AudioFile
 from app.services.audio_service import synthesize_if_missing
 
 router = APIRouter()
 
+_VALID_LEVELS = {"a0", "a1", "a2", "b1", "b2", "c1"}
 
-def _get_audio_filename(item: VocabularyItem, db: Session) -> Optional[str]:
+
+def _validate_level(level: str) -> str:
+    if level.lower() not in _VALID_LEVELS:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Invalid level '{level}'. Must be one of: {sorted(_VALID_LEVELS)}",
+        )
+    return level.lower()
+
+
+def _get_audio_filename(item: VocabularyItem, db: Session) -> str | None:
     """Return a filename (relative to AUDIO_DIR) for the item, synthesizing if needed."""
     if item.audio_files:
         return item.audio_files[0].file_path
@@ -38,10 +49,11 @@ def _get_audio_filename(item: VocabularyItem, db: Session) -> Optional[str]:
 @router.get("/listen-choose")
 def listen_choose_exercise(
     level: str = Query("a0"),
-    theme: Optional[str] = None,
+    theme: str | None = None,
     db: Session = Depends(get_db),
 ):
     """Return a listen-and-choose exercise: one correct item + 3 distractors."""
+    level = _validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -70,11 +82,12 @@ def listen_choose_exercise(
 @router.get("/word-match")
 def word_match_exercise(
     level: str = Query("a0"),
-    theme: Optional[str] = None,
+    theme: str | None = None,
     count: int = Query(6, le=10),
     db: Session = Depends(get_db),
 ):
     """Return Dutch/Spanish word pairs for word-match game."""
+    level = _validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -94,7 +107,7 @@ def word_match_exercise(
 @router.get("/fill-blank")
 def fill_blank_exercise(
     level: str = Query("a0"),
-    theme: Optional[str] = None,
+    theme: str | None = None,
     db: Session = Depends(get_db),
 ):
     """Return a fill-in-the-blank exercise using a vocabulary example sentence.
@@ -102,6 +115,7 @@ def fill_blank_exercise(
     The target word is replaced by ___ in the Dutch sentence. Three distractor
     words (same level) are included to form a 4-option multiple-choice question.
     """
+    level = _validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -143,7 +157,7 @@ def fill_blank_exercise(
 @router.get("/unscramble")
 def unscramble_exercise(
     level: str = Query("a0"),
-    theme: Optional[str] = None,
+    theme: str | None = None,
     db: Session = Depends(get_db),
 ):
     """Return a sentence-unscramble exercise.
@@ -151,6 +165,7 @@ def unscramble_exercise(
     Words from a Dutch example sentence are shuffled; the learner must put them
     back in the correct order.
     """
+    level = _validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
