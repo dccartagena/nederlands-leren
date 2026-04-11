@@ -20,6 +20,12 @@ Examples:
 
     # Force-regenerate even if audio already exists
     .venv/bin/python scripts/gemini_tts.py --type stories --level a1 --force
+
+    # Submit all pending items as a single Gemini Batch API job (Tier 1+)
+    .venv/bin/python scripts/gemini_tts.py --type vocabulary --level a0 --batch
+
+    # Resume polling a previously submitted batch job (if session was lost)
+    .venv/bin/python scripts/gemini_tts.py --type vocabulary --job-name batches/abc123
 """
 import argparse
 import base64
@@ -90,6 +96,15 @@ VOICE_STORY = "Aoede"
 # parsing the full name. Used for fast pre-scan skip sets.
 VOCAB_FILE_PREFIX = "gemini_vocab_"
 STORY_FILE_PREFIX = "gemini_story_"
+
+# ── batch API terminal states ─────────────────────────────────────────────────
+TERMINAL_JOB_STATES = {
+    "JOB_STATE_SUCCEEDED",
+    "JOB_STATE_FAILED",
+    "JOB_STATE_CANCELLED",
+    "JOB_STATE_PARTIALLY_SUCCEEDED",
+    "JOB_STATE_EXPIRED",
+}
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -189,6 +204,19 @@ def synthesize(
     return pcm_to_wav_bytes(pcm_bytes)
 
 
+def _extract_audio_from_response(response) -> bytes:
+    """Extract WAV bytes from a GenerateContentResponse (reusable for batch results)."""
+    part = response.candidates[0].content.parts[0]
+    raw = part.inline_data.data
+    if isinstance(raw, str):
+        audio_bytes = base64.b64decode(raw)
+    else:
+        audio_bytes = bytes(raw)
+    if audio_bytes[:4] == b"RIFF":
+        return audio_bytes
+    return pcm_to_wav_bytes(audio_bytes)
+
+
 def wav_to_mp3_bytes(wav_bytes: bytes) -> bytes:
     """Convert WAV bytes to MP3 bytes using lameenc (no ffmpeg required)."""
     import lameenc
@@ -286,11 +314,12 @@ def _has_gemini_audio_vocab(db, dutch_word: str, level: str) -> bool:
     )
     if not item:
         return False
-    return (
+    row = (
         db.query(AudioFile)
         .filter(AudioFile.vocab_item_id == item.id, AudioFile.source == "gemini")
         .first()
-    ) is not None
+    )
+    return row is not None and row.file_path.startswith(VOCAB_FILE_PREFIX)
 
 
 def _has_gemini_audio_story(db, slug: str) -> bool:
@@ -461,6 +490,239 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
     return generated, skipped, failed
 
 
+# ── batch API helpers ─────────────────────────────────────────────────────────
+
+def _submit_batch(client, genai_types, pending: list[dict]):
+    """
+    Submit a list of pending TTS requests to the Gemini Batch API.
+
+    Each item in *pending* must contain:
+      - ``text``     : fully-prompted text (system_prompt + content)
+      - ``voice``    : voice name for SpeechConfig
+      - ``filename`` : output filename – stored in metadata for correlation
+      - additional keys (e.g. ``dutch_word``, ``level``, ``slug``) also
+        stored in metadata so results can be written to DB without rebuilding
+        the original pending list.
+
+    Returns the submitted BatchJob.
+    """
+    gt = genai_types
+    inlined_requests = []
+    for item in pending:
+        # Store all fields except 'text' as string metadata
+        meta = {k: str(v) for k, v in item.items() if k != "text"}
+        inlined_requests.append(
+            gt.InlinedRequest(
+                contents=item["text"],
+                metadata=meta,
+                config=gt.GenerateContentConfig(
+                    response_modalities=["AUDIO"],
+                    speech_config=gt.SpeechConfig(
+                        voice_config=gt.VoiceConfig(
+                            prebuilt_voice_config=gt.PrebuiltVoiceConfig(
+                                voice_name=item["voice"]
+                            )
+                        )
+                    ),
+                ),
+            )
+        )
+
+    log.info("BATCH submitting %d request(s) …", len(inlined_requests))
+    job = client.batches.create(model=TTS_MODEL, src=inlined_requests)
+    log.info("BATCH job created: %s  state=%s", job.name, job.state.name)
+    return job
+
+
+def _poll_batch(client, job_name: str, poll_interval: int):
+    """
+    Poll *job_name* until it reaches a terminal state, then return the final BatchJob.
+
+    Logs state on every poll so the user can see progress without watching the
+    raw API calls.
+    """
+    job = client.batches.get(name=job_name)
+    while job.state.name not in TERMINAL_JOB_STATES:
+        log.info(
+            "BATCH %s — state=%s (checking again in %ds …)",
+            job_name, job.state.name, poll_interval,
+        )
+        time.sleep(poll_interval)
+        job = client.batches.get(name=job_name)
+    log.info("BATCH %s finished — state=%s", job_name, job.state.name)
+    return job
+
+
+def _ingest_batch_results(job, args, db, output_dir: Path) -> tuple[int, int]:
+    """
+    Save audio files and update the DB from a completed batch job.
+
+    Results are correlated back to individual items via the ``metadata`` dict
+    that was attached to each InlinedRequest at submission time.  The metadata
+    contains at minimum ``filename`` and ``voice``; vocabulary items also carry
+    ``dutch_word`` and ``level``; story items carry ``slug``.
+
+    Returns (generated, failed).
+    """
+    generated = failed = 0
+
+    responses = (job.dest.inlined_responses or []) if job.dest else []
+    if not responses:
+        log.warning(
+            "BATCH no inlined_responses in completed job %s (state=%s)",
+            job.name, job.state.name,
+        )
+        return 0, 0
+
+    for ir in responses:
+        meta = ir.metadata or {}
+        filename = meta.get("filename", "<unknown>")
+
+        if ir.error:
+            log.warning("FAIL  %s — batch error: %s", filename, ir.error)
+            failed += 1
+            continue
+
+        try:
+            wav_bytes = _extract_audio_from_response(ir.response)
+            mp3_bytes = wav_to_mp3_bytes(wav_bytes)
+            save_audio(mp3_bytes, output_dir / filename)
+            log.info("SAVED %s", filename)
+
+            if not args.no_db and db:
+                if "dutch_word" in meta:
+                    upsert_vocab_audio(
+                        db,
+                        meta["dutch_word"],
+                        meta["level"],
+                        filename,
+                        meta["voice"],
+                    )
+                elif "slug" in meta:
+                    upsert_story_audio(db, meta["slug"], filename)
+
+            generated += 1
+        except Exception as exc:
+            log.warning("FAIL  %s — %s: %s", filename, type(exc).__name__, exc)
+            failed += 1
+
+    return generated, failed
+
+
+# ── batch processing loops ────────────────────────────────────────────────────
+
+def process_vocabulary_batch(args, client, genai_types, db) -> tuple[int, int, int]:
+    """
+    Batch-mode vocabulary TTS: collect pending items, submit one batch job,
+    poll until done, then ingest all results.
+
+    Returns (generated, skipped, failed).
+    """
+    output_dir = Path(args.output_dir)
+    existing_mp3s = _existing_mp3s(output_dir, VOCAB_FILE_PREFIX)
+
+    items: list[tuple] = []
+    for input_path in args.input_files:
+        items.extend(load_vocabulary(input_path, args.level))
+    log.info("Vocabulary items to process: %d", len(items))
+
+    pending: list[dict] = []
+    skipped = 0
+    for dutch_word, article, plural, example_nl, level in items:
+        if args.max_items and len(pending) >= args.max_items:
+            break
+        filename = vocab_filename(dutch_word, level)
+        if not args.force:
+            if db and _has_gemini_audio_vocab(db, dutch_word, level):
+                log.info("SKIP  %s (gemini audio already in DB)", filename)
+                skipped += 1
+                continue
+            if filename in existing_mp3s:
+                log.info("SKIP  %s (file exists)", filename)
+                skipped += 1
+                continue
+
+        word_with_article = f"{article} {dutch_word}".strip() if article else dutch_word
+        word_part = f"{word_with_article}, {plural}" if plural else word_with_article
+        text = f"{word_part}. {example_nl}" if example_nl else word_part
+        pending.append({
+            "text": f"{VOCAB_SYSTEM_PROMPT}\n\n{text}",
+            "voice": VOICE_VOCAB,
+            "filename": filename,
+            "dutch_word": dutch_word,
+            "level": level,
+        })
+
+    if args.dry_run:
+        for p in pending:
+            log.info("DRY   %s", p["filename"])
+        log.info("DRY   Would submit %d item(s) as a single batch job", len(pending))
+        return len(pending), skipped, 0
+
+    if not pending:
+        log.info("Nothing to submit — all items already generated.")
+        return 0, skipped, 0
+
+    job = _submit_batch(client, genai_types, pending)
+    job = _poll_batch(client, job.name, args.poll_interval)
+    gen, fail = _ingest_batch_results(job, args, db, output_dir)
+    return gen, skipped, fail
+
+
+def process_stories_batch(args, client, genai_types, db) -> tuple[int, int, int]:
+    """
+    Batch-mode story TTS: collect pending items, submit one batch job,
+    poll until done, then ingest all results.
+
+    Returns (generated, skipped, failed).
+    """
+    output_dir = Path(args.output_dir)
+    existing_mp3s = _existing_mp3s(output_dir, STORY_FILE_PREFIX)
+
+    items: list[tuple] = []
+    for input_path in args.input_files:
+        items.extend(load_stories(input_path, args.level))
+    log.info("Stories to process: %d", len(items))
+
+    pending: list[dict] = []
+    skipped = 0
+    for slug, content_nl, level in items:
+        if args.max_items and len(pending) >= args.max_items:
+            break
+        filename = story_filename(slug)
+        if not args.force:
+            if db and _has_gemini_audio_story(db, slug):
+                log.info("SKIP  %s (gemini audio already in DB)", filename)
+                skipped += 1
+                continue
+            if filename in existing_mp3s:
+                log.info("SKIP  %s (file exists)", filename)
+                skipped += 1
+                continue
+
+        pending.append({
+            "text": f"{STORY_SYSTEM_PROMPT}\n\n{content_nl}",
+            "voice": VOICE_STORY,
+            "filename": filename,
+            "slug": slug,
+        })
+
+    if args.dry_run:
+        for p in pending:
+            log.info("DRY   %s  ← slug=%r", p["filename"], p.get("slug"))
+        log.info("DRY   Would submit %d item(s) as a single batch job", len(pending))
+        return len(pending), skipped, 0
+
+    if not pending:
+        log.info("Nothing to submit — all items already generated.")
+        return 0, skipped, 0
+
+    job = _submit_batch(client, genai_types, pending)
+    job = _poll_batch(client, job.name, args.poll_interval)
+    gen, fail = _ingest_batch_results(job, args, db, output_dir)
+    return gen, skipped, fail
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def parse_args() -> argparse.Namespace:
@@ -495,7 +757,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--delay",
         type=float,
-        default=1.0,
+        default=10.0,
         metavar="SECONDS",
         help="Seconds to sleep between API calls (default: 1.0)",
     )
@@ -514,11 +776,48 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Re-generate even if the output file already exists",
     )
+    parser.add_argument(
+        "--batch",
+        action="store_true",
+        help="Submit all pending items as a single Gemini Batch API job (cheaper, async)",
+    )
+    parser.add_argument(
+        "--job-name",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Resume polling an already-submitted batch job and ingest its results. "
+            "Example: batches/abc123.  --type is still required to locate the output dir."
+        ),
+    )
+    parser.add_argument(
+        "--poll-interval",
+        type=int,
+        default=60,
+        metavar="SECONDS",
+        help="Seconds between batch job status polls (default: 60)",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+
+    # --job-name: resume polling an already-submitted batch; input files not needed
+    if args.job_name:
+        Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+        client, genai_types = _build_client()
+        db = None if args.no_db else SessionLocal()
+        try:
+            job = _poll_batch(client, args.job_name, args.poll_interval)
+            gen, fail = _ingest_batch_results(job, args, db, Path(args.output_dir))
+        finally:
+            if db:
+                db.close()
+        log.info("Done. generated=%d  failed=%d", gen, fail)
+        if fail:
+            sys.exit(1)
+        return
 
     args.input_files = resolve_input_files(args.content_type, args.level)
     if not args.input_files:
@@ -544,10 +843,16 @@ def main() -> None:
     db = None if args.no_db else SessionLocal()
 
     try:
-        if args.content_type == "vocabulary":
-            gen, skip, fail = process_vocabulary(args, client, genai_types, db)
+        if args.batch:
+            if args.content_type == "vocabulary":
+                gen, skip, fail = process_vocabulary_batch(args, client, genai_types, db)
+            else:
+                gen, skip, fail = process_stories_batch(args, client, genai_types, db)
         else:
-            gen, skip, fail = process_stories(args, client, genai_types, db)
+            if args.content_type == "vocabulary":
+                gen, skip, fail = process_vocabulary(args, client, genai_types, db)
+            else:
+                gen, skip, fail = process_stories(args, client, genai_types, db)
     finally:
         if db:
             db.close()

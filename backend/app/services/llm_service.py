@@ -1,9 +1,9 @@
 """
-LLM service — Ollama local primary, remote API fallback.
+LLM service — Ollama local primary, Gemini remote fallback.
 System instructions are in English; Dutch and Spanish are used for content details.
 """
+import asyncio
 import logging
-from typing import Any
 
 import httpx
 
@@ -35,31 +35,39 @@ async def _call_ollama(messages: list[dict[str, str]], model: str) -> str:
         return data["message"]["content"]
 
 
-def _remote_model_for(provider: str) -> str:
-    if provider == "gemini":
-        return settings.GEMINI_MODEL
-    return settings.REMOTE_MODEL
+async def _call_gemini(messages: list[dict[str, str]]) -> str:
+    """Call Gemini via google-genai SDK (async wrapper around the sync client)."""
+    from google import genai
+    from google.genai import types as gt
 
+    if not settings.GEMINI_API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is not set")
 
-async def _call_litellm(messages: list[dict[str, str]], provider_override: str | None = None) -> str:
-    import litellm  # lazy import so missing key doesn't crash at startup
+    # Strip litellm-style prefix if present (e.g. 'gemini/gemini-2.0-flash')
+    raw_model = settings.GEMINI_MODEL
+    model = raw_model.split("/", 1)[-1] if "/" in raw_model else raw_model
 
-    provider = provider_override or settings.LLM_PROVIDER
-    model = _remote_model_for(provider)
+    client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-    # Set appropriate API key
-    kwargs: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.7}
-    if provider == "openai" and settings.OPENAI_API_KEY:
-        kwargs["api_key"] = settings.OPENAI_API_KEY
-    elif provider == "anthropic" and settings.ANTHROPIC_API_KEY:
-        kwargs["api_key"] = settings.ANTHROPIC_API_KEY
-    elif provider == "mistral" and settings.MISTRAL_API_KEY:
-        kwargs["api_key"] = settings.MISTRAL_API_KEY
-    elif provider == "gemini" and settings.GEMINI_API_KEY:
-        kwargs["api_key"] = settings.GEMINI_API_KEY
+    # Convert OpenAI-style message list to a single prompt string.
+    # System messages are prepended; user/assistant turns are joined.
+    parts: list[str] = []
+    for msg in messages:
+        role = msg.get("role", "user")
+        content = msg.get("content", "")
+        if role == "system":
+            parts.insert(0, content)
+        else:
+            parts.append(content)
+    prompt = "\n\n".join(parts)
 
-    response = await litellm.acompletion(**kwargs)
-    return response.choices[0].message.content
+    response = await asyncio.to_thread(
+        client.models.generate_content,
+        model=model,
+        contents=prompt,
+        config=gt.GenerateContentConfig(temperature=0.7),
+    )
+    return response.candidates[0].content.parts[0].text
 
 
 async def chat_completion(
@@ -75,13 +83,12 @@ async def chat_completion(
         if provider == "ollama":
             return await _call_ollama(messages, settings.OLLAMA_MODEL)
         else:
-            return await _call_litellm(messages, provider_override=provider)
+            return await _call_gemini(messages)
     except Exception as primary_err:
         logger.warning("Primary LLM failed (%s), trying fallback: %s", provider, primary_err)
-        # If Ollama fails, try remote; if remote fails, try Ollama
         try:
             if provider == "ollama":
-                return await _call_litellm(messages)
+                return await _call_gemini(messages)
             else:
                 return await _call_ollama(messages, settings.OLLAMA_MODEL)
         except Exception as fallback_err:
