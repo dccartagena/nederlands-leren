@@ -21,6 +21,9 @@ DATA_DIR = settings.DATA_DIR
 def seed_vocabulary(db):
     count = 0
     for json_file in (DATA_DIR / "vocabulary").glob("*.json"):
+        if json_file.stat().st_size == 0:
+            print(f"  Skipping empty file: {json_file.name}")
+            continue
         with open(json_file) as f:
             words = json.load(f)
         for w in words:
@@ -37,28 +40,12 @@ def seed_vocabulary(db):
     db.commit()
     print(f"  Vocabulary: {count} new items seeded")
 
-
-def seed_grammar(db):
-    count = 0
-    for json_file in (DATA_DIR / "grammar").glob("*.json"):
-        with open(json_file) as f:
-            topics = json.load(f)
-        for t in topics:
-            existing = db.query(models.GrammarTopic).filter_by(slug=t["slug"]).first()
-            if not existing:
-                topic = models.GrammarTopic(**{
-                    k: v for k, v in t.items()
-                    if hasattr(models.GrammarTopic, k)
-                })
-                db.add(topic)
-                count += 1
-    db.commit()
-    print(f"  Grammar: {count} new topics seeded")
-
-
 def seed_stories(db):
     count = 0
     for json_file in (DATA_DIR / "stories").glob("*.json"):
+        if json_file.stat().st_size == 0:
+            print(f"  Skipping empty file: {json_file.name}")
+            continue
         with open(json_file) as f:
             stories = json.load(f)
         for s in stories:
@@ -81,7 +68,6 @@ def main():
     db = SessionLocal()
     try:
         seed_vocabulary(db)
-        seed_grammar(db)
         seed_stories(db)
         print("Done.")
     finally:
