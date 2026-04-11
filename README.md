@@ -11,7 +11,7 @@ The interface and all explanations are in **Spanish** — aimed at Spanish speak
 - **Spaced repetition** with the [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki) — cards schedule themselves
 - **LLM integration**: grammar explanations, real-time wrong-answer feedback (Multiple Choice), dynamic exercise generation, and Dutch conversation chat
 - **Multi-provider AI**: Ollama (local, primary), OpenAI, Anthropic, Mistral, and Gemini — switchable per chat session; app falls back gracefully when no LLM is available
-- **Audio**: gTTS synthesis fallback; Tatoeba / Common Voice downloads for native speech
+- **Audio**: gTTS synthesis fallback; Tatoeba / Common Voice downloads for native speech; **Gemini 2.5 Flash TTS** for high-quality Dutch audio with a Northern Dutch regional accent
 - **Dark mode** support throughout the UI
 - **Rate limiting** on all LLM and content-generation endpoints (slowapi)
 - Single-user — no authentication needed; progress persists in SQLite (dev) or PostgreSQL (prod)
@@ -48,6 +48,7 @@ nederlands-leren/
 │   ├── scripts/
 │   │   ├── seed_content.py      # Populate DB from data/ JSON files
 │   │   ├── download_audio.py    # Generate gTTS audio for all vocab
+│   │   ├── gemini_tts.py        # Generate high-quality audio via Gemini 2.5 Flash TTS
 │   │   └── populate_images.py   # Fetch CC0 images from Pixabay → image_url
 │   ├── pyproject.toml         # ruff, mypy, bandit, pytest, coverage config
 │   ├── requirements.txt
@@ -119,8 +120,16 @@ uv pip install -r requirements.txt
 # Seed the database (first run)
 python scripts/seed_content.py
 
-# Generate gTTS audio files
+# Generate gTTS audio files (fallback, no API key required)
 python scripts/download_audio.py
+
+# Generate high-quality audio via Gemini TTS (Northern Dutch accent)
+# Requires GEMINI_API_KEY and GEMINI_TTS_MODEL in .env — see Configuration
+# Skips items already generated; resume-safe across runs
+python scripts/gemini_tts.py --type vocabulary
+python scripts/gemini_tts.py --type stories
+# Filter by level or smoke-test with --max-items
+python scripts/gemini_tts.py --type vocabulary --level a0 --max-items 5
 
 # Populate vocabulary images via Pixabay (requires free API key)
 # Set PIXABAY_API_KEY in backend/.env first — see .env.example
@@ -143,6 +152,49 @@ npm run dev
 ```
 
 The Vite dev server proxies `/api` and `/audio` to `localhost:8000` automatically.
+
+---
+
+## Gemini TTS Audio Generation
+
+`backend/scripts/gemini_tts.py` generates Dutch audio using `gemini-2.5-flash-preview-tts` with a **Northern Dutch regional accent**, replacing the gTTS fallback entries in the database.
+
+### Prerequisites
+
+- `GEMINI_API_KEY` set in `backend/.env`
+- `GEMINI_TTS_MODEL=gemini-2.5-flash-preview-tts` set in `backend/.env` (default)
+- `google-genai>=1.10.0` — already in `requirements.txt`
+
+### Usage
+
+```bash
+# Dry-run — preview what would be generated without writing files or touching the DB
+python scripts/gemini_tts.py --type vocabulary --dry-run
+
+# Generate vocabulary audio for all levels
+python scripts/gemini_tts.py --type vocabulary
+
+# Generate story audio for A0 only
+python scripts/gemini_tts.py --type stories --level a0
+
+# Limit to 5 items (useful for smoke-testing)
+python scripts/gemini_tts.py --type vocabulary --level a0 --max-items 5
+
+# Re-generate even if audio already exists (overwrite)
+python scripts/gemini_tts.py --type vocabulary --force
+
+# Write files but do not update the database
+python scripts/gemini_tts.py --type stories --no-db
+```
+
+### Voices & Prompts
+
+| Content type | Voice | Style |
+|---|---|---|
+| Vocabulary | `Charon` | Clear, steady; 0.85× speed; 1.5 s pause between entries; Northern Dutch G/ch articulation |
+| Stories | `Aoede` | Expressive; variable pacing; natural pauses after commas (0.5 s) and paragraphs (1.2 s) |
+
+Output files are saved as WAV (`gemini_<word>_<level>.wav` / `gemini_<slug>.wav`) in `AUDIO_DIR` and the database is updated to point to the new files.
 
 ---
 
@@ -190,7 +242,8 @@ All settings are in `backend/app/core/config.py` and read from environment varia
 | `OPENAI_API_KEY` | _(empty)_ | Used when provider is `openai` |
 | `ANTHROPIC_API_KEY` | _(empty)_ | Used when provider is `anthropic` |
 | `MISTRAL_API_KEY` | _(empty)_ | Used when provider is `mistral` |
-| `GEMINI_API_KEY` | _(empty)_ | Used when provider is `gemini` |
+| `GEMINI_API_KEY` | _(empty)_ | Used when LLM provider is `gemini`; also authenticates `gemini_tts.py` |
+| `GEMINI_TTS_MODEL` | `gemini-2.5-flash-preview-tts` | TTS model used by `gemini_tts.py` |
 | `REMOTE_MODEL` | `gpt-4o-mini` | Model name for remote providers |
 | `GEMINI_MODEL` | `gemini/gemini-2.0-flash` | Model name used when provider is `gemini` |
 | `PIXABAY_API_KEY` | _(empty)_ | Free key from [pixabay.com/api/docs](https://pixabay.com/api/docs/) — used by `populate_images.py` |
@@ -443,8 +496,16 @@ uv pip install -r requirements.txt
 # Seed the database (first run)
 python scripts/seed_content.py
 
-# Generate gTTS audio files
+# Generate gTTS audio files (fallback, no API key required)
 python scripts/download_audio.py
+
+# Generate high-quality audio via Gemini TTS (Northern Dutch accent)
+# Requires GEMINI_API_KEY and GEMINI_TTS_MODEL in .env — see Configuration
+# Skips items already generated; resume-safe across runs
+python scripts/gemini_tts.py --type vocabulary
+python scripts/gemini_tts.py --type stories
+# Filter by level or smoke-test with --max-items
+python scripts/gemini_tts.py --type vocabulary --level a0 --max-items 5
 
 # Populate vocabulary images via Pixabay (requires free API key)
 # Set PIXABAY_API_KEY in backend/.env first — see .env.example
@@ -513,7 +574,8 @@ All settings are in `backend/app/core/config.py` and read from environment varia
 | `OPENAI_API_KEY` | _(empty)_ | Used when provider is `openai` |
 | `ANTHROPIC_API_KEY` | _(empty)_ | Used when provider is `anthropic` |
 | `MISTRAL_API_KEY` | _(empty)_ | Used when provider is `mistral` |
-| `GEMINI_API_KEY` | _(empty)_ | Used when provider is `gemini` |
+| `GEMINI_API_KEY` | _(empty)_ | Used when LLM provider is `gemini`; also authenticates `gemini_tts.py` |
+| `GEMINI_TTS_MODEL` | `gemini-2.5-flash-preview-tts` | TTS model used by `gemini_tts.py` |
 | `REMOTE_MODEL` | `gpt-4o-mini` | Model name for remote providers |
 | `GEMINI_MODEL` | `gemini/gemini-2.0-flash` | Model name used when provider is `gemini` |
 | `PIXABAY_API_KEY` | _(empty)_ | Free key from [pixabay.com/api/docs](https://pixabay.com/api/docs/) — used by `populate_images.py` |

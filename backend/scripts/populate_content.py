@@ -82,6 +82,15 @@ def _load_story_titles(path: Path) -> dict[tuple[str, str], tuple[str, str]]:
     return result
 
 
+def _load_grammar_topics(path: Path) -> dict[str, list[dict[str, Any]]]:
+    """Load grammar_topics.json, returning a dict keyed by level."""
+    if not path.exists():
+        logger.warning("Grammar topics file not found: %s — grammar generation skipped", path)
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
 # ---------------------------------------------------------------------------
 # Required-field validators
 # ---------------------------------------------------------------------------
@@ -110,6 +119,14 @@ def _validate_story(story: dict[str, Any]) -> list[str]:
     return [f for f in _STORY_REQUIRED if not item_has(story, f)]
 
 
+_GRAMMAR_REQUIRED = {"slug", "name_nl", "name_es", "level", "description_es", "examples_json"}
+
+
+def _validate_grammar_topic(topic: dict[str, Any]) -> list[str]:
+    """Return a list of missing required fields for a grammar topic."""
+    return [f for f in _GRAMMAR_REQUIRED if not item_has(topic, f)]
+
+
 # ---------------------------------------------------------------------------
 # File I/O helpers
 # ---------------------------------------------------------------------------
@@ -117,7 +134,10 @@ def _validate_story(story: dict[str, Any]) -> list[str]:
 def _load_json_file(path: Path) -> list[dict[str, Any]]:
     if path.exists():
         with open(path, encoding="utf-8") as f:
-            data = json.load(f)
+            content = f.read().strip()
+        if not content:
+            return []
+        data = json.loads(content)
         return data if isinstance(data, list) else []
     return []
 
@@ -214,6 +234,17 @@ def _upsert_story(story: dict[str, Any], db) -> bool:
     return True
 
 
+def _upsert_grammar_topic(topic: dict[str, Any], db) -> bool:
+    exists = db.query(models.GrammarTopic).filter_by(slug=topic.get("slug")).first()
+    if exists:
+        return False
+    db.add(models.GrammarTopic(**{
+        k: v for k, v in topic.items() if hasattr(models.GrammarTopic, k)
+    }))
+    db.commit()
+    return True
+
+
 # ---------------------------------------------------------------------------
 # Async populate functions
 # ---------------------------------------------------------------------------
@@ -225,8 +256,10 @@ async def populate_vocabulary(
     no_seed: bool,
     db,
     api_delay: float = 1.0,
+    themes: list[str] | None = None,
 ) -> dict[str, int]:
-    themes = THEMES_BY_LEVEL.get(level, [])
+    if themes is None:
+        themes = THEMES_BY_LEVEL.get(level, [])
     json_path = settings.DATA_DIR / "vocabulary" / f"{level}_words.json"
     existing = _load_json_file(json_path)
     existing_keys = {(w["dutch_word"], w["level"]) for w in existing if "dutch_word" in w and "level" in w}
@@ -284,35 +317,114 @@ async def populate_stories(
     db,
     api_delay: float = 1.0,
     story_titles: dict[tuple[str, str], tuple[str, str]] | None = None,
+    story_count: int = 1,
 ) -> dict[str, int]:
-    themes = THEMES_BY_LEVEL.get(level, [])
+    titles_map = story_titles or {}
+    themes = [theme for (lvl, theme) in titles_map if lvl == level] or THEMES_BY_LEVEL.get(level, [])
     json_path = settings.DATA_DIR / "stories" / f"{level}_stories.json"
     existing = _load_json_file(json_path)
     existing_slugs = {s["slug"] for s in existing if "slug" in s}
 
     generated = invalid = skipped = saved = 0
 
-    titles_lookup = story_titles or {}
+    # Count existing stories per theme to produce unique slugs on repeated runs.
+    theme_counts: dict[str, int] = {}
+    for s in existing:
+        t = s.get("theme", "")
+        theme_counts[t] = theme_counts.get(t, 0) + 1
+
+    titles_lookup = titles_map
     for theme in themes:
-        slug = f"{level}-{theme}"
-        title_nl, title_es = titles_lookup.get(
-            (level, theme),
-            (f"Verhaal: {theme}", f"Historia: {theme}"),
-        )
-        logger.info("  [stories] level=%s theme=%s (slug=%s) — generating …", level, theme, slug)
+        for _story_n in range(story_count):
+            # First story keeps the plain slug; subsequent ones get a numeric suffix.
+            base_slug = f"{level}-{theme}"
+            count = theme_counts.get(theme, 0)
+            slug = base_slug if count == 0 else f"{base_slug}-{count + 1}"
+            # Use the title hint only for the first story to encourage variety.
+            if count == 0:
+                title_nl, title_es = titles_lookup.get(
+                    (level, theme),
+                    (f"Verhaal: {theme}", f"Historia: {theme}"),
+                )
+            else:
+                title_nl, title_es = None, None
+            logger.info("  [stories] level=%s theme=%s (slug=%s) — generating …", level, theme, slug)
+            try:
+                story = await content_generator.generate_story(level, theme, title_nl, title_es, slug)
+            except Exception as exc:
+                logger.error("  [stories] level=%s theme=%s — generation failed: %s", level, theme, exc)
+                await asyncio.sleep(1.0)
+                continue
+
+            generated += 1
+
+            missing = _validate_story(story)
+            if missing:
+                logger.warning(
+                    "  [stories] Skipping story slug=%s (missing fields: %s)",
+                    slug,
+                    missing,
+                )
+                invalid += 1
+                await asyncio.sleep(1.0)
+                continue
+
+            if story["slug"] in existing_slugs:
+                skipped += 1
+                await asyncio.sleep(1.0)
+                continue
+
+            if not dry_run:
+                existing.append(story)
+                theme_counts[theme] = theme_counts.get(theme, 0) + 1
+                _save_json_file(json_path, existing)
+                existing_slugs.add(story["slug"])
+                if not no_seed:
+                    if _upsert_story(story, db):
+                        saved += 1
+
+            await asyncio.sleep(api_delay)
+
+    return {"generated": generated, "invalid": invalid, "skipped": skipped, "saved": saved}
+
+
+async def populate_grammar(
+    level: str,
+    topics: list[dict[str, Any]],
+    dry_run: bool,
+    no_seed: bool,
+    db,
+    api_delay: float = 1.0,
+) -> dict[str, int]:
+    json_path = settings.DATA_DIR / "grammar" / f"{level}_grammar.json"
+    existing = _load_json_file(json_path)
+    existing_slugs = {t["slug"] for t in existing if "slug" in t}
+
+    generated = invalid = skipped = saved = 0
+
+    for topic in topics:
+        slug = topic.get("slug", "")
+        if slug in existing_slugs:
+            skipped += 1
+            continue
+
+        logger.info("  [grammar] level=%s slug=%s — generating …", level, slug)
         try:
-            story = await content_generator.generate_story(level, theme, title_nl, title_es, slug)
+            result = await content_generator.generate_grammar_topic(
+                level, topic["name_es"], topic["name_nl"], slug
+            )
         except Exception as exc:
-            logger.error("  [stories] level=%s theme=%s — generation failed: %s", level, theme, exc)
+            logger.error("  [grammar] level=%s slug=%s — generation failed: %s", level, slug, exc)
             await asyncio.sleep(1.0)
             continue
 
         generated += 1
+        result["level"] = level  # ensure level is set
 
-        missing = _validate_story(story)
+        missing = _validate_grammar_topic(result)
         if missing:
             logger.warning(
-                "  [stories] Skipping story slug=%s (missing fields: %s)",
+                "  [grammar] Skipping slug=%s (missing fields: %s)",
                 slug,
                 missing,
             )
@@ -320,17 +432,12 @@ async def populate_stories(
             await asyncio.sleep(1.0)
             continue
 
-        if story["slug"] in existing_slugs:
-            skipped += 1
-            await asyncio.sleep(1.0)
-            continue
-
         if not dry_run:
-            existing.append(story)
+            existing.append(result)
             _save_json_file(json_path, existing)
-            existing_slugs.add(story["slug"])
+            existing_slugs.add(slug)
             if not no_seed:
-                if _upsert_story(story, db):
+                if _upsert_grammar_topic(result, db):
                     saved += 1
 
         await asyncio.sleep(api_delay)
@@ -377,9 +484,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--types",
         nargs="+",
-        choices=["vocab", "stories"],
+        choices=["vocab", "stories", "grammar"],
         metavar="TYPE",
-        help="Content types to generate: vocab, stories (required unless --dedupe is set)",
+        help="Content types to generate: vocab, stories, grammar (required unless --dedupe is set)",
     )
     parser.add_argument(
         "--dedupe",
@@ -394,6 +501,19 @@ def _parse_args() -> argparse.Namespace:
         type=int,
         metavar="N",
         help="Number of vocabulary words to generate per theme",
+    )
+    parser.add_argument(
+        "--story-count",
+        type=int,
+        metavar="N",
+        help="Number of stories to generate per theme (default: 1)",
+    )
+    parser.add_argument(
+        "--grammar-topics",
+        type=Path,
+        default=None,
+        metavar="PATH",
+        help="Path to grammar_topics.json (default: DATA_DIR/grammar_topics.json)",
     )
     parser.add_argument(
         "--api-delay",
@@ -422,6 +542,7 @@ def _parse_args() -> argparse.Namespace:
     # Apply config file values as defaults (CLI args override these).
     parser.set_defaults(
         vocab_count=cfg.get("vocab_count", 10),
+        story_count=cfg.get("story_count", 1),
         api_delay=cfg.get("api_delay_seconds", 1.0),
     )
 
@@ -439,6 +560,9 @@ async def main() -> None:
 
     story_titles_path: Path = args.story_titles or (settings.DATA_DIR / "story_titles.json")
     story_titles = _load_story_titles(story_titles_path)
+
+    grammar_topics_path: Path = args.grammar_topics or (settings.DATA_DIR / "grammar_topics.json")
+    grammar_topics = _load_grammar_topics(grammar_topics_path)
 
     models.Base.metadata.create_all(bind=engine)
     db = SessionLocal()
@@ -491,9 +615,24 @@ async def main() -> None:
             summary[level] = {}
 
             if "vocab" in args.types:
+                # story_titles and grammar_topics complement each other:
+                # story themes cover communicative topics, grammar slugs cover
+                # structural/linguistic themes — vocab should span both.
+                story_theme_list = [theme for (lvl, theme) in story_titles if lvl == level]
+                grammar_slug_list = [t["slug"] for t in grammar_topics.get(level, [])]
+                # Merge without duplicates, preserving order.
+                seen_themes: set[str] = set()
+                vocab_themes: list[str] = []
+                for t in story_theme_list + grammar_slug_list:
+                    if t not in seen_themes:
+                        seen_themes.add(t)
+                        vocab_themes.append(t)
+                if not vocab_themes:
+                    vocab_themes = THEMES_BY_LEVEL.get(level, [])
                 summary[level]["vocab"] = await populate_vocabulary(
                     level, args.vocab_count, args.dry_run, args.no_seed, db,
                     api_delay=api_delay,
+                    themes=vocab_themes,
                 )
 
             if "stories" in args.types:
@@ -501,6 +640,14 @@ async def main() -> None:
                     level, args.dry_run, args.no_seed, db,
                     api_delay=api_delay,
                     story_titles=story_titles,
+                    story_count=args.story_count,
+                )
+
+            if "grammar" in args.types:
+                topics = grammar_topics.get(level, [])
+                summary[level]["grammar"] = await populate_grammar(
+                    level, topics, args.dry_run, args.no_seed, db,
+                    api_delay=api_delay,
                 )
     finally:
         db.close()

@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
     MISTRAL_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
+    GEMINI_TTS_MODEL: str = "gemini-2.5-flash-preview-tts"
     REMOTE_MODEL: str = "gpt-4o-mini"
     GEMINI_MODEL: str = "gemini/gemini-2.0-flash"
 
