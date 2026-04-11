@@ -18,17 +18,13 @@ class Settings(BaseSettings):
     AUDIO_DIR: Path = REPO_ROOT / "data" / "audio"
     DATA_DIR: Path = REPO_ROOT / "data"
 
-    # LLM — Ollama local is primary; remote key is optional fallback
-    LLM_PROVIDER: str = "ollama"  # "ollama" | "openai" | "anthropic" | "mistral" | "gemini"
+    # LLM — Ollama local is primary; Gemini is remote fallback
+    LLM_PROVIDER: str = "ollama"  # "ollama" | "gemini"
     OLLAMA_BASE_URL: str = "http://ollama:11434"
     OLLAMA_MODEL: str = "mistral:7b-instruct-q4_K_M"
-    OPENAI_API_KEY: str = ""
-    ANTHROPIC_API_KEY: str = ""
-    MISTRAL_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
-    GEMINI_TTS_MODEL: str = "gemini-2.5-flash-preview-tts"
-    REMOTE_MODEL: str = "gpt-4o-mini"
     GEMINI_MODEL: str = "gemini/gemini-2.0-flash"
+    GEMINI_TTS_MODEL: str = "gemini-2.5-flash-preview-tts"
 
     # Images
     PIXABAY_API_KEY: str = ""

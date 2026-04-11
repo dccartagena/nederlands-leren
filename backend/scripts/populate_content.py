@@ -31,6 +31,7 @@ import asyncio
 import json
 import logging
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -53,6 +54,287 @@ logger = logging.getLogger(__name__)
 VALID_LEVELS = ["a0", "a1", "a2", "b1", "b2"]
 
 _DEFAULT_CONFIG_PATH = Path(__file__).parent / "populate_config.json"
+
+# Gemini Batch API terminal states (same set as gemini_tts.py)
+_TERMINAL_JOB_STATES = {
+    "JOB_STATE_SUCCEEDED",
+    "JOB_STATE_FAILED",
+    "JOB_STATE_CANCELLED",
+    "JOB_STATE_PARTIALLY_SUCCEEDED",
+    "JOB_STATE_EXPIRED",
+}
+
+
+# ---------------------------------------------------------------------------
+# Gemini Batch API helpers
+# ---------------------------------------------------------------------------
+
+def _build_gemini_client():
+    """Return a configured google-genai client. Fails fast if key is missing."""
+    api_key = settings.GEMINI_API_KEY
+    if not api_key:
+        logger.error("GEMINI_API_KEY is not set — batch mode requires the Gemini provider")
+        sys.exit(1)
+    try:
+        from google import genai
+        from google.genai import types as gt
+    except ImportError:
+        logger.error("google-genai is not installed. Run: pip install google-genai>=1.10.0")
+        sys.exit(1)
+    # Strip litellm prefix (e.g. 'gemini/gemini-2.0-flash' → 'gemini-2.0-flash')
+    raw_model = settings.GEMINI_MODEL
+    model = raw_model.split("/", 1)[-1] if "/" in raw_model else raw_model
+    return genai.Client(api_key=api_key), gt, model
+
+
+def _build_vocab_prompt(level: str, theme: str, count: int) -> str:
+    """Build the vocabulary generation prompt (mirrors content_generator.generate_vocabulary)."""
+    from app.services.content_generator import LEVEL_DESCRIPTIONS
+    level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
+    return (
+        f"Generate {count} Dutch words for level {level.upper()} ({level_desc}), "
+        f"theme '{theme}'.\n"
+        "Return ONLY a valid JSON array with this exact schema (no additional text):\n"
+        "[\n"
+        "  {\n"
+        '    "dutch_word": "hond",\n'
+        '    "english": "dog",\n'
+        '    "spanish": "perro",\n'
+        '    "article": "de",\n'
+        '    "plural": "honden",\n'
+        '    "word_type": "noun",\n'
+        f'    "level": "{level.lower()}",\n'
+        f'    "theme": "{theme}",\n'
+        '    "example_nl": "De hond loopt in het park.",\n'
+        '    "example_es": "El perro camina en el parque."\n'
+        "  }\n"
+        "]\n"
+        f'All items must have level="{level.lower()}" and theme="{theme}". '
+        "The 'article' field is 'de', 'het', or null for verbs/adverbs. "
+        "Examples must be simple sentences appropriate for the level."
+    )
+
+
+def _build_story_prompt(
+    level: str,
+    theme: str,
+    title_nl: str | None,
+    title_es: str | None,
+) -> str:
+    """Build the story generation prompt (mirrors content_generator.generate_story)."""
+    from app.services.content_generator import LEVEL_DESCRIPTIONS, _STORY_WORD_COUNTS
+    level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
+    title_hint = f"Título sugerido: '{title_nl}' / '{title_es}'." if title_nl else ""
+    word_count = _STORY_WORD_COUNTS.get(level.lower(), "100-150")
+    return (
+        f"Create a short story in Dutch for learners at level {level.upper()} ({level_desc}), "
+        f"theme '{theme}'. {title_hint}\n"
+        f"The story must be {word_count} words in Dutch, using vocabulary appropriate for the level.\n\n"
+        "Return ONLY a valid JSON object with this schema (no additional text):\n"
+        "{\n"
+        '  "slug": "...",\n'
+        '  "title_nl": "...",\n'
+        '  "title_es": "...",\n'
+        f'  "level": "{level.lower()}",\n'
+        f'  "theme": "{theme}",\n'
+        '  "content_nl": "Full story in Dutch...",\n'
+        '  "content_es": "Full Spanish translation...",\n'
+        '  "questions_json": [\n'
+        '    {\n'
+        '      "question_es": "Comprehension question in Spanish?",\n'
+        '      "options": ["Option A", "Option B", "Option C", "Option D"],\n'
+        '      "answer_index": 0,\n'
+        '      "explanation_es": "Explanation of the correct answer in Spanish."\n'
+        '    }\n'
+        '  ]\n'
+        "}\n"
+        "Include 3 comprehension questions. Use the 'slug' field based on the Dutch title "
+        "(lowercase, hyphens instead of spaces)."
+    )
+
+
+def _extract_text_from_response(response) -> str:
+    """Extract plain text from a GenerateContentResponse."""
+    return response.candidates[0].content.parts[0].text
+
+
+def _submit_text_batch(client, gt, model: str, requests: list[dict]):
+    """
+    Submit text generation requests to the Gemini Batch API.
+
+    Each item in *requests* must have:
+      - ``prompt``   : the text prompt
+      - ``metadata`` : dict[str, str] for correlation (all values must be strings)
+    """
+    inlined_requests = [
+        gt.InlinedRequest(
+            contents=req["prompt"],
+            metadata=req["metadata"],
+        )
+        for req in requests
+    ]
+    logger.info("BATCH submitting %d request(s) …", len(inlined_requests))
+    job = client.batches.create(model=model, src=inlined_requests)
+    logger.info("BATCH job created: %s  state=%s", job.name, job.state.name)
+    return job
+
+
+def _poll_batch(client, job_name: str, poll_interval: int):
+    """Poll *job_name* until terminal state, then return the final BatchJob."""
+    job = client.batches.get(name=job_name)
+    while job.state.name not in _TERMINAL_JOB_STATES:
+        logger.info(
+            "BATCH %s — state=%s (checking again in %ds …)",
+            job_name, job.state.name, poll_interval,
+        )
+        time.sleep(poll_interval)
+        job = client.batches.get(name=job_name)
+    logger.info("BATCH %s finished — state=%s", job_name, job.state.name)
+    return job
+
+
+def _ingest_batch_results(
+    job,
+    dry_run: bool,
+    no_seed: bool,
+    db,
+) -> dict[str, dict[str, dict[str, int]]]:
+    """
+    Parse and save all inlined_responses from a completed batch job.
+
+    Responses are correlated by the ``type``, ``level``, and ``theme`` metadata
+    fields attached at submission time. Returns a nested summary:
+      summary[level]["vocab" | "stories"] = {generated, invalid, skipped, saved}
+    """
+    responses = (job.dest.inlined_responses or []) if job.dest else []
+    if not responses:
+        logger.warning(
+            "BATCH no inlined_responses in completed job %s (state=%s)",
+            job.name, job.state.name,
+        )
+        return {}
+
+    # Group valid responses by level and content type.
+    grouped: dict[str, dict[str, list[tuple[dict, str]]]] = {}
+    for ir in responses:
+        meta = ir.metadata or {}
+        level = meta.get("level", "")
+        ctype = meta.get("type", "")
+
+        if ir.error:
+            logger.warning(
+                "FAIL  [%s/%s/%s] batch error: %s",
+                ctype, level, meta.get("theme"), ir.error,
+            )
+            continue
+
+        try:
+            text = _extract_text_from_response(ir.response)
+        except Exception as exc:
+            logger.warning(
+                "FAIL  [%s/%s/%s] extract text: %s",
+                ctype, level, meta.get("theme"), exc,
+            )
+            continue
+
+        grouped.setdefault(level, {"vocab": [], "story": []})
+        if ctype in ("vocab", "story"):
+            grouped[level][ctype].append((meta, text))
+
+    summary: dict[str, dict[str, dict[str, int]]] = {}
+
+    for level, types in sorted(grouped.items()):
+        summary[level] = {}
+
+        # ── vocabulary ────────────────────────────────────────────────────
+        if types["vocab"]:
+            json_path = settings.DATA_DIR / "vocabulary" / f"{level}_words.json"
+            existing = _load_json_file(json_path)
+            existing_keys = {
+                (w["dutch_word"], w["level"])
+                for w in existing
+                if "dutch_word" in w and "level" in w
+            }
+            gen = inv = skip = saved = 0
+
+            for meta, text in types["vocab"]:
+                items = content_generator._parse_json_list(text)
+                gen += len(items)
+                valid_items: list[dict[str, Any]] = []
+                for item in items:
+                    missing = _validate_vocabulary(item)
+                    if missing:
+                        logger.warning(
+                            "  [vocab] Skipping (missing: %s): %s",
+                            missing, str(item)[:80],
+                        )
+                        inv += 1
+                    else:
+                        valid_items.append(item)
+
+                new_items: list[dict[str, Any]] = []
+                for item in valid_items:
+                    key = (item["dutch_word"], item["level"])
+                    if key in existing_keys:
+                        skip += 1
+                    else:
+                        new_items.append(item)
+                        existing_keys.add(key)
+
+                if new_items and not dry_run:
+                    existing.extend(new_items)
+                    _save_json_file(json_path, existing)
+                    if not no_seed:
+                        saved += _upsert_vocabulary(new_items, db)
+
+            summary[level]["vocab"] = {"generated": gen, "invalid": inv, "skipped": skip, "saved": saved}
+
+        # ── stories ───────────────────────────────────────────────────────
+        if types["story"]:
+            json_path = settings.DATA_DIR / "stories" / f"{level}_stories.json"
+            existing = _load_json_file(json_path)
+            existing_slugs = {s["slug"] for s in existing if "slug" in s}
+            gen = inv = skip = saved = 0
+
+            for meta, text in types["story"]:
+                story = content_generator._parse_json_object(text)
+                if not story:
+                    logger.warning(
+                        "  [stories] Empty response for %s/%s",
+                        level, meta.get("theme"),
+                    )
+                    inv += 1
+                    continue
+
+                # Slug in metadata is authoritative (assigned at submission time).
+                slug = meta.get("slug", "")
+                if slug:
+                    story["slug"] = slug
+
+                missing = _validate_story(story)
+                if missing:
+                    logger.warning(
+                        "  [stories] Skipping slug=%s (missing: %s)", slug, missing,
+                    )
+                    inv += 1
+                    continue
+
+                gen += 1
+                if story["slug"] in existing_slugs:
+                    skip += 1
+                    continue
+
+                if not dry_run:
+                    existing.append(story)
+                    _save_json_file(json_path, existing)
+                    existing_slugs.add(story["slug"])
+                    if not no_seed:
+                        if _upsert_story(story, db):
+                            saved += 1
+
+            summary[level]["stories"] = {"generated": gen, "invalid": inv, "skipped": skip, "saved": saved}
+
+    return summary
 
 
 # ---------------------------------------------------------------------------
@@ -95,7 +377,7 @@ def _load_grammar_topics(path: Path) -> dict[str, list[dict[str, Any]]]:
 # Required-field validators
 # ---------------------------------------------------------------------------
 
-_VOCAB_REQUIRED = {"dutch_word", "spanish", "level", "theme", "word_type"}
+_VOCAB_REQUIRED = {"dutch_word", "english", "spanish", "word_type", "level", "theme", "example_nl", "example_es"}
 _STORY_REQUIRED = {"slug", "title_nl", "title_es", "level", "theme", "content_nl", "content_es", "questions_json"}
 
 
@@ -388,61 +670,137 @@ async def populate_stories(
     return {"generated": generated, "invalid": invalid, "skipped": skipped, "saved": saved}
 
 
-async def populate_grammar(
+# ---------------------------------------------------------------------------
+# Batch populate functions (Gemini Batch API)
+# ---------------------------------------------------------------------------
+
+async def populate_vocabulary_batch(
     level: str,
-    topics: list[dict[str, Any]],
+    count: int,
     dry_run: bool,
     no_seed: bool,
     db,
-    api_delay: float = 1.0,
+    poll_interval: int = 60,
+    themes: list[str] | None = None,
 ) -> dict[str, int]:
-    json_path = settings.DATA_DIR / "grammar" / f"{level}_grammar.json"
+    """
+    Batch-mode vocabulary generation: submit one Gemini Batch API job covering
+    all themes for this level, poll until done, then ingest results.
+
+    Returns the same {generated, invalid, skipped, saved} summary as
+    populate_vocabulary.
+    """
+    if themes is None:
+        themes = THEMES_BY_LEVEL.get(level, [])
+
+    requests: list[dict] = [
+        {
+            "prompt": _build_vocab_prompt(level, theme, count),
+            "metadata": {"type": "vocab", "level": level, "theme": theme},
+        }
+        for theme in themes
+    ]
+
+    if dry_run:
+        for r in requests:
+            logger.info(
+                "DRY   [vocab] level=%s theme=%s — would submit to batch",
+                level, r["metadata"]["theme"],
+            )
+        logger.info("DRY   Would submit %d vocab request(s) as a batch job", len(requests))
+        return {"generated": len(requests) * count, "invalid": 0, "skipped": 0, "saved": 0}
+
+    if not requests:
+        logger.info("[vocab] No themes to process for level=%s", level)
+        return {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0}
+
+    client, gt, model = _build_gemini_client()
+    job = _submit_text_batch(client, gt, model, requests)
+    job = _poll_batch(client, job.name, poll_interval)
+    results = _ingest_batch_results(job, dry_run, no_seed, db)
+    return results.get(level, {}).get("vocab", {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0})
+
+
+async def populate_stories_batch(
+    level: str,
+    dry_run: bool,
+    no_seed: bool,
+    db,
+    poll_interval: int = 60,
+    story_titles: dict[tuple[str, str], tuple[str, str]] | None = None,
+    story_count: int = 1,
+) -> dict[str, int]:
+    """
+    Batch-mode story generation: submit one Gemini Batch API job covering all
+    themes for this level, poll until done, then ingest results.
+
+    Returns the same {generated, invalid, skipped, saved} summary as
+    populate_stories.
+    """
+    titles_map = story_titles or {}
+    themes = [theme for (lvl, theme) in titles_map if lvl == level] or THEMES_BY_LEVEL.get(level, [])
+    json_path = settings.DATA_DIR / "stories" / f"{level}_stories.json"
     existing = _load_json_file(json_path)
-    existing_slugs = {t["slug"] for t in existing if "slug" in t}
+    existing_slugs = {s["slug"] for s in existing if "slug" in s}
 
-    generated = invalid = skipped = saved = 0
+    # Mirror the slug/title logic from populate_stories so metadata is accurate.
+    theme_counts: dict[str, int] = {}
+    for s in existing:
+        t = s.get("theme", "")
+        theme_counts[t] = theme_counts.get(t, 0) + 1
 
-    for topic in topics:
-        slug = topic.get("slug", "")
-        if slug in existing_slugs:
-            skipped += 1
-            continue
+    requests: list[dict] = []
+    for theme in themes:
+        for _ in range(story_count):
+            base_slug = f"{level}-{theme}"
+            count = theme_counts.get(theme, 0)
+            slug = base_slug if count == 0 else f"{base_slug}-{count + 1}"
 
-        logger.info("  [grammar] level=%s slug=%s — generating …", level, slug)
-        try:
-            result = await content_generator.generate_grammar_topic(
-                level, topic["name_es"], topic["name_nl"], slug
-            )
-        except Exception as exc:
-            logger.error("  [grammar] level=%s slug=%s — generation failed: %s", level, slug, exc)
-            await asyncio.sleep(1.0)
-            continue
+            if slug in existing_slugs:
+                logger.info("SKIP  [stories] level=%s slug=%s (already exists)", level, slug)
+                continue
 
-        generated += 1
-        result["level"] = level  # ensure level is set
+            if count == 0:
+                title_nl, title_es = titles_map.get(
+                    (level, theme),
+                    (f"Verhaal: {theme}", f"Historia: {theme}"),
+                )
+            else:
+                title_nl, title_es = None, None
 
-        missing = _validate_grammar_topic(result)
-        if missing:
-            logger.warning(
-                "  [grammar] Skipping slug=%s (missing fields: %s)",
-                slug,
-                missing,
-            )
-            invalid += 1
-            await asyncio.sleep(1.0)
-            continue
-
-        if not dry_run:
-            existing.append(result)
-            _save_json_file(json_path, existing)
+            requests.append({
+                "prompt": _build_story_prompt(level, theme, title_nl, title_es),
+                "metadata": {
+                    "type": "story",
+                    "level": level,
+                    "theme": theme,
+                    "slug": slug,
+                    "title_nl": title_nl or "",
+                    "title_es": title_es or "",
+                },
+            })
+            # Reserve slug so repeated story_count iterations get unique slugs.
+            theme_counts[theme] = theme_counts.get(theme, 0) + 1
             existing_slugs.add(slug)
-            if not no_seed:
-                if _upsert_grammar_topic(result, db):
-                    saved += 1
 
-        await asyncio.sleep(api_delay)
+    if dry_run:
+        for r in requests:
+            logger.info(
+                "DRY   [stories] level=%s slug=%s — would submit to batch",
+                level, r["metadata"]["slug"],
+            )
+        logger.info("DRY   Would submit %d story request(s) as a batch job", len(requests))
+        return {"generated": len(requests), "invalid": 0, "skipped": 0, "saved": 0}
 
-    return {"generated": generated, "invalid": invalid, "skipped": skipped, "saved": saved}
+    if not requests:
+        logger.info("[stories] No new stories to generate for level=%s", level)
+        return {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0}
+
+    client, gt, model = _build_gemini_client()
+    job = _submit_text_batch(client, gt, model, requests)
+    job = _poll_batch(client, job.name, poll_interval)
+    results = _ingest_batch_results(job, dry_run, no_seed, db)
+    return results.get(level, {}).get("stories", {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0})
 
 
 # ---------------------------------------------------------------------------
@@ -538,6 +896,27 @@ def _parse_args() -> argparse.Namespace:
         metavar="PATH",
         help="Path to story_titles.json (default: DATA_DIR/story_titles.json)",
     )
+    parser.add_argument(
+        "--batch",
+        action="store_true",
+        help="Submit all requests for each level as a Gemini Batch API job (requires Gemini provider)",
+    )
+    parser.add_argument(
+        "--job-name",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Resume polling an already-submitted batch job and ingest its results. "
+            "Example: batches/abc123. --levels is still required."
+        ),
+    )
+    parser.add_argument(
+        "--poll-interval",
+        type=int,
+        default=60,
+        metavar="SECONDS",
+        help="Seconds between batch job status polls (default: 60)",
+    )
 
     # Apply config file values as defaults (CLI args override these).
     parser.set_defaults(
@@ -547,8 +926,8 @@ def _parse_args() -> argparse.Namespace:
     )
 
     args = parser.parse_args()
-    if not args.dedupe and not args.types:
-        parser.error("--types is required unless --dedupe is set")
+    if not args.dedupe and not args.job_name and not args.types:
+        parser.error("--types is required unless --dedupe or --job-name is set")
     args._cfg = cfg
     return args
 
@@ -566,6 +945,31 @@ async def main() -> None:
 
     models.Base.metadata.create_all(bind=engine)
     db = SessionLocal()
+
+    # ------------------------------------------------------------------
+    # Job-resume mode: poll an existing batch and ingest results
+    # ------------------------------------------------------------------
+    if args.job_name:
+        client, gt, _model = _build_gemini_client()
+        try:
+            job = _poll_batch(client, args.job_name, args.poll_interval)
+            summary = _ingest_batch_results(job, args.dry_run, args.no_seed, db)
+        finally:
+            db.close()
+        print("\n" + "=" * 70)
+        print(f"{'Level':<6} {'Type':<10} {'Generated':>10} {'Invalid':>8} {'Skipped':>8} {'Saved':>7}")
+        print("-" * 70)
+        for level, types in summary.items():
+            for content_type, counts in types.items():
+                print(
+                    f"{level:<6} {content_type:<10} "
+                    f"{counts['generated']:>10} "
+                    f"{counts['invalid']:>8} "
+                    f"{counts['skipped']:>8} "
+                    f"{counts['saved']:>7}"
+                )
+        print("=" * 70)
+        return
 
     # ------------------------------------------------------------------
     # Dedupe-only mode
@@ -629,26 +1033,34 @@ async def main() -> None:
                         vocab_themes.append(t)
                 if not vocab_themes:
                     vocab_themes = THEMES_BY_LEVEL.get(level, [])
-                summary[level]["vocab"] = await populate_vocabulary(
-                    level, args.vocab_count, args.dry_run, args.no_seed, db,
-                    api_delay=api_delay,
-                    themes=vocab_themes,
-                )
+                if args.batch:
+                    summary[level]["vocab"] = await populate_vocabulary_batch(
+                        level, args.vocab_count, args.dry_run, args.no_seed, db,
+                        poll_interval=args.poll_interval,
+                        themes=vocab_themes,
+                    )
+                else:
+                    summary[level]["vocab"] = await populate_vocabulary(
+                        level, args.vocab_count, args.dry_run, args.no_seed, db,
+                        api_delay=api_delay,
+                        themes=vocab_themes,
+                    )
 
             if "stories" in args.types:
-                summary[level]["stories"] = await populate_stories(
-                    level, args.dry_run, args.no_seed, db,
-                    api_delay=api_delay,
-                    story_titles=story_titles,
-                    story_count=args.story_count,
-                )
-
-            if "grammar" in args.types:
-                topics = grammar_topics.get(level, [])
-                summary[level]["grammar"] = await populate_grammar(
-                    level, topics, args.dry_run, args.no_seed, db,
-                    api_delay=api_delay,
-                )
+                if args.batch:
+                    summary[level]["stories"] = await populate_stories_batch(
+                        level, args.dry_run, args.no_seed, db,
+                        poll_interval=args.poll_interval,
+                        story_titles=story_titles,
+                        story_count=args.story_count,
+                    )
+                else:
+                    summary[level]["stories"] = await populate_stories(
+                        level, args.dry_run, args.no_seed, db,
+                        api_delay=api_delay,
+                        story_titles=story_titles,
+                        story_count=args.story_count,
+                    )
     finally:
         db.close()
 

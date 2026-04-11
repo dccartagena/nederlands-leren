@@ -70,25 +70,25 @@ class TestChatCompletionOllamaPrimary:
 class TestChatCompletionFallback:
     @pytest.mark.asyncio
     @respx.mock
-    async def test_falls_back_to_litellm_when_ollama_fails(self):
+    async def test_falls_back_to_gemini_when_ollama_fails(self):
         respx.post(OLLAMA_URL).mock(side_effect=httpx.ConnectError("connection refused"))
 
-        with patch("app.services.llm_service._call_litellm", new_callable=AsyncMock) as mock_litellm:
-            mock_litellm.return_value = "fallback response"
+        with patch("app.services.llm_service._call_gemini", new_callable=AsyncMock) as mock_gemini:
+            mock_gemini.return_value = "fallback response"
             result = await llm_service.chat_completion(
                 [{"role": "user", "content": "test"}],
                 inject_system=False,
             )
             assert result == "fallback response"
-            mock_litellm.assert_called_once()
+            mock_gemini.assert_called_once()
 
     @pytest.mark.asyncio
     @respx.mock
     async def test_raises_when_both_providers_fail(self):
         respx.post(OLLAMA_URL).mock(side_effect=httpx.ConnectError("connection refused"))
 
-        with patch("app.services.llm_service._call_litellm", new_callable=AsyncMock) as mock_litellm:
-            mock_litellm.side_effect = RuntimeError("no API key")
+        with patch("app.services.llm_service._call_gemini", new_callable=AsyncMock) as mock_gemini:
+            mock_gemini.side_effect = RuntimeError("no API key")
             with pytest.raises(RuntimeError, match="All LLM providers failed"):
                 await llm_service.chat_completion(
                     [{"role": "user", "content": "test"}],
