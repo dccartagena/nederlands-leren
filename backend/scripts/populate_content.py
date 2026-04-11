@@ -20,7 +20,7 @@ Run from the backend/ directory with the venv activated:
 
     # Populate A0 and A1 vocabulary (10 words per theme)
     .venv/bin/python scripts/populate_content.py \\
-        --levels a0 a1 --types vocab --vocab-count 10
+        --levels a0 a1 --types vocab --count 10
 
     # Populate everything for all levels (write JSON only, skip DB upsert)
     .venv/bin/python scripts/populate_content.py \\
@@ -92,8 +92,13 @@ def _build_vocab_prompt(level: str, theme: str, count: int) -> str:
     from app.services.content_generator import LEVEL_DESCRIPTIONS
     level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
     return (
-        f"Generate {count} Dutch words for level {level.upper()} ({level_desc}), "
-        f"theme '{theme}'.\n"
+        f"Act as a Dutch linguistic expert for Spanish speakers. Generate {count} vocabulary items "
+        f"for level {level.upper()} ({level_desc}) on the theme '{theme}'.\n\n"
+        "Pedagogical & Technical Guidelines:\n"
+        "1. Selection: Prioritize high-frequency words. For Spanish speakers, include a mix of cognates and 'valse vrienden' (false friends) to sharpen acquisition.\n"
+        "2. TTS Consistency: In 'example_nl', avoid all abbreviations (e.g., use 'en dergelijke' instead of 'e.d.'). Ensure sentences have clear punctuation to help the TTS model manage natural pauses and intonation.\n"
+        "3. Grammar Precision: Ensure the 'article' (de/het) and 'plural' are 100% accurate, as these are critical pain points for learners.\n"
+        "4. Natural Translation: 'example_es' should be a natural, idiomatic Spanish translation, not a literal word-for-word copy, to help the learner understand context.\n\n"
         "Return ONLY a valid JSON array with this exact schema (no additional text):\n"
         "[\n"
         "  {\n"
@@ -127,9 +132,14 @@ def _build_story_prompt(
     title_hint = f"Título sugerido: '{title_nl}' / '{title_es}'." if title_nl else ""
     word_count = _STORY_WORD_COUNTS.get(level.lower(), "100-150")
     return (
-        f"Create a short story in Dutch for learners at level {level.upper()} ({level_desc}), "
-        f"theme '{theme}'. {title_hint}\n"
-        f"The story must be {word_count} words in Dutch, using vocabulary appropriate for the level.\n\n"
+        f"Act as a Dutch language expert specializing in teaching Spanish speakers. "
+        f"Create an engaging story for level {level.upper()} ({level_desc}) on the theme '{theme}'. {title_hint}\n"
+        f"Target word count: {word_count} words.\n\n"
+        "Instructional & Technical Constraints:\n"
+        "1. For Spanish Speakers: Focus on vocabulary that helps distinguish Dutch-Spanish false cognates or emphasizes common Dutch particles (e.g., 'er', 'toch', 'even') in context.\n"
+        "2. TTS Optimization: Write in natural, rhythmic Dutch. Avoid complex abbreviations (write out 'bijvoorbeeld' instead of 'bijv.'). Use standard punctuation to ensure correct prosody and pausing in speech synthesis.\n"
+        "3. Gamification: Ensure the narrative has a clear beginning, middle, and end to facilitate 'streak-style' learning modules.\n"
+        "4. Sentence Structure: For lower levels, use shorter sentences to prevent TTS models from sounding robotic or losing intonation.\n\n"
         "Return ONLY a valid JSON object with this schema (no additional text):\n"
         "{\n"
         '  "slug": "...",\n'
@@ -855,16 +865,10 @@ def _parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
-        "--vocab-count",
+        "--count",
         type=int,
         metavar="N",
-        help="Number of vocabulary words to generate per theme",
-    )
-    parser.add_argument(
-        "--story-count",
-        type=int,
-        metavar="N",
-        help="Number of stories to generate per theme (default: 1)",
+        help="Number of items to generate per theme (words for vocab, stories for stories)",
     )
     parser.add_argument(
         "--grammar-topics",
@@ -920,8 +924,7 @@ def _parse_args() -> argparse.Namespace:
 
     # Apply config file values as defaults (CLI args override these).
     parser.set_defaults(
-        vocab_count=cfg.get("vocab_count", 10),
-        story_count=cfg.get("story_count", 1),
+        count=cfg.get("count", cfg.get("vocab_count", 10)),
         api_delay=cfg.get("api_delay_seconds", 1.0),
     )
 
@@ -1035,13 +1038,13 @@ async def main() -> None:
                     vocab_themes = THEMES_BY_LEVEL.get(level, [])
                 if args.batch:
                     summary[level]["vocab"] = await populate_vocabulary_batch(
-                        level, args.vocab_count, args.dry_run, args.no_seed, db,
+                        level, args.count, args.dry_run, args.no_seed, db,
                         poll_interval=args.poll_interval,
                         themes=vocab_themes,
                     )
                 else:
                     summary[level]["vocab"] = await populate_vocabulary(
-                        level, args.vocab_count, args.dry_run, args.no_seed, db,
+                        level, args.count, args.dry_run, args.no_seed, db,
                         api_delay=api_delay,
                         themes=vocab_themes,
                     )
@@ -1052,14 +1055,14 @@ async def main() -> None:
                         level, args.dry_run, args.no_seed, db,
                         poll_interval=args.poll_interval,
                         story_titles=story_titles,
-                        story_count=args.story_count,
+                        story_count=args.count,
                     )
                 else:
                     summary[level]["stories"] = await populate_stories(
                         level, args.dry_run, args.no_seed, db,
                         api_delay=api_delay,
                         story_titles=story_titles,
-                        story_count=args.story_count,
+                        story_count=args.count,
                     )
     finally:
         db.close()
