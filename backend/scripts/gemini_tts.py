@@ -60,30 +60,36 @@ PCM_SAMPLE_WIDTH = 2       # bytes (16-bit signed)
 
 # ── TTS system instructions ───────────────────────────────────────────────────
 VOCAB_SYSTEM_PROMPT = (
-    "You are a helpful language instructor. "
-    "Speak the Dutch vocabulary entries with a Northern Dutch accent, focusing on clear vowel "
-    "sounds and the regional cadence. "
-    "Pace at 0.85x speed, articulating every syllable distinctly. "
-    "Be friendly, encouraging, and clear. "
-    "Provide a 1.5-second pause between entries. "
-    "Ensure the 'G' and 'ch' sounds reflect the Northern Dutch regional style while remaining "
-    "intelligible for a beginner."
+    "Role: Helpful language instructor. "
+    "Accent: Northern Dutch (Groningen). "
+    "Pronunciation Focus: Articulate vowels clearly with slight regional elongation. "
+    "Pronounce 'g' and 'ch' as distinct, hard guttural sounds. "
+    "Enunciate all word endings sharply; do not drop the final 'n', 'en', or 't', ensuring maximum clarity for beginners. "
+    "Delivery: Pace at 0.85x speed. Tone is friendly and encouraging. "
+    "Structure: Read [Word with article] followed by a 0.5-second pause, then [Plural form] "
+    "followed by a 0.5-second pause, and finally the [Example sentence]. "
+    "Insert a 1.5-second pause between completely new vocabulary entries."
 )
 
 STORY_SYSTEM_PROMPT = (
-    "You are an expressive Dutch storyteller. "
-    "Speak the Dutch text with a Northern Dutch accent at approximately 0.85x base speed. "
-    "Use variable pacing (rubato) to enhance the narrative. "
-    "Adapt tone to the story's mood: warmth for domestic scenes, slight tension for suspense. "
-    "Incorporate natural breathing sounds and short pauses after commas (0.5 seconds) and longer "
-    "pauses between paragraphs (1.2 seconds). "
-    "Use expressive intonation to signal different characters or emotional shifts. "
-    "Prioritize learner comprehension: do not allow emotional delivery to muffle or slur word "
-    "endings."
+    "Role: Expressive Dutch storyteller. "
+    "Accent: Northern Dutch (Groningen). "
+    "Pronunciation Focus: Maintain crisp consonants, hard 'g'/'ch' sounds, and distinct regional vowel clarity. "
+    "Crucially, do not slur, muffle, or drop word endings during emotional shifts; final syllables must remain fully intact for language learners. "
+    "Delivery: Base pace at 0.85x speed. Use variable pacing (rubato) for narrative flow. "
+    "Adapt tone to the mood (e.g., warmth for domestic scenes, tension for suspense). "
+    "Prosody: Incorporate natural breathing. Pause 0.5 seconds at commas and 1.2 seconds at paragraph breaks. "
+    "Use expressive intonation for character shifts while strictly maintaining regional phonetic accuracy."
 )
 
 VOICE_VOCAB = "Charon"
 VOICE_STORY = "Aoede"
+
+# ── output filename prefixes ──────────────────────────────────────────────────
+# Prefixes encode content type so files can be globbed and identified without
+# parsing the full name. Used for fast pre-scan skip sets.
+VOCAB_FILE_PREFIX = "gemini_vocab_"
+STORY_FILE_PREFIX = "gemini_story_"
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -183,9 +189,32 @@ def synthesize(
     return pcm_to_wav_bytes(pcm_bytes)
 
 
-def save_wav(wav_bytes: bytes, output_path: Path) -> None:
+def wav_to_mp3_bytes(wav_bytes: bytes) -> bytes:
+    """Convert WAV bytes to MP3 bytes using lameenc (no ffmpeg required)."""
+    import lameenc
+    buf = BytesIO(wav_bytes)
+    with wave.open(buf, "rb") as wf:
+        n_channels = wf.getnchannels()
+        sample_rate = wf.getframerate()
+        pcm_bytes = wf.readframes(wf.getnframes())
+    encoder = lameenc.Encoder()
+    encoder.set_bit_rate(128)
+    encoder.set_in_sample_rate(sample_rate)
+    encoder.set_channels(n_channels)
+    encoder.set_quality(2)  # 2 = highest quality
+    mp3_data = encoder.encode(pcm_bytes)
+    mp3_data += encoder.flush()
+    return mp3_data
+
+
+def save_audio(audio_bytes: bytes, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_bytes(wav_bytes)
+    output_path.write_bytes(audio_bytes)
+
+
+def _existing_mp3s(output_dir: Path, prefix: str) -> set[str]:
+    """Glob output_dir once for .mp3 files matching prefix and return their names."""
+    return {p.name for p in output_dir.glob(f"{prefix}*.mp3")}
 
 
 # ── JSON loaders ──────────────────────────────────────────────────────────────
@@ -267,7 +296,7 @@ def _has_gemini_audio_vocab(db, dutch_word: str, level: str) -> bool:
 def _has_gemini_audio_story(db, slug: str) -> bool:
     """Return True if this story already has a gemini audio_path set in the DB."""
     story = db.query(Story).filter(Story.slug == slug).first()
-    return bool(story and story.audio_path and story.audio_path.startswith("gemini_"))
+    return bool(story and story.audio_path and story.audio_path.startswith(STORY_FILE_PREFIX))
 
 
 # ── output filename helpers ───────────────────────────────────────────────────
@@ -278,11 +307,11 @@ def _safe(s: str) -> str:
 
 
 def vocab_filename(dutch_word: str, level: str) -> str:
-    return f"gemini_{_safe(dutch_word)}_{_safe(level)}.wav"
+    return f"{VOCAB_FILE_PREFIX}{_safe(dutch_word)}_{_safe(level)}.mp3"
 
 
 def story_filename(slug: str) -> str:
-    return f"gemini_{_safe(slug)}.wav"
+    return f"{STORY_FILE_PREFIX}{_safe(slug)}.mp3"
 
 
 # ── DB upsert helpers ─────────────────────────────────────────────────────────
@@ -333,6 +362,7 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
     """Returns (generated, skipped, failed) counts."""
     generated = skipped = failed = 0
     output_dir = Path(args.output_dir)
+    existing_mp3s = _existing_mp3s(output_dir, VOCAB_FILE_PREFIX)
 
     items: list[tuple[str, str, str, str, str]] = []
     for input_path in args.input_files:
@@ -355,7 +385,7 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
-            if output_path.exists():
+            if filename in existing_mp3s:
                 log.info("SKIP  %s (file exists)", filename)
                 skipped += 1
                 continue
@@ -368,7 +398,8 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
         try:
             log.info("GEN   %s", filename)
             wav_bytes = synthesize(client, genai_types, text, VOICE_VOCAB, VOCAB_SYSTEM_PROMPT)
-            save_wav(wav_bytes, output_path)
+            save_audio(wav_to_mp3_bytes(wav_bytes), output_path)
+            existing_mp3s.add(filename)
             if not args.no_db and db:
                 upsert_vocab_audio(db, dutch_word, level, filename, VOICE_VOCAB)
             generated += 1
@@ -385,6 +416,7 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
     """Returns (generated, skipped, failed) counts."""
     generated = skipped = failed = 0
     output_dir = Path(args.output_dir)
+    existing_mp3s = _existing_mp3s(output_dir, STORY_FILE_PREFIX)
 
     items: list[tuple[str, str, str]] = []
     for input_path in args.input_files:
@@ -402,7 +434,7 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
-            if output_path.exists():
+            if filename in existing_mp3s:
                 log.info("SKIP  %s (file exists)", filename)
                 skipped += 1
                 continue
@@ -415,7 +447,8 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
         try:
             log.info("GEN   %s", filename)
             wav_bytes = synthesize(client, genai_types, content_nl, VOICE_STORY, STORY_SYSTEM_PROMPT)
-            save_wav(wav_bytes, output_path)
+            save_audio(wav_to_mp3_bytes(wav_bytes), output_path)
+            existing_mp3s.add(filename)
             if not args.no_db and db:
                 upsert_story_audio(db, slug, filename)
             generated += 1
