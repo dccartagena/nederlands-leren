@@ -26,22 +26,7 @@ class VocabularyItem(Base):
     example_nl = Column(Text)
     example_es = Column(Text)
 
-    audio_files = relationship("AudioFile", back_populates="vocab_item")
     sr_cards = relationship("SRCard", back_populates="vocab_item")
-
-
-class AudioFile(Base):
-    __tablename__ = "audio_files"
-
-    id = Column(Integer, primary_key=True, index=True)
-    vocab_item_id = Column(Integer, ForeignKey("vocabulary_items.id"), nullable=True)
-    sentence_text_nl = Column(Text)
-    file_path = Column(String(500), nullable=False)
-    source = Column(String(50))   # tatoeba, common_voice, gtts
-    license = Column(String(50))
-    speaker = Column(String(100))
-
-    vocab_item = relationship("VocabularyItem", back_populates="audio_files")
 
 
 class GrammarTopic(Base):

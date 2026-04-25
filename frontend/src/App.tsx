@@ -6,10 +6,11 @@ import Lesson from '@/pages/Lesson'
 import Practice from '@/pages/Practice'
 import Progress from '@/pages/Progress'
 import Chat from '@/pages/Chat'
+import Settings from '@/pages/Settings'
 import { useAppStore } from '@/stores/appStore'
 
 export default function App() {
-  const theme = useAppStore(s => s.theme)
+  const theme = useAppStore((s) => s.theme)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme !== 'light')
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="practice/:gameType?" element={<Practice />} />
         <Route path="progress" element={<Progress />} />
         <Route path="chat" element={<Chat />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   )

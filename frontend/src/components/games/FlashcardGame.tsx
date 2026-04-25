@@ -19,7 +19,7 @@ const RATING_COLORS: Record<number, string> = {
 }
 
 export default function FlashcardGame() {
-  const audioEnabled = useAppStore(s => s.audioEnabled)
+  const audioEnabled = useAppStore((s) => s.audioEnabled)
   const queryClient = useQueryClient()
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
@@ -34,7 +34,7 @@ export default function FlashcardGame() {
     mutationFn: ({ cardId, rating }: { cardId: number; rating: 1 | 2 | 3 | 4 }) =>
       submitReview(cardId, rating),
     onSuccess: (data) => {
-      setXpGained(x => x + data.xp_earned)
+      setXpGained((x) => x + data.xp_earned)
       queryClient.invalidateQueries({ queryKey: ['due-cards'] })
       nextCard()
     },
@@ -42,7 +42,7 @@ export default function FlashcardGame() {
 
   const nextCard = () => {
     setFlipped(false)
-    setIndex(i => i + 1)
+    setIndex((i) => i + 1)
   }
 
   const playAudio = (path: string) => {
@@ -56,7 +56,16 @@ export default function FlashcardGame() {
   if (!cards || cards.length === 0) return <EmptyState />
 
   const card = cards[index]
-  if (!card) return <FinishedState xpGained={xpGained} onRestart={() => { setIndex(0); setXpGained(0) }} />
+  if (!card)
+    return (
+      <FinishedState
+        xpGained={xpGained}
+        onRestart={() => {
+          setIndex(0)
+          setXpGained(0)
+        }}
+      />
+    )
 
   const item = card.vocab_item
 
@@ -64,22 +73,24 @@ export default function FlashcardGame() {
     <div className="flex flex-col items-center gap-6">
       {/* Progress */}
       <div className="w-full max-w-md">
-        <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-1">
-          <span>{index + 1} / {cards.length}</span>
+        <div className="mb-1 flex justify-between text-sm text-gray-500 dark:text-gray-400">
+          <span>
+            {index + 1} / {cards.length}
+          </span>
           <span className="text-yellow-600">+{xpGained} XP</span>
         </div>
-          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+        <div className="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
           <div
-            className="h-2 bg-dutch-600 rounded-full transition-all"
-            style={{ width: `${((index) / cards.length) * 100}%` }}
+            className="h-2 rounded-full bg-brand-600 transition-all"
+            style={{ width: `${(index / cards.length) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Flashcard */}
       <div
-        className="w-full max-w-md h-56 cursor-pointer"
-        onClick={() => setFlipped(f => !f)}
+        className="h-56 w-full max-w-md cursor-pointer"
+        onClick={() => setFlipped((f) => !f)}
         style={{ perspective: 1000 }}
       >
         <AnimatePresence mode="wait">
@@ -89,31 +100,39 @@ export default function FlashcardGame() {
             animate={{ rotateY: 0, opacity: 1 }}
             exit={{ rotateY: flipped ? 90 : -90, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-full h-full flex flex-col items-center justify-center p-6 rounded-2xl bg-white dark:bg-gray-800 border-2 border-dutch-200 dark:border-dutch-800 shadow-md"
+            className="flex h-full w-full flex-col items-center justify-center rounded-2xl border-2 border-brand-200 bg-white p-6 shadow-md dark:border-brand-600 dark:bg-gray-800"
           >
             {!flipped ? (
               <>
-                <div className="text-4xl font-bold text-dutch-700 dark:text-dutch-300">
-                  {item.article ? `${item.article} ` : ''}{item.dutch_word}
+                <div className="text-4xl font-bold text-brand-500 dark:text-brand-300">
+                  {item.article ? `${item.article} ` : ''}
+                  {item.dutch_word}
                 </div>
                 {item.example_nl && (
-                  <div className="text-sm text-gray-400 mt-3 italic text-center">{item.example_nl}</div>
+                  <div className="mt-3 text-center text-sm italic text-gray-400">
+                    {item.example_nl}
+                  </div>
                 )}
-                {item.audio_files.length > 0 && (
-                  <button
-                    onClick={e => { e.stopPropagation(); playAudio(item.audio_files[0].file_path) }}
-                    className="mt-4 p-2 rounded-full bg-dutch-50 hover:bg-dutch-100 dark:bg-dutch-900 dark:hover:bg-dutch-800 text-dutch-700 dark:text-dutch-300 transition-colors"
-                  >
-                    <Volume2 size={20} />
-                  </button>
-                )}
-                <div className="text-xs text-gray-400 mt-4">Toca para ver la respuesta</div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    playAudio(`/audio/gtts_${item.dutch_word}_${item.level}.wav`)
+                  }}
+                  className="mt-4 rounded-full bg-brand-50 p-2 text-brand-500 transition-colors hover:bg-brand-100 dark:bg-brand-900 dark:text-brand-300 dark:hover:bg-brand-600"
+                >
+                  <Volume2 size={20} />
+                </button>
+                <div className="mt-4 text-xs text-gray-400">Toca para ver la respuesta</div>
               </>
             ) : (
               <>
-                <div className="text-3xl font-semibold text-gray-800 dark:text-gray-200">{item.spanish}</div>
+                <div className="text-3xl font-semibold text-gray-800 dark:text-gray-200">
+                  {item.spanish}
+                </div>
                 {item.example_es && (
-                  <div className="text-sm text-gray-400 mt-3 italic text-center">{item.example_es}</div>
+                  <div className="mt-3 text-center text-sm italic text-gray-400">
+                    {item.example_es}
+                  </div>
                 )}
               </>
             )}
@@ -126,14 +145,14 @@ export default function FlashcardGame() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full max-w-md"
+          className="grid w-full max-w-md grid-cols-2 gap-2 sm:grid-cols-4"
         >
-          {([1, 2, 3, 4] as const).map(r => (
+          {([1, 2, 3, 4] as const).map((r) => (
             <button
               key={r}
               onClick={() => reviewMutation.mutate({ cardId: card.id, rating: r })}
               disabled={reviewMutation.isPending}
-              className={`py-2 rounded-xl text-sm font-medium transition-colors ${RATING_COLORS[r]}`}
+              className={`rounded-xl py-2 text-sm font-medium transition-colors ${RATING_COLORS[r]}`}
             >
               {RATING_LABELS[r]}
             </button>
@@ -145,28 +164,32 @@ export default function FlashcardGame() {
 }
 
 function LoadingPlaceholder() {
-  return <div className="text-center text-gray-400 dark:text-gray-500 py-12">Cargando tarjetas…</div>
+  return (
+    <div className="py-12 text-center text-gray-400 dark:text-gray-500">Cargando tarjetas…</div>
+  )
 }
 
 function EmptyState() {
   return (
-    <div className="text-center py-12 space-y-2">
+    <div className="space-y-2 py-12 text-center">
       <div className="text-4xl">🎉</div>
-      <div className="font-semibold text-lg">¡No tienes tarjetas pendientes!</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400">Añade vocabulario desde las lecciones para empezar.</div>
+      <div className="text-lg font-semibold">¡No tienes tarjetas pendientes!</div>
+      <div className="text-sm text-gray-500 dark:text-gray-400">
+        Añade vocabulario desde las lecciones para empezar.
+      </div>
     </div>
   )
 }
 
 function FinishedState({ xpGained, onRestart }: { xpGained: number; onRestart: () => void }) {
   return (
-    <div className="text-center py-12 space-y-3">
+    <div className="space-y-3 py-12 text-center">
       <div className="text-5xl">✅</div>
-      <div className="font-bold text-xl">¡Sesión completada!</div>
-      <div className="text-yellow-600 font-semibold">+{xpGained} XP ganados</div>
+      <div className="text-xl font-bold">¡Sesión completada!</div>
+      <div className="font-semibold text-yellow-600">+{xpGained} XP ganados</div>
       <button
         onClick={onRestart}
-        className="mt-4 px-6 py-2 rounded-xl bg-dutch-700 text-white hover:bg-dutch-600 transition-colors"
+        className="mt-4 rounded-xl bg-brand-500 px-6 py-2 text-white transition-colors hover:bg-brand-600"
       >
         Repetir
       </button>

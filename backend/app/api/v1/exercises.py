@@ -4,7 +4,7 @@ import re
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from app.db.models import AudioFile, VocabularyItem
+from app.db.models import VocabularyItem
 from app.db.session import get_db
 from app.services.audio_service import synthesize_if_missing
 
@@ -23,25 +23,11 @@ def _validate_level(level: str) -> str:
 
 
 def _get_audio_filename(item: VocabularyItem, db: Session) -> str | None:
-    """Return a filename (relative to AUDIO_DIR) for the item, synthesizing if needed."""
-    if item.audio_files:
-        return item.audio_files[0].file_path
-
+    """Return a filename (relative to AUDIO_DIR) for the item, synthesizing via gTTS if needed."""
     text = f"{item.article} {item.dutch_word}" if item.article else item.dutch_word
     try:
         path = synthesize_if_missing(text)
-        filename = path.name
-        af = AudioFile(
-            vocab_item_id=item.id,
-            sentence_text_nl=text,
-            file_path=filename,
-            source="gtts",
-            license="CC0",
-        )
-        db.add(af)
-        db.commit()
-        db.refresh(af)
-        return filename
+        return path.name
     except Exception:
         return None
 

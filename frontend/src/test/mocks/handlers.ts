@@ -11,14 +11,13 @@ export const mockVocabItem = {
   article: 'de',
   level: 'a0',
   theme: 'animales',
-  audio_files: [{ id: 1, file_path: 'gtts_abc123.mp3' }],
 }
 
 export const mockVocabList = [
   mockVocabItem,
-  { ...mockVocabItem, id: 2, dutch_word: 'kat', spanish: 'gato', audio_files: [] },
-  { ...mockVocabItem, id: 3, dutch_word: 'vis', spanish: 'pez', audio_files: [] },
-  { ...mockVocabItem, id: 4, dutch_word: 'vogel', spanish: 'pájaro', audio_files: [] },
+  { ...mockVocabItem, id: 2, dutch_word: 'kat', spanish: 'gato' },
+  { ...mockVocabItem, id: 3, dutch_word: 'vis', spanish: 'pez' },
+  { ...mockVocabItem, id: 4, dutch_word: 'vogel', spanish: 'pájaro' },
 ]
 
 export const mockUserProgress = {
@@ -45,6 +44,7 @@ export const mockReviewResponse = {
   stability: 1.5,
   state: 1,
   xp_earned: 10,
+  new_achievements: [],
 }
 
 export const mockGrammarTopics = [
@@ -121,6 +121,7 @@ export const handlers = [
   // Progress
   http.get(`${BASE}/progress/user`, () => HttpResponse.json(mockUserProgress)),
   http.get(`${BASE}/progress/due`, () => HttpResponse.json(mockDueCards)),
+  http.get(`${BASE}/progress/history`, () => HttpResponse.json([])),
   http.post(`${BASE}/progress/review`, () => HttpResponse.json(mockReviewResponse)),
   http.post(`${BASE}/progress/enroll/:id`, () => HttpResponse.json({ id: 1, vocab_item_id: 1 })),
 

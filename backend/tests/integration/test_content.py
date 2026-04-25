@@ -70,8 +70,15 @@ class TestVocabularyList:
             assert item["level"] == "a0"
 
     def test_filter_by_theme(self, client, db):
-        _seed_vocab(db, theme="animales")
-        _seed_vocab(db, theme="ciudad")
+        for i, theme in enumerate(("animales", "ciudad")):
+            for j in range(3):
+                db.add(VocabularyItem(
+                    dutch_word=f"woord{theme}{j}",
+                    spanish=f"palabra{j}",
+                    level="a0",
+                    theme=theme,
+                ))
+        db.commit()
         resp = client.get("/api/v1/vocabulary/?theme=animales")
         assert resp.status_code == 200
         for item in resp.json():

@@ -79,7 +79,7 @@ export default function MultipleChoiceGame() {
         </span>
       </div>
 
-      <div className="rounded-2xl border-2 border-dutch-200 bg-white p-5 text-center dark:border-dutch-800 dark:bg-gray-800">
+      <div className="rounded-2xl border-2 border-brand-200 bg-white p-5 text-center dark:border-brand-600 dark:bg-gray-800">
         <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
           ¿Cómo se dice en neerlandés?
         </p>
@@ -101,7 +101,7 @@ export default function MultipleChoiceGame() {
                 : 'border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-600'
           } else {
             cls +=
-              'border-gray-200 dark:border-gray-600 hover:border-dutch-400 hover:bg-dutch-50 dark:hover:border-dutch-500 dark:hover:bg-dutch-950 text-gray-800 dark:text-gray-200 cursor-pointer'
+              'border-gray-200 dark:border-gray-600 hover:border-brand-400 hover:bg-brand-50 dark:hover:border-brand-400 dark:hover:bg-brand-950 text-gray-800 dark:text-gray-200 cursor-pointer'
           }
           return (
             <motion.button
@@ -130,7 +130,7 @@ export default function MultipleChoiceGame() {
           )}
           <button
             onClick={next}
-            className="mx-auto flex items-center gap-2 rounded-xl bg-dutch-700 px-5 py-2 text-sm text-white transition-colors hover:bg-dutch-600"
+            className="mx-auto flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2 text-sm text-white transition-colors hover:bg-brand-600"
           >
             <RefreshCw size={16} /> Siguiente
           </button>

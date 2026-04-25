@@ -6,14 +6,18 @@ import { RefreshCw, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function UnscrambleGame() {
-  const level = useAppStore(s => s.level)
+  const level = useAppStore((s) => s.level)
   const [fetchKey, setFetchKey] = useState(0)
   const [chosen, setChosen] = useState<Array<{ word: string; srcIdx: number }>>([])
   const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set())
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null)
   const [score, setScore] = useState({ correct: 0, total: 0 })
 
-  const { data: exercise, isLoading, isError } = useQuery({
+  const {
+    data: exercise,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['unscramble', level, fetchKey],
     queryFn: () => fetchUnscramble(level),
   })
@@ -26,20 +30,20 @@ export default function UnscrambleGame() {
   }, [exercise])
 
   const next = () => {
-    setFetchKey(k => k + 1)
+    setFetchKey((k) => k + 1)
   }
 
   const addWord = (word: string, idx: number) => {
     if (result !== null) return
-    setChosen(c => [...c, { word, srcIdx: idx }])
-    setUsedIndices(u => new Set([...u, idx]))
+    setChosen((c) => [...c, { word, srcIdx: idx }])
+    setUsedIndices((u) => new Set([...u, idx]))
   }
 
   const removeWord = (chosenIdx: number) => {
     if (result !== null) return
     const { srcIdx } = chosen[chosenIdx]
-    setChosen(c => c.filter((_, i) => i !== chosenIdx))
-    setUsedIndices(u => {
+    setChosen((c) => c.filter((_, i) => i !== chosenIdx))
+    setUsedIndices((u) => {
       const next = new Set(u)
       next.delete(srcIdx)
       return next
@@ -48,34 +52,47 @@ export default function UnscrambleGame() {
 
   const checkAnswer = () => {
     if (!exercise || result !== null) return
-    const attempt = chosen.map(c => c.word).join(' ') + exercise.trailing_punct
+    const attempt = chosen.map((c) => c.word).join(' ') + exercise.trailing_punct
     const isCorrect = attempt === exercise.correct_sentence
     setResult(isCorrect ? 'correct' : 'wrong')
-    setScore(s => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
+    setScore((s) => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
   }
 
-  if (isLoading) return <div className="text-center text-gray-400 dark:text-gray-500 py-12">Cargando ejercicio…</div>
+  if (isLoading)
+    return (
+      <div className="py-12 text-center text-gray-400 dark:text-gray-500">Cargando ejercicio…</div>
+    )
   if (isError || !exercise || 'error' in (exercise as object))
-    return <div className="text-center text-yellow-600 dark:text-yellow-400 py-12">No hay suficientes oraciones de ejemplo para este nivel.</div>
+    return (
+      <div className="py-12 text-center text-yellow-600 dark:text-yellow-400">
+        No hay suficientes oraciones de ejemplo para este nivel.
+      </div>
+    )
 
   const allWordsChosen = chosen.length === exercise.shuffled_words.length
 
   return (
-    <div className="space-y-5 max-w-lg mx-auto">
+    <div className="mx-auto max-w-lg space-y-5">
       <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
-        <span>Aciertos: {score.correct}/{score.total}</span>
+        <span>
+          Aciertos: {score.correct}/{score.total}
+        </span>
       </div>
 
       {/* Instructions */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-gray-800 border-2 border-dutch-200 dark:border-dutch-800 text-center space-y-1">
-        <p className="text-sm text-gray-500 dark:text-gray-400">Ordena las palabras para formar la oración correcta:</p>
+      <div className="space-y-1 rounded-2xl border-2 border-brand-200 bg-white p-4 text-center dark:border-brand-600 dark:bg-gray-800">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Ordena las palabras para formar la oración correcta:
+        </p>
         {exercise.sentence_es && (
-          <p className="text-base font-medium text-gray-700 dark:text-gray-300 italic">"{exercise.sentence_es}"</p>
+          <p className="text-base font-medium italic text-gray-700 dark:text-gray-300">
+            "{exercise.sentence_es}"
+          </p>
         )}
       </div>
 
       {/* Answer area */}
-      <div className="min-h-[3rem] p-3 rounded-xl border-2 border-dashed border-dutch-300 dark:border-dutch-700 bg-dutch-50 dark:bg-dutch-950 flex flex-wrap gap-2">
+      <div className="flex min-h-[3rem] flex-wrap gap-2 rounded-xl border-2 border-dashed border-brand-300 bg-brand-50 p-3 dark:border-brand-500 dark:bg-brand-950">
         <AnimatePresence>
           {chosen.map(({ word, srcIdx }, i) => (
             <motion.button
@@ -84,14 +101,16 @@ export default function UnscrambleGame() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               onClick={() => removeWord(i)}
-              className="flex items-center gap-1 px-3 py-1 rounded-lg bg-dutch-700 text-white text-sm font-medium hover:bg-dutch-600 transition-colors"
+              className="flex items-center gap-1 rounded-lg bg-brand-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-brand-600"
             >
               {word}
               {result === null && <X size={12} />}
             </motion.button>
           ))}
           {chosen.length === 0 && (
-            <span className="text-sm text-gray-400 dark:text-gray-600 self-center">Toca las palabras para añadirlas…</span>
+            <span className="self-center text-sm text-gray-400 dark:text-gray-600">
+              Toca las palabras para añadirlas…
+            </span>
           )}
         </AnimatePresence>
       </div>
@@ -104,10 +123,10 @@ export default function UnscrambleGame() {
             whileTap={{ scale: 0.95 }}
             onClick={() => addWord(word, i)}
             disabled={usedIndices.has(i) || result !== null}
-            className={`px-3 py-1 rounded-lg border text-sm font-medium transition-colors ${
+            className={`rounded-lg border px-3 py-1 text-sm font-medium transition-colors ${
               usedIndices.has(i)
-                ? 'border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 bg-transparent cursor-default'
-                : 'border-dutch-300 dark:border-dutch-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-dutch-50 dark:hover:bg-dutch-950 cursor-pointer'
+                ? 'cursor-default border-gray-200 bg-transparent text-gray-300 dark:border-gray-700 dark:text-gray-600'
+                : 'cursor-pointer border-brand-300 bg-white text-gray-800 hover:bg-brand-50 dark:border-brand-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-brand-950'
             }`}
           >
             {word}
@@ -121,7 +140,7 @@ export default function UnscrambleGame() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={checkAnswer}
-          className="w-full py-2 rounded-xl bg-dutch-700 text-white hover:bg-dutch-600 transition-colors text-sm font-medium"
+          className="w-full rounded-xl bg-brand-500 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-600"
         >
           Comprobar
         </motion.button>
@@ -129,19 +148,24 @@ export default function UnscrambleGame() {
 
       {/* Result */}
       {result !== null && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-3"
+        >
           {result === 'correct' ? (
-            <div className="p-3 rounded-xl bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-sm text-green-700 dark:text-green-300">
+            <div className="rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
               ✅ ¡Correcto!
             </div>
           ) : (
-            <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-300">
-              ❌ Incorrecto. La respuesta correcta es: <span className="font-semibold">{exercise.correct_sentence}</span>
+            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
+              ❌ Incorrecto. La respuesta correcta es:{' '}
+              <span className="font-semibold">{exercise.correct_sentence}</span>
             </div>
           )}
           <button
             onClick={next}
-            className="flex items-center gap-2 mx-auto px-5 py-2 rounded-xl bg-dutch-700 text-white hover:bg-dutch-600 transition-colors text-sm"
+            className="mx-auto flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2 text-sm text-white transition-colors hover:bg-brand-600"
           >
             <RefreshCw size={16} /> Siguiente
           </button>

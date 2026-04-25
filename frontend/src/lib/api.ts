@@ -21,22 +21,13 @@ export interface VocabularyItem {
   notes?: string
   example_nl?: string
   example_es?: string
-  audio_files: AudioFile[]
-}
-
-export interface AudioFile {
-  id: number
-  file_path: string
-  source?: string
-  license?: string
-  sentence_text_nl?: string
 }
 
 export const fetchVocabulary = (level?: string, theme?: string, limit = 50) =>
-  api.get<VocabularyItem[]>('/vocabulary/', { params: { level, theme, limit } }).then(r => r.data)
+  api.get<VocabularyItem[]>('/vocabulary/', { params: { level, theme, limit } }).then((r) => r.data)
 
 export const fetchVocabularyItem = (id: number) =>
-  api.get<VocabularyItem>(`/vocabulary/${id}`).then(r => r.data)
+  api.get<VocabularyItem>(`/vocabulary/${id}`).then((r) => r.data)
 
 // ── Progress ─────────────────────────────────────────────────────────────────
 export interface UserProgress {
@@ -61,22 +52,53 @@ export interface ReviewResponse {
   stability: number
   state: number
   xp_earned: number
+  new_achievements: string[]
 }
 
-export const fetchUserProgress = () =>
-  api.get<UserProgress>('/progress/user').then(r => r.data)
+export interface XpHistoryEntry {
+  date: string
+  xp: number
+}
+
+export interface Achievement {
+  slug: string
+  earned_at: string
+}
+
+export const fetchUserProgress = () => api.get<UserProgress>('/progress/user').then((r) => r.data)
 
 export const fetchDueCards = (limit = 20) =>
-  api.get<DueCard[]>('/progress/due', { params: { limit } }).then(r => r.data)
+  api.get<DueCard[]>('/progress/due', { params: { limit } }).then((r) => r.data)
 
 export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4) =>
-  api.post<ReviewResponse>('/progress/review', { card_id, rating }).then(r => r.data)
+  api.post<ReviewResponse>('/progress/review', { card_id, rating }).then((r) => r.data)
 
 export const enrollCard = (vocab_item_id: number) =>
-  api.post(`/progress/enroll/${vocab_item_id}`).then(r => r.data)
+  api.post(`/progress/enroll/${vocab_item_id}`).then((r) => r.data)
 
-export const enrollAll = (ids: number[]) =>
-  Promise.all(ids.map(id => enrollCard(id)))
+export const enrollAll = (ids: number[]) => Promise.all(ids.map((id) => enrollCard(id)))
+
+export const fetchXpHistory = (days = 7) =>
+  api.get<XpHistoryEntry[]>('/progress/history', { params: { days } }).then((r) => r.data)
+
+export const fetchSettings = () =>
+  api.get<Record<string, unknown>>('/progress/settings').then((r) => r.data)
+
+export const updateSettings = (data: Record<string, unknown>) =>
+  api.put<Record<string, unknown>>('/progress/settings', data).then((r) => r.data)
+
+export const exportProgress = () =>
+  api.get('/progress/export', { responseType: 'blob' }).then((r) => r.data)
+
+export const importProgress = (file: File) => {
+  const form = new FormData()
+  form.append('file', file)
+  return api
+    .post<{ imported_cards: number }>('/progress/import', form, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then((r) => r.data)
+}
 
 // ── Grammar ──────────────────────────────────────────────────────────────────
 export interface GrammarTopic {
@@ -90,7 +112,7 @@ export interface GrammarTopic {
 }
 
 export const fetchGrammar = (level?: string) =>
-  api.get<GrammarTopic[]>('/grammar/', { params: { level } }).then(r => r.data)
+  api.get<GrammarTopic[]>('/grammar/', { params: { level } }).then((r) => r.data)
 
 // ── Stories ──────────────────────────────────────────────────────────────────
 export interface Story {
@@ -112,19 +134,22 @@ export interface Story {
 }
 
 export const fetchStories = (level?: string) =>
-  api.get<Story[]>('/stories/', { params: { level } }).then(r => r.data)
+  api.get<Story[]>('/stories/', { params: { level } }).then((r) => r.data)
 
-export const fetchStory = (slug: string) =>
-  api.get<Story>(`/stories/${slug}`).then(r => r.data)
+export const fetchStory = (slug: string) => api.get<Story>(`/stories/${slug}`).then((r) => r.data)
 
 // ── LLM ──────────────────────────────────────────────────────────────────────
 export const explainWord = (word_or_phrase: string, context_sentence?: string) =>
-  api.post<{ explanation: string }>('/llm/explain', { word_or_phrase, context_sentence }).then(r => r.data)
+  api
+    .post<{ explanation: string }>('/llm/explain', { word_or_phrase, context_sentence })
+    .then((r) => r.data)
 
 export const getFeedback = (question: string, correct_answer: string, user_answer: string) =>
-  api.post<{ feedback: string }>('/llm/feedback', { question, correct_answer, user_answer }).then(r => r.data)
+  api
+    .post<{ feedback: string }>('/llm/feedback', { question, correct_answer, user_answer })
+    .then((r) => r.data)
 
-export type LLMProvider = 'default' | 'ollama' | 'openai' | 'anthropic' | 'mistral' | 'gemini'
+export type LLMProvider = 'default' | 'ollama' | 'gemini'
 
 export const sendChat = (
   messages: Array<{ role: string; content: string }>,
@@ -135,14 +160,14 @@ export const sendChat = (
       messages,
       provider: provider === 'default' ? undefined : provider,
     })
-    .then(r => r.data)
+    .then((r) => r.data)
 
 // ── Exercises ────────────────────────────────────────────────────────────────
 export const fetchListenChoose = (level = 'a0', theme?: string) =>
-  api.get('/exercises/listen-choose', { params: { level, theme } }).then(r => r.data)
+  api.get('/exercises/listen-choose', { params: { level, theme } }).then((r) => r.data)
 
 export const fetchWordMatch = (level = 'a0', theme?: string, count = 6) =>
-  api.get('/exercises/word-match', { params: { level, theme, count } }).then(r => r.data)
+  api.get('/exercises/word-match', { params: { level, theme, count } }).then((r) => r.data)
 
 export interface FillBlankExercise {
   sentence_with_blank: string
@@ -153,7 +178,9 @@ export interface FillBlankExercise {
 }
 
 export const fetchFillBlank = (level = 'a0', theme?: string) =>
-  api.get<FillBlankExercise>('/exercises/fill-blank', { params: { level, theme } }).then(r => r.data)
+  api
+    .get<FillBlankExercise>('/exercises/fill-blank', { params: { level, theme } })
+    .then((r) => r.data)
 
 export interface UnscrambleExercise {
   vocab_id: number
@@ -164,4 +191,6 @@ export interface UnscrambleExercise {
 }
 
 export const fetchUnscramble = (level = 'a0', theme?: string) =>
-  api.get<UnscrambleExercise>('/exercises/unscramble', { params: { level, theme } }).then(r => r.data)
+  api
+    .get<UnscrambleExercise>('/exercises/unscramble', { params: { level, theme } })
+    .then((r) => r.data)

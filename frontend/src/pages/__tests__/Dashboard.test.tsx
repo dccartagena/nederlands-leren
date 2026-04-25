@@ -26,8 +26,8 @@ describe('Dashboard', () => {
     renderWithProviders(<Dashboard />)
     await waitFor(() => {
       expect(screen.getByText('XP')).toBeInTheDocument()
-      expect(screen.getByText('Racha')).toBeInTheDocument()
-      expect(screen.getByText('Pendientes')).toBeInTheDocument()
+      expect(screen.getByText('días')).toBeInTheDocument()
+      expect(screen.getByText('hoy')).toBeInTheDocument()
     })
   })
 
@@ -41,7 +41,7 @@ describe('Dashboard', () => {
   it('shows due-card review CTA when due cards exist', async () => {
     renderWithProviders(<Dashboard />)
     await waitFor(() => {
-      expect(screen.getByText(/tarjetas para repasar/i)).toBeInTheDocument()
+      expect(screen.getByText(/tarjeta(s)? para repasar/i)).toBeInTheDocument()
     })
   })
 
@@ -49,7 +49,7 @@ describe('Dashboard', () => {
     server.use(http.get(`${BASE}/progress/due`, () => HttpResponse.json([])))
     renderWithProviders(<Dashboard />)
     await waitFor(() => {
-      expect(screen.queryByText(/tarjetas para repasar/i)).toBeNull()
+      expect(screen.queryByText(/tarjeta(s)? para repasar/i)).toBeNull()
     })
   })
 

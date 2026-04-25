@@ -1,5 +1,5 @@
 """
-LLM service — Ollama local primary, Gemini remote fallback.
+LLM service — Gemini primary, Ollama local fallback.
 System instructions are in English; Dutch and Spanish are used for content details.
 """
 import asyncio
@@ -43,9 +43,7 @@ async def _call_gemini(messages: list[dict[str, str]]) -> str:
     if not settings.GEMINI_API_KEY:
         raise RuntimeError("GEMINI_API_KEY is not set")
 
-    # Strip litellm-style prefix if present (e.g. 'gemini/gemini-2.0-flash')
-    raw_model = settings.GEMINI_MODEL
-    model = raw_model.split("/", 1)[-1] if "/" in raw_model else raw_model
+    model = settings.GEMINI_MODEL
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
@@ -82,15 +80,13 @@ async def chat_completion(
     try:
         if provider == "ollama":
             return await _call_ollama(messages, settings.OLLAMA_MODEL)
-        else:
-            return await _call_gemini(messages)
+        return await _call_gemini(messages)
     except Exception as primary_err:
         logger.warning("Primary LLM failed (%s), trying fallback: %s", provider, primary_err)
         try:
             if provider == "ollama":
                 return await _call_gemini(messages)
-            else:
-                return await _call_ollama(messages, settings.OLLAMA_MODEL)
+            return await _call_ollama(messages, settings.OLLAMA_MODEL)
         except Exception as fallback_err:
             logger.error("Fallback LLM also failed: %s", fallback_err)
             raise RuntimeError("All LLM providers failed.") from fallback_err

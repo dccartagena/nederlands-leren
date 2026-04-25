@@ -25,18 +25,6 @@ class VocabularyItemBase(BaseModel):
 class VocabularyItemOut(VocabularyItemBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    audio_files: list["AudioFileOut"] = []
-
-
-# ── Audio ────────────────────────────────────────────────────────────────────
-
-class AudioFileOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    id: int
-    file_path: str
-    source: str | None = None
-    license: str | None = None
-    sentence_text_nl: str | None = None
 
 
 # ── Grammar ──────────────────────────────────────────────────────────────────
@@ -81,6 +69,7 @@ class ReviewResponse(BaseModel):
     stability: float
     state: int
     xp_earned: int
+    new_achievements: list[str] = []
 
 
 class DueCardOut(BaseModel):
@@ -131,4 +120,4 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: list[ChatMessage] = Field(..., max_length=50)
-    provider: str | None = Field(None, pattern=r"^(ollama|openai|anthropic|mistral|gemini)$")
+    provider: str | None = Field(None, pattern=r"^(ollama|gemini)$")
