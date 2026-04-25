@@ -5,41 +5,41 @@
     "title_es": "El alfabeto y reglas de pronunciación",
     "level": "a0",
     "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Ik leer Nederlands. Het alfabet heeft letters. A, B, C, D, E. De letter 'A' klinkt als 'a'. De letter 'E' klinkt als 'e'. De letter 'I' klinkt als 'i'. De letter 'O' klinkt als 'o'. De letter 'U' klinkt als 'u'. Nederlands is leuk! Ik lees: 'A-B-C'. De uitspraak is belangrijk. Ik oefen elke dag met mijn boek. Nu kan ik praten. Tot ziens!",
-    "content_es": "¡Hola! Soy Anna. Estoy aprendiendo neerlandés. El alfabeto tiene letras. A, B, C, D, E. La letra 'A' suena como 'a'. La letra 'E' suena como 'e'. La letra 'I' suena como 'i'. La letra 'O' suena como 'o'. La letra 'U' suena como 'u'. ¡El neerlandés es divertido! Leo: 'A-B-C'. La pronunciación es importante. Practico cada día con mi libro. Ahora puedo hablar. ¡Hasta la vista!",
+    "content_nl": "Dit is het alfabet. A, B, C, D. De letter A klinkt als in 'papa'. De letter E klinkt als in 'bed'. De letter I klinkt als in 'vis'. De letter O klinkt als in 'bos'. De letter U klinkt als in 'bus'. Luister goed naar de klanken. Leer de letters en zeg ze hardop. Het is leuk om Nederlands te spreken. Oefen elke dag een beetje. Succes met de uitspraak van de letters!",
+    "content_es": "Este es el alfabeto. A, B, C, D. La letra A suena como en 'papa'. La letra E suena como en 'bed' (cama). La letra I suena como en 'vis' (pez). La letra O suena como en 'bos' (bosque). La letra U suena como en 'bus' (autobús). Escucha bien los sonidos. Aprende las letras y dilas en voz alta. Es divertido hablar neerlandés. Practica un poco cada día. ¡Suerte con la pronunciación de las letras!",
     "questions_json": [
       {
-        "question_es": "¿Cómo se llama la persona que aprende neerlandés en la historia?",
+        "question_es": "¿Cómo suena la letra 'I' según el texto?",
         "options": [
-          "Anna",
-          "Bram",
-          "Elena",
-          "Otto"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto comienza diciendo: 'Ik ben Anna' (Yo soy Anna)."
-      },
-      {
-        "question_es": "¿Qué practica Anna cada día?",
-        "options": [
-          "El piano",
-          "El alfabeto",
-          "Cantar",
-          "Cocinar"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona que ella practica con su libro sobre el alfabeto."
-      },
-      {
-        "question_es": "¿Qué dice Anna al final de la historia?",
-        "options": [
-          "Hallo",
-          "Dank u",
-          "Tot ziens",
-          "Ja"
+          "Como en 'papa'",
+          "Como en 'bed'",
+          "Como en 'vis'",
+          "Como en 'bus'"
         ],
         "answer_index": 2,
-        "explanation_es": "La última frase del texto es 'Tot ziens', que significa 'Hasta la vista'."
+        "explanation_es": "El texto indica explícitamente: 'De letter I klinkt als in 'vis''."
+      },
+      {
+        "question_es": "¿Qué recomienda el texto hacer cada día?",
+        "options": [
+          "Escribir mucho",
+          "Oefenen (practicar)",
+          "Leer un libro",
+          "Ver la televisión"
+        ],
+        "answer_index": 1,
+        "explanation_es": "La frase dice: 'Oefen elke dag een beetje' (practica un poco cada día)."
+      },
+      {
+        "question_es": "¿Cómo se deben decir las letras para aprender?",
+        "options": [
+          "En silencio",
+          "Escribiéndolas",
+          "Hardop (en voz alta)",
+          "Solo en clase"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'Leer de letters en zeg ze hardop' (aprende las letras y dilas en voz alta)."
       }
     ]
   },
@@ -49,85 +49,85 @@
     "title_es": "El nombre de Anna",
     "level": "a0",
     "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. Dat is mijn naam. Nu jij! Wat is jouw naam? Spel jij ook jouw naam? Is het B - E - N of M - A - R - K? Het alfabet is leuk. A, B, C, D... Wij leren samen Nederlands. Het is een mooie taal. Tot ziens!",
-    "content_es": "¡Hola! Yo soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. ¡Ahora tú! ¿Cuál es tu nombre? ¿Deletreas tú también tu nombre? ¿Es B - E - N o M - A - R - K? El alfabeto es divertido. A, B, C, D... Aprendemos neerlandés juntos. Es un idioma bonito. ¡Hasta luego!",
+    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Mijn naam is A-N-N-A. De letter A is makkelijk. De letter N is ook fijn. Ik leer het alfabet. A, B, C, D, E. Ik zeg de letters hardop. Ik oefen elke dag. Nederlands is leuk! Nu jij. Wat is jouw naam? Spel jouw naam voor mij. Ik luister goed naar de klanken. Wij leren samen. Het alfabet is de basis. Super goed gedaan!",
+    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Mi nombre es A-N-N-A. La letra A es fácil. La letra N también es agradable. Estoy aprendiendo el alfabeto. A, B, C, D, E. Digo las letras en voz alta. Practico todos los días. ¡El neerlandés es divertido! Ahora tú. ¿Cuál es tu nombre? Deletrea tu nombre para mí. Escucho bien los sonidos. Aprendemos juntos. El alfabeto es la base. ¡Muy bien hecho!",
     "questions_json": [
       {
-        "question_es": "¿Cómo se llama la persona que habla en la historia?",
+        "question_es": "¿Cómo se llama la persona del texto?",
         "options": [
-          "Ben",
-          "Mark",
+          "Bram",
           "Anna",
-          "Daan"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La persona dice: 'Ik ben Anna' (Yo soy Anna)."
-      },
-      {
-        "question_es": "¿Qué pide Anna que haga el lector?",
-        "options": [
-          "Que escriba su nombre",
-          "Que deletree su nombre",
-          "Que cante el abecedario",
-          "Que diga su dirección"
+          "Daan",
+          "Emma"
         ],
         "answer_index": 1,
-        "explanation_es": "Anna pregunta: 'Spel jij ook jouw naam?' (¿Deletreas tú también tu nombre?)."
+        "explanation_es": "El texto comienza diciendo 'Ik ben Anna' (Yo soy Anna)."
       },
       {
-        "question_es": "¿Qué están aprendiendo juntos?",
+        "question_es": "¿Qué está practicando Anna?",
         "options": [
-          "Inglés",
-          "Español",
-          "Francés",
-          "Neerlandés"
+          "A escribir números",
+          "A leer el alfabeto",
+          "A cantar",
+          "A cocinar"
         ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'Wij leren samen Nederlands' (Aprendemos neerlandés juntos)."
+        "answer_index": 1,
+        "explanation_es": "Anna dice explícitamente: 'Ik leer het alfabet' (Estoy aprendiendo el alfabeto)."
+      },
+      {
+        "question_es": "¿Qué le pide Anna al lector?",
+        "options": [
+          "Que deletree su nombre",
+          "Que cante una canción",
+          "Que escriba una carta",
+          "Que se vaya a casa"
+        ],
+        "answer_index": 0,
+        "explanation_es": "Anna pregunta 'Wat is jouw naam? Spel jouw naam voor mij' (¿Cuál es tu nombre? Deletrea tu nombre para mí)."
       }
     ]
   },
   {
     "slug": "a0-alfabet_uitspraak-3",
-    "title_nl": "De naam van Tom",
-    "title_es": "El nombre de Tom",
+    "title_nl": "De naam van Anna",
+    "title_es": "El nombre de Anna",
     "level": "a0",
     "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Tom. Hoe spel je mijn naam? Dat is T-O-M. De T klinkt als 'tee'. De O klinkt als 'oo'. De M klinkt als 'em'. Mijn vriendin heet Anna. Hoe spel je Anna? Dat is A-N-N-A. De A klinkt als 'aa'. De N klinkt als 'en'. Wij leren het alfabet. A, B, C, D, E. Nederlands is leuk! Wij zeggen: hallo, Tom. Hallo, Anna.",
-    "content_es": "¡Hola! Soy Tom. ¿Cómo deletreas mi nombre? Es T-O-M. La T suena como 'tee'. La O suena como 'oo'. La M suena como 'em'. Mi amiga se llama Anna. ¿Cómo deletreas Anna? Es A-N-N-A. La A suena como 'aa'. La N suena como 'en'. Aprendemos el alfabeto. A, B, C, D, E. ¡El neerlandés es divertido! Decimos: hola, Tom. Hola, Anna.",
+    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. De letter A is belangrijk. De letter N is ook belangrijk. Mijn vriend heet Ben. Hij spelt zijn naam: B - E - N. Wij leren het alfabet in de klas. De docent zegt: 'A, B, C'. Wij zeggen: 'A, B, C'. Nederlands is leuk. Wij spreken en wij spellen. Alles is heel duidelijk voor ons. Tot ziens!",
+    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. La letra A es importante. La letra N también es importante. Mi amigo se llama Ben. Él deletrea su nombre: B - E - N. Aprendemos el alfabeto en clase. El profesor dice: 'A, B, C'. Nosotros decimos: 'A, B, C'. El neerlandés es divertido. Hablamos y deletreamos. Todo es muy claro para nosotros. ¡Adiós!",
     "questions_json": [
       {
-        "question_es": "¿Cómo se deletrea el nombre Tom?",
+        "question_es": "¿Cómo deletrea Anna su nombre?",
         "options": [
-          "T-O-M",
-          "A-N-N-A",
-          "T-O-N",
-          "M-O-T"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice explícitamente: 'Dat is T-O-M'."
-      },
-      {
-        "question_es": "¿Cómo suena la letra 'A' en neerlandés según el texto?",
-        "options": [
-          "ee",
-          "oo",
-          "aa",
-          "en"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona: 'De A klinkt als aa'."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo los personajes?",
-        "options": [
-          "A escribir",
-          "El alfabeto",
-          "A cantar",
-          "A bailar"
+          "A - N - A",
+          "A - N - N - A",
+          "B - E - N",
+          "A - B - C"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto afirma: 'Wij leren het alfabet'."
+        "explanation_es": "En el texto, Anna dice explícitamente: 'Ik spel mijn naam: A - N - N - A'."
+      },
+      {
+        "question_es": "¿Cómo se llama el amigo de Anna?",
+        "options": [
+          "Anna",
+          "Docent",
+          "Ben",
+          "ABC"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto menciona: 'Mijn vriend heet Ben'."
+      },
+      {
+        "question_es": "¿Qué hacen los estudiantes en clase?",
+        "options": [
+          "Comer",
+          "Dormir",
+          "Aprender el alfabeto",
+          "Correr"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'Wij leren het alfabet in de klas'."
       }
     ]
   },
@@ -137,41 +137,41 @@
     "title_es": "El nombre de Anna",
     "level": "a0",
     "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. Dat is mijn naam. En dit is Ben. Hij spelt zijn naam: B - E - N. Wij zijn in de klas. De docent zegt: 'Spel jouw naam.' Ik spel: A - N - N - A. Ben spelt: B - E - N. Wij leren het alfabet. A, B, C, D... Wij praten in het Nederlands. Wat is jouw naam? Spel hem nu!",
-    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. Y este es Ben. Él deletrea su nombre: B - E - N. Estamos en clase. El profesor dice: 'Deletrea tu nombre'. Yo deletreo: A - N - N - A. Ben deletrea: B - E - N. Aprendemos el alfabeto. A, B, C, D... Hablamos en neerlandés. ¿Cuál es tu nombre? ¡Deletréalo ahora!",
+    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. Dat is mijn naam. Nu jij! Hoe spel jij jouw naam? Is het B - E - N? Of is het L - I - S - A? Nederlands leren is leuk. Wij oefenen het alfabet. A, B, C, D... Het is heel goed. Wij praten en wij lachen. Wat is jouw naam? Schrijf het op. Heel goed gedaan!",
+    "content_es": "¡Hola! Yo soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. ¡Ahora tú! ¿Cómo deletreas tu nombre? ¿Es B - E - N? ¿O es L - I - S - A? Aprender neerlandés es divertido. Practicamos el alfabeto. A, B, C, D... Es muy bueno. Hablamos y reímos. ¿Cuál es tu nombre? Escríbelo. ¡Muy bien hecho!",
     "questions_json": [
       {
-        "question_es": "¿Cómo deletrea Anna su nombre?",
+        "question_es": "¿Cómo se deletrea el nombre de la chica?",
         "options": [
           "A - N - A",
           "A - N - N - A",
-          "B - E - N",
-          "A - B - C"
+          "L - I - S - A",
+          "B - E - N"
         ],
         "answer_index": 1,
-        "explanation_es": "En el texto, Anna dice explícitamente: 'Ik spel mijn naam: A - N - N - A'."
+        "explanation_es": "En la historia, ella dice explícitamente: 'Ik spel mijn naam: A - N - N - A'."
       },
       {
-        "question_es": "¿Dónde están Anna y Ben?",
+        "question_es": "¿Qué están practicando los personajes?",
         "options": [
-          "En casa",
-          "En el trabajo",
-          "En la clase",
-          "En el parque"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona claramente: 'Wij zijn in de klas' (Estamos en la clase)."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo?",
-        "options": [
-          "A escribir",
           "El alfabeto",
-          "A cantar",
-          "A bailar"
+          "Los números",
+          "Los colores",
+          "Los países"
+        ],
+        "answer_index": 0,
+        "explanation_es": "El texto menciona claramente: 'Wij oefenen het alfabet' (Practicamos el alfabeto)."
+      },
+      {
+        "question_es": "¿Qué le pide hacer a la otra persona?",
+        "options": [
+          "Cantar una canción",
+          "Escribir su nombre",
+          "Leer un libro",
+          "Comer algo"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Wij leren het alfabet' (Estamos aprendiendo el alfabeto)."
+        "explanation_es": "La historia dice: 'Wat is jouw naam? Schrijf het op.' (¿Cuál es tu nombre? Escríbelo)."
       }
     ]
   },
@@ -181,481 +181,41 @@
     "title_es": "El nombre de Anna",
     "level": "a0",
     "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam. A - N - N - A. Dat is Anna. Mijn vriend is Ben. Hij spelt zijn naam: B - E - N. Wij zijn in de klas. De docent zegt: 'Hallo!'. Wij leren het alfabet. A, B, C, D, E. Het is leuk. Wij spreken Nederlands. Het is een mooie taal. Tot ziens!",
-    "content_es": "¡Hola! Yo soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Esa es Anna. Mi amigo es Ben. Él deletrea su nombre: B - E - N. Estamos en clase. El profesor dice: '¡Hola!'. Aprendemos el alfabeto. A, B, C, D, E. Es divertido. Hablamos neerlandés. Es un idioma bonito. ¡Hasta luego!",
+    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam. A - N - N - A. Dat is mijn naam. En dit is Ben. Hij spelt zijn naam: B - E - N. Wij zijn in de klas. De leraar zegt: 'Spel je naam.' Ik zeg: A - N - N - A. Ben zegt: B - E - N. Wij leren het alfabet. A, B, C, D, E. Nederlands is leuk!",
+    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Deletreo mi nombre. A - N - N - A. Ese es mi nombre. Y este es Ben. Él deletrea su nombre: B - E - N. Estamos en clase. El profesor dice: 'Deletrea tu nombre'. Yo digo: A - N - N - A. Ben dice: B - E - N. Aprendemos el alfabeto. A, B, C, D, E. ¡El neerlandés es divertido!",
     "questions_json": [
       {
         "question_es": "¿Cómo se deletrea el nombre de la chica?",
         "options": [
           "A - N - A",
           "A - N - N - A",
-          "B - E - N",
-          "A - B - C"
+          "A - N - N - E",
+          "A - N - A - A"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Ik spel mijn naam. A - N - N - A'."
+        "explanation_es": "El texto dice explícitamente: 'A - N - N - A'."
       },
       {
-        "question_es": "¿Quién es el amigo de Anna?",
+        "question_es": "¿Cómo se llama el chico?",
         "options": [
-          "De docent",
-          "Een meisje",
+          "Anna",
+          "Daan",
           "Ben",
-          "Niemand"
+          "Bram"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto menciona: 'Mijn vriend is Ben'."
+        "explanation_es": "El texto menciona: 'En dit is Ben' (Y este es Ben)."
       },
       {
-        "question_es": "¿Qué están haciendo en clase?",
+        "question_es": "¿Dónde están Anna y Ben?",
         "options": [
-          "Comiendo",
-          "Aprendiendo el alfabeto",
-          "Durmiendo",
-          "Cantando"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Wij leren het alfabet'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-6",
-    "title_nl": "De naam van Tom",
-    "title_es": "El nombre de Tom",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Tom. Mijn naam is T-O-M. Dat zijn drie letters. De T is van 'tafel'. De O is van 'oma'. De M is van 'man'. Wat is jouw naam? Spell jij jouw naam ook? Is het A-N-A of B-E-N? Het alfabet is leuk. Leer jij de letters met mij? A, B, C, D, E... Wij leren nu samen. Nederlands spreken is fijn en heel erg goed voor jou.",
-    "content_es": "¡Hola! Soy Tom. Mi nombre es T-O-M. Esas son tres letras. La T es de 'tafel' (mesa). La O es de 'oma' (abuela). La M es de 'man' (hombre). ¿Cuál es tu nombre? ¿Deletreas tu nombre también? ¿Es A-N-A o B-E-N? El alfabeto es divertido. ¿Aprendes las letras conmigo? A, B, C, D, E... Aprendemos juntos ahora. Hablar neerlandés es agradable y muy bueno para ti.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Tom su nombre?",
-        "options": [
-          "T-A-M",
-          "T-O-M",
-          "T-O-N",
-          "D-O-M"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom dice explícitamente: 'Mijn naam is T-O-M'."
-      },
-      {
-        "question_es": "¿Qué letra usa Tom para la palabra 'oma'?",
-        "options": [
-          "De T",
-          "De M",
-          "De O",
-          "De A"
-        ],
-        "answer_index": 2,
-        "explanation_es": "En el texto, Tom dice: 'De O is van oma'."
-      },
-      {
-        "question_es": "¿Qué dice Tom sobre el alfabeto?",
-        "options": [
-          "Es difícil",
-          "Es aburrido",
-          "Es divertido",
-          "Es muy largo"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Tom afirma: 'Het alfabet is leuk' (El alfabeto es divertido)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-7",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam. A - N - N - A. Dat is mijn naam. En dit is Ben. Hij spelt zijn naam: B - E - N. Wij zijn in de klas. Wij leren het alfabet. A, B, C, D, E. Wij spreken Nederlands. Het is leuk! Hoe spel jij jouw naam? Zeg de letters hardop. Dat is goed voor de uitspraak. Leer elke dag een beetje.",
-    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. Y este es Ben. Él deletrea su nombre: B - E - N. Estamos en clase. Aprendemos el alfabeto. A, B, C, D, E. Hablamos neerlandés. ¡Es divertido! ¿Cómo deletreas tu nombre? Di las letras en voz alta. Eso es bueno para la pronunciación. Aprende un poco cada día.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se deletrea el nombre de la chica?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "B - E - N",
-          "A - B - C"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Ik spel mijn naam. A - N - N - A'."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo Anna y Ben en clase?",
-        "options": [
-          "A escribir",
-          "A cantar",
-          "El alfabeto",
-          "A cocinar"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La historia menciona: 'Wij leren het alfabet' (Estamos aprendiendo el alfabeto)."
-      },
-      {
-        "question_es": "¿Qué recomienda el texto para mejorar la pronunciación?",
-        "options": [
-          "Escribir mucho",
-          "Leer libros",
-          "Decir las letras en voz alta",
-          "Escuchar música"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Zeg de letters hardop. Dat is goed voor de uitspraak' (Di las letras en voz alta. Eso es bueno para la pronunciación)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-8",
-    "title_nl": "De naam van Tom",
-    "title_es": "El nombre de Tom",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Tom is in de klas. De leraar vraagt: 'Hoe spel je jouw naam?' Tom zegt: 'Mijn naam is Tom. Dat is T - O - M.' De leraar zegt: 'Goed zo!' Tom is blij. Hij leert het alfabet. De letters A, B en C zijn makkelijk. Tom leest nu: A, B, C, D, E, F, G. Hij oefent veel in de klas. Nederlands is leuk. Tom spreekt nu de letters heel duidelijk uit.",
-    "content_es": "Tom está en clase. El profesor pregunta: '¿Cómo deletreas tu nombre?' Tom dice: 'Mi nombre es Tom. Es T - O - M.' El profesor dice: '¡Muy bien!' Tom está feliz. Él aprende el alfabeto. Las letras A, B y C son fáciles. Tom lee ahora: A, B, C, D, E, F, G. Él practica mucho en clase. El neerlandés es divertido. Tom pronuncia las letras muy claramente ahora.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Tom su nombre?",
-        "options": [
-          "T - O - M",
-          "T - A - M",
-          "D - O - M",
-          "A - B - C"
-        ],
-        "answer_index": 0,
-        "explanation_es": "En el texto, Tom dice explícitamente: 'Mijn naam is Tom. Dat is T - O - M'."
-      },
-      {
-        "question_es": "¿Qué está haciendo Tom en clase?",
-        "options": [
-          "Comiendo",
-          "Durmiendo",
-          "Aprendiendo el alfabeto",
-          "Cantando"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona que Tom aprende el alfabeto y practica las letras."
-      },
-      {
-        "question_es": "¿Cómo se siente Tom al final?",
-        "options": [
-          "Triste",
-          "Enojado",
-          "Cansado",
-          "Feliz"
-        ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'Tom is blij', que significa 'Tom está feliz'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-9",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo. Ik ben Anna. Hoe heet jij? Mijn naam is Anna. Dat is A - N - N - A. De letter A is belangrijk. De letter N is ook belangrijk. Het alfabet is leuk. Ik leer de letters in de klas. A, B, C, D, E. Ik zeg de letters hardop. A is voor Anna. B is voor bal. C is voor café. D is voor dag. E is voor een. Het is heel makkelijk.",
-    "content_es": "Hola. Soy Anna. ¿Cómo te llamas? Mi nombre es Anna. Eso es A - N - N - A. La letra A es importante. La letra N también es importante. El alfabeto es divertido. Aprendo las letras en clase. A, B, C, D, E. Digo las letras en voz alta. A es para Anna. B es para pelota. C es para café. D es para día. E es para uno. Es muy fácil.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Anna su nombre?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "A - B - C - D",
-          "A - N - N - E"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, ella dice explícitamente: 'Dat is A - N - N - A'."
-      },
-      {
-        "question_es": "¿Qué letra dice Anna que es para 'bal' (pelota)?",
-        "options": [
-          "A",
-          "B",
-          "C",
-          "D"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona: 'B is voor bal'."
-      },
-      {
-        "question_es": "¿Dónde aprende Anna las letras?",
-        "options": [
-          "En el café",
           "En casa",
-          "En la clase",
-          "En la calle"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik leer de letters in de klas' (Aprendo las letras en la clase)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-10",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo. Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. Dat is mijn naam. En jij? Wat is jouw naam? Spel jij ook jouw naam? Is het B - E - N? Of is het C - A - R - L - A? Het alfabet is belangrijk. A, B, C, D, E... Wij leren de letters. Het is leuk. Hallo, Anna! Hallo, Ben! Hallo, Carla!",
-    "content_es": "Hola. Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. ¿Y tú? ¿Cuál es tu nombre? ¿Deletreas también tu nombre? ¿Es B - E - N? ¿O es C - A - R - L - A? El alfabeto es importante. A, B, C, D, E... Aprendemos las letras. Es divertido. ¡Hola, Anna! ¡Hola, Ben! ¡Hola, Carla!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se deletrea el nombre de la protagonista?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "A - N - A - A",
-          "A - N - E - A"
+          "En la escuela",
+          "En el parque",
+          "En una tienda"
         ],
         "answer_index": 1,
-        "explanation_es": "La protagonista dice explícitamente: 'Ik spel mijn naam: A - N - N - A'."
-      },
-      {
-        "question_es": "¿Qué nombres se mencionan en la historia?",
-        "options": [
-          "Anna, Ben y Carla",
-          "Anna, Bob y Clara",
-          "Ana, Ben y Carlos",
-          "Anna, Bart y Carla"
-        ],
-        "answer_index": 0,
-        "explanation_es": "La historia menciona específicamente a Anna, Ben y Carla."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo los personajes?",
-        "options": [
-          "Los números",
-          "Las palabras",
-          "Las letras",
-          "Los colores"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La historia menciona 'Wij leren de letters' (Aprendemos las letras) en relación con el alfabeto."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-11",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo. Ik ben Anna. Hoe heet jij? Ik spel mijn naam: A - N - N - A. Dat is mijn naam. De letters A en N zijn makkelijk. Nu jij. Hoe spel jij jouw naam? Is het een lange naam? Mijn naam is kort. Ik ben blij. Wij leren nu het alfabet. A, B, C... Het is leuk! Nederlands is een mooie taal voor mij. Tot ziens!",
-    "content_es": "Hola. Yo soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Ese es mi nombre. Las letras A y N son fáciles. Ahora tú. ¿Cómo deletreas tu nombre? ¿Es un nombre largo? Mi nombre es corto. Estoy feliz. Ahora aprendemos el alfabeto. A, B, C... ¡Es divertido! El neerlandés es un idioma bonito para mí. ¡Hasta la vista!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Anna su nombre?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "A - N - A - N",
-          "A - B - C"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Anna dice explícitamente: 'Ik spel mijn naam: A - N - N - A'."
-      },
-      {
-        "question_es": "¿Qué dice Anna sobre su nombre?",
-        "options": [
-          "Es largo",
-          "Es difícil",
-          "Es corto",
-          "Es feo"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna menciona: 'Mijn naam is kort' (Mi nombre es corto)."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo los personajes?",
-        "options": [
-          "El alfabeto",
-          "Los números",
-          "Los colores",
-          "Los días"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto indica claramente: 'Wij leren nu het alfabet' (Ahora estamos aprendiendo el alfabeto)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-12",
-    "title_nl": "De naam van Tom",
-    "title_es": "El nombre de Tom",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Tom. Mijn naam is T-O-M. Dat zijn drie letters. De T is van 'tafel'. De O is van 'oma'. De M is van 'man'. Wat is jouw naam? Spell jij jouw naam ook? Is het A, B of C? Het alfabet is leuk. We leren de letters samen. Nu zeg ik: A, B, C. Goed zo! Wij praten in de les. Nederlands is een mooie taal. Tot ziens!",
-    "content_es": "¡Hola! Soy Tom. Mi nombre es T-O-M. Esas son tres letras. La T es de 'tafel' (mesa). La O es de 'oma' (abuela). La M es de 'man' (hombre). ¿Cuál es tu nombre? ¿Deletreas tú también tu nombre? ¿Es A, B o C? El alfabeto es divertido. Aprendemos las letras juntos. Ahora digo: A, B, C. ¡Muy bien! Hablamos en clase. El neerlandés es un idioma hermoso. ¡Hasta la vista!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se deletrea el nombre del protagonista?",
-        "options": [
-          "T-O-M",
-          "T-A-M",
-          "T-O-N",
-          "M-O-T"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice explícitamente: 'Mijn naam is T-O-M'."
-      },
-      {
-        "question_es": "¿Qué letras menciona Tom como ejemplo del alfabeto?",
-        "options": [
-          "X, Y, Z",
-          "A, B, C",
-          "D, E, F",
-          "M, N, O"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom dice en el texto: 'Nu zeg ik: A, B, C'."
-      },
-      {
-        "question_es": "¿Qué significa la palabra 'tafel' según el texto?",
-        "options": [
-          "Abuela",
-          "Hombre",
-          "Mesa",
-          "Letra"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La palabra 'tafel' se usa como ejemplo para la letra T, y en español significa mesa."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-13",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo! Ik ben Anna. Hoe heet jij? Ik spel mijn naam. A - N - N - A. Dat is Anna. Mijn vriend is Ben. Hij spelt zijn naam. B - E - N. Dat is Ben. Wij leren het alfabet. A, B, C, D, E. Het is leuk! Wij zeggen: hallo A, hallo B. Wij leren Nederlands in de klas. Het is een mooie taal. Tot ziens!",
-    "content_es": "¡Hola! Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Eso es Anna. Mi amigo es Ben. Él deletrea su nombre: B - E - N. Eso es Ben. Aprendemos el alfabeto: A, B, C, D, E. ¡Es divertido! Decimos: hola A, hola B. Aprendemos holandés en clase. Es un idioma hermoso. ¡Hasta la vista!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Anna su nombre?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "B - E - N",
-          "A - B - C"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Anna deletrea su nombre como A - N - N - A."
-      },
-      {
-        "question_es": "¿Cómo se llama el amigo de Anna?",
-        "options": [
-          "Tom",
-          "Daan",
-          "Ben",
-          "Arie"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona explícitamente: 'Mijn vriend is Ben'."
-      },
-      {
-        "question_es": "¿Qué están aprendiendo ellos?",
-        "options": [
-          "El alfabeto",
-          "A cocinar",
-          "A bailar",
-          "A cantar"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Wij leren het alfabet' (Nosotros aprendemos el alfabeto)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-14",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo. Ik ben Anna. Hoe heet jij? Ik spel mijn naam. A - N - N - A. Dat is Anna. Ik woon in Amsterdam. De stad Amsterdam begint met de letter A. Ik ben blij. Mijn vriend heet Ben. Hij spelt zijn naam: B - E - N. Wij zijn in de klas. Wij leren het alfabet. A, B, C, D, E. Nederlands is leuk. Tot ziens!",
-    "content_es": "Hola. Soy Anna. ¿Cómo te llamas? Deletreo mi nombre: A - N - N - A. Eso es Anna. Vivo en Ámsterdam. La ciudad de Ámsterdam empieza con la letra A. Estoy feliz. Mi amigo se llama Ben. Él deletrea su nombre: B - E - N. Estamos en clase. Aprendemos el alfabeto. A, B, C, D, E. El neerlandés es divertido. ¡Adiós!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo deletrea Anna su nombre?",
-        "options": [
-          "A - N - A",
-          "A - N - N - A",
-          "B - E - N",
-          "A - M - S"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Anna dice explícitamente: A - N - N - A."
-      },
-      {
-        "question_es": "¿Con qué letra empieza la ciudad de Ámsterdam?",
-        "options": [
-          "B",
-          "C",
-          "A",
-          "D"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona que Amsterdam empieza con la letra A."
-      },
-      {
-        "question_es": "¿Cómo se llama el amigo de Anna?",
-        "options": [
-          "Ben",
-          "Amsterdam",
-          "Daan",
-          "Anna"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Mijn vriend heet Ben' (Mi amigo se llama Ben)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-alfabet_uitspraak-15",
-    "title_nl": "De naam van Anna",
-    "title_es": "El nombre de Anna",
-    "level": "a0",
-    "theme": "alfabet_uitspraak",
-    "content_nl": "Hallo. Ik ben Anna. Hoe heet jij? Mijn naam is A-N-N-A. De letter A is als in 'appel'. De letter N is als in 'Nederland'. Ik leer het alfabet. A, B, C, D, E. De letters zijn leuk. Ik spreek langzaam. De taal is Nederlands. Het is een mooie dag. Ik ben blij. Tot ziens!",
-    "content_es": "Hola. Yo soy Anna. ¿Cómo te llamas? Mi nombre es A-N-N-A. La letra A es como en 'appel' (manzana). La letra N es como en 'Nederland' (Países Bajos). Estoy aprendiendo el alfabeto. A, B, C, D, E. Las letras son divertidas. Hablo despacio. El idioma es neerlandés. Es un día hermoso. Estoy feliz. ¡Hasta la vista!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se escribe el nombre de la persona en la historia?",
-        "options": [
-          "A-N-A",
-          "A-N-N-A",
-          "A-N-N-E",
-          "A-M-A"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Mijn naam is A-N-N-A'."
-      },
-      {
-        "question_es": "¿Qué está aprendiendo Anna?",
-        "options": [
-          "Los números",
-          "El alfabeto",
-          "Los colores",
-          "Los días"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona: 'Ik leer het alfabet' (Estoy aprendiendo el alfabeto)."
-      },
-      {
-        "question_es": "¿Qué idioma está practicando Anna?",
-        "options": [
-          "Inglés",
-          "Español",
-          "Neerlandés",
-          "Alemán"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'De taal is Nederlands' (El idioma es neerlandés)."
+        "explanation_es": "El texto dice: 'Wij zijn in de klas' (Estamos en la clase/escuela)."
       }
     ]
   },
@@ -665,55 +225,99 @@
     "title_es": "Saludos sociales y etiqueta",
     "level": "a0",
     "theme": "begroetingen",
-    "content_nl": "Hallo! Ik ben Anna. Ik zie mijn buurman. Ik zeg: \"Goedemorgen! Hoe gaat het?\" Mijn buurman lacht. Hij zegt: \"Goed, dank je wel. En met jou?\" Ik zeg: \"Ook goed.\" Wij geven elkaar een hand. Dat is beleefd in Nederland. \"Tot ziens!\" zeg ik. \"Tot ziens!\" zegt hij. Het is een fijne dag. Begroeten is belangrijk. Het is vriendelijk voor iedereen. Wij zijn blij.",
-    "content_es": "¡Hola! Soy Anna. Veo a mi vecino. Digo: \"¡Buenos días! ¿Cómo estás?\". Mi vecino sonríe. Él dice: \"Bien, gracias. ¿Y tú?\". Yo digo: \"Bien también\". Nos damos la mano. Eso es educado en los Países Bajos. \"¡Adiós!\", digo. \"¡Adiós!\", dice él. Es un buen día. Saludar es importante. Es amable para todos. Estamos felices.",
+    "content_nl": "Hallo! Ik ben Anna. Ik ben in de stad. Ik zie Tom. Ik zeg: \"Hallo Tom, hoe gaat het?\" Tom zegt: \"Goed, dank je. En met jou?\" Ik zeg: \"Ook goed, dank je wel.\" Wij zijn beleefd. In Nederland zeggen wij vaak \"hallo\" of \"hoi\". Het is fijn om vriendelijk te zijn. Tot ziens, Tom! Dag Anna!",
+    "content_es": "¡Hola! Soy Anna. Estoy en la ciudad. Veo a Tom. Digo: \"Hola Tom, ¿cómo estás?\" Tom dice: \"Bien, gracias. ¿Y tú?\" Yo digo: \"También bien, muchas gracias\". Somos educados. En los Países Bajos decimos a menudo \"hallo\" o \"hoi\". Es agradable ser amable. ¡Hasta la vista, Tom! ¡Adiós, Anna!",
     "questions_json": [
       {
-        "question_es": "¿Qué dice Anna cuando ve a su vecino?",
+        "question_es": "¿Cómo se llama la persona que cuenta la historia?",
         "options": [
-          "Dag!",
-          "Goedemorgen!",
-          "Tot ziens!",
-          "Dank je wel."
+          "Tom",
+          "Anna",
+          "Nederland",
+          "Hoi"
         ],
         "answer_index": 1,
-        "explanation_es": "Anna dice 'Goedemorgen!' (Buenos días) al encontrarse con su vecino."
+        "explanation_es": "La historia comienza diciendo: 'Ik ben Anna' (Yo soy Anna)."
       },
       {
-        "question_es": "¿Qué hacen Anna y su vecino para saludarse?",
+        "question_es": "¿Qué dice Tom cuando Anna le pregunta cómo está?",
         "options": [
-          "Se abrazan",
-          "Se dan la mano",
-          "Se despiden",
-          "Se ríen"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona que se dan la mano, lo cual es considerado educado en los Países Bajos."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens'?",
-        "options": [
-          "Hola",
-          "Buenos días",
-          "Adiós",
-          "Gracias"
+          "Hallo",
+          "Tot ziens",
+          "Goed",
+          "Dag"
         ],
         "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar en neerlandés para decir adiós o hasta la vista."
+        "explanation_es": "Tom responde: 'Goed, dank je' (Bien, gracias)."
+      },
+      {
+        "question_es": "¿Qué significan 'hallo' y 'hoi' en el texto?",
+        "options": [
+          "Adiós",
+          "Gracias",
+          "Saludos",
+          "Ciudad"
+        ],
+        "answer_index": 2,
+        "explanation_es": "Son formas comunes de saludar (begroetingen) en neerlandés."
       }
     ]
   },
   {
     "slug": "a0-begroetingen-2",
+    "title_nl": "Hallo en goedemorgen",
+    "title_es": "Hola y buenos días",
+    "level": "a0",
+    "theme": "begroetingen",
+    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Sarah. Tom zegt: \"Goedemorgen!\" Sarah lacht en zegt: \"Hallo, hoe gaat het?\" Tom antwoordt: \"Goed, dank je wel. En met jou?\" Sarah zegt: \"Ook goed, dank je.\" Ze zwaaien naar elkaar. \"Tot ziens!\" zegt Tom. \"Tot ziens,\" zegt Sarah. Het is een fijne dag.",
+    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Sarah. Tom dice: \"¡Buenos días!\". Sarah sonríe y dice: \"Hola, ¿cómo estás?\". Tom responde: \"Bien, gracias. ¿Y tú?\". Sarah dice: \"Bien también, gracias\". Ellos se saludan con la mano. \"¡Adiós!\", dice Tom. \"Adiós\", dice Sarah. Es un buen día.",
+    "questions_json": [
+      {
+        "question_es": "¿Qué dice Tom al principio?",
+        "options": [
+          "Hallo",
+          "Goedemorgen",
+          "Tot ziens",
+          "Dank je"
+        ],
+        "answer_index": 1,
+        "explanation_es": "Tom dice 'Goedemorgen' (Buenos días) cuando ve a Sarah por la mañana."
+      },
+      {
+        "question_es": "¿Cómo responde Sarah a la pregunta de Tom?",
+        "options": [
+          "Slecht",
+          "Niet goed",
+          "Ook goed",
+          "Tot ziens"
+        ],
+        "answer_index": 2,
+        "explanation_es": "Sarah responde 'Ook goed' (Bien también) cuando Tom le pregunta cómo está."
+      },
+      {
+        "question_es": "¿Qué dicen al final de la conversación?",
+        "options": [
+          "Hallo",
+          "Goedemorgen",
+          "Tot ziens",
+          "Dank je wel"
+        ],
+        "answer_index": 2,
+        "explanation_es": "Al despedirse, ambos dicen 'Tot ziens', que significa 'Adiós' o 'Hasta la vista'."
+      }
+    ]
+  },
+  {
+    "slug": "a0-begroetingen-3",
     "title_nl": "Hallo en tot ziens",
     "title_es": "Hola y adiós",
     "level": "a0",
     "theme": "begroetingen",
-    "content_nl": "Het is morgen. Tom is in de stad. Hij ziet Anna. Tom zegt: \"Hallo, hoe gaat het?\" Anna lacht. Zij zegt: \"Goed, dank je. En met jou?\" Tom zegt: \"Ook goed.\" Zij praten kort. Dan moet Anna gaan. Zij zegt: \"Tot ziens, Tom!\" Tom zwaait. Hij zegt: \"Dag Anna, tot ziens!\" Het is een mooie dag in de stad. Iedereen is blij. Het is fijn om mensen te groeten.",
-    "content_es": "Es por la mañana. Tom está en la ciudad. Él ve a Anna. Tom dice: \"Hola, ¿cómo estás?\" Anna sonríe. Ella dice: \"Bien, gracias. ¿Y tú?\" Tom dice: \"También bien\". Ellos hablan brevemente. Entonces Anna tiene que irse. Ella dice: \"¡Adiós, Tom!\" Tom saluda con la mano. Él dice: \"Adiós Anna, ¡hasta luego!\". Es un día bonito en la ciudad. Todos están felices. Es agradable saludar a la gente.",
+    "content_nl": "Het is maandag. Jan is op straat. Hij ziet Anna. Jan zegt: 'Hallo, hoe gaat het?' Anna zegt: 'Goed, dank je. En met jou?' Jan zegt: 'Ook goed.' Ze praten even. Dan moet Anna gaan. Zij zegt: 'Tot ziens, Jan!' Jan zwaait en zegt: 'Dag Anna, tot ziens!' Het is een mooie dag. Iedereen is blij. De zon schijnt in de stad. Het is een goede dag voor iedereen.",
+    "content_es": "Es lunes. Jan está en la calle. Él ve a Anna. Jan dice: 'Hola, ¿cómo estás?' Anna dice: 'Bien, gracias. ¿Y tú?' Jan dice: 'También bien'. Hablan un momento. Luego Anna tiene que irse. Ella dice: '¡Adiós, Jan!' Jan saluda con la mano y dice: 'Adiós, Anna, ¡hasta la vista!' Es un día hermoso. Todos están felices. El sol brilla en la ciudad. Es un buen día para todos.",
     "questions_json": [
       {
-        "question_es": "¿Qué dice Tom cuando ve a Anna?",
+        "question_es": "¿Qué dice Jan cuando ve a Anna?",
         "options": [
           "Tot ziens",
           "Hallo",
@@ -721,117 +325,73 @@
           "Goed"
         ],
         "answer_index": 1,
-        "explanation_es": "Tom utiliza el saludo 'Hallo' (Hola) al encontrarse con Anna."
+        "explanation_es": "Jan saluda a Anna diciendo 'Hallo' (Hola)."
       },
       {
-        "question_es": "¿Cómo se siente Anna?",
+        "question_es": "¿Cómo responde Anna a la pregunta de Jan?",
         "options": [
-          "Ze is boos",
-          "Ze is goed",
-          "Ze is verdrietig",
-          "Ze is moe"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Anna responde 'Goed' (Bien) cuando Tom le pregunta cómo está."
-      },
-      {
-        "question_es": "¿Qué dice Anna al final de la conversación?",
-        "options": [
-          "Hallo",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna dice 'Tot ziens' (Adiós/Hasta luego) cuando se tiene que ir."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-3",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna!\" Anna lacht. Zij zegt: \"Hallo, Tom! Hoe gaat het?\" Tom zegt: \"Goed, dank je wel. En met jou?\" Anna antwoordt: \"Ook goed.\" Zij zeggen: \"Tot ziens!\" Tom loopt naar zijn werk. Anna loopt naar de winkel. Het is een mooie dag in de stad. Iedereen is blij. Het is een fijne dag.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna!\" Anna sonríe. Ella dice: \"¡Hola, Tom! ¿Cómo estás?\" Tom dice: \"Bien, gracias. ¿Y tú?\" Anna responde: \"También bien\". Ellos dicen: \"¡Adiós!\" Tom camina a su trabajo. Anna camina a la tienda. Es un día hermoso en la ciudad. Todos están felices. Es un día agradable.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom cuando ve a Anna?",
-        "options": [
-          "Hallo, Tom",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je wel"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En la historia, Tom dice 'Goedemorgen' (buenos días) cuando ve a Anna por la mañana."
-      },
-      {
-        "question_es": "¿Cómo está Anna?",
-        "options": [
-          "Niet goed",
           "Slecht",
+          "Tot morgen",
           "Goed",
-          "Boos"
+          "Hallo"
         ],
         "answer_index": 2,
-        "explanation_es": "Anna responde 'Ook goed' (también bien) cuando Tom le pregunta cómo está."
+        "explanation_es": "Anna responde 'Goed, dank je' (Bien, gracias)."
       },
       {
-        "question_es": "¿A dónde va Tom?",
+        "question_es": "¿Qué dice Anna para despedirse?",
         "options": [
-          "Naar de winkel",
-          "Naar zijn werk",
-          "Naar huis",
-          "Naar school"
+          "Tot ziens",
+          "Hallo",
+          "Maandag",
+          "De zon"
         ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Tom loopt naar zijn werk' (Tom camina a su trabajo)."
+        "answer_index": 0,
+        "explanation_es": "Para despedirse, Anna dice 'Tot ziens' (Adiós / Hasta la vista)."
       }
     ]
   },
   {
     "slug": "a0-begroetingen-4",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
+    "title_nl": "Hallo en tot ziens",
+    "title_es": "Hola y adiós",
     "level": "a0",
     "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Sarah. Tom zegt: \"Goedemorgen! Hoe gaat het?\" Sarah lacht en zegt: \"Hallo Tom! Het gaat goed, dank je. En met jou?\" Tom zegt: \"Ook goed, dank je wel.\" Ze lopen samen verder. Het is een mooie dag. Ze zijn blij. Tot ziens! Ze zeggen gedag en gaan naar hun werk. Het is een fijne dag in de stad.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Sarah. Tom dice: \"¡Buenos días! ¿Cómo estás?\" Sarah sonríe y dice: \"¡Hola Tom! Estoy bien, gracias. ¿Y tú?\" Tom dice: \"También bien, muchas gracias.\" Ellos caminan juntos. Es un día bonito. Están felices. ¡Adiós! Se despiden y van a su trabajo. Es un buen día en la ciudad.",
+    "content_nl": "Het is maandag. Anna loopt op straat. Zij ziet Tom. Anna zegt: \"Hallo! Hoe gaat het?\" Tom lacht en zegt: \"Goed, dank je. En met jou?\" Anna antwoordt: \"Ook goed, dank je wel.\" Zij praten kort. Dan moet Anna gaan. Zij zegt: \"Tot ziens, Tom!\" Tom zegt: \"Dag Anna, tot ziens!\" Het is een mooie dag. Iedereen is blij. Het is fijn om mensen te groeten in de stad.",
+    "content_es": "Es lunes. Anna camina por la calle. Ella ve a Tom. Anna dice: \"¡Hola! ¿Cómo estás?\" Tom sonríe y dice: \"Bien, gracias. ¿Y tú?\" Anna responde: \"También bien, muchas gracias.\" Ellos hablan brevemente. Luego Anna tiene que irse. Ella dice: \"¡Adiós, Tom!\" Tom dice: \"Adiós Anna, ¡hasta luego!\" Es un día hermoso. Todos están felices. Es agradable saludar a la gente en la ciudad.",
     "questions_json": [
       {
-        "question_es": "¿Qué dice Tom cuando ve a Sarah?",
+        "question_es": "¿Qué dice Anna cuando ve a Tom?",
         "options": [
           "Tot ziens",
-          "Goedemorgen",
-          "Goedenavond",
-          "Nee"
+          "Hallo",
+          "Dank je",
+          "Goed"
         ],
         "answer_index": 1,
-        "explanation_es": "Tom dice 'Goedemorgen' (Buenos días) cuando la ve por la mañana."
+        "explanation_es": "Al principio de la historia, Anna saluda a Tom diciendo 'Hallo'."
       },
       {
-        "question_es": "¿Cómo está Sarah?",
+        "question_es": "¿Cómo está Tom?",
         "options": [
-          "Ze is boos",
-          "Ze is moe",
-          "Het gaat goed",
-          "Ze is verdrietig"
+          "Slecht",
+          "Moe",
+          "Goed",
+          "Boos"
         ],
         "answer_index": 2,
-        "explanation_es": "Sarah responde 'Het gaat goed' (Estoy bien)."
+        "explanation_es": "Tom responde 'Goed', que significa 'bien'."
       },
       {
-        "question_es": "¿Qué significa 'Tot ziens'?",
+        "question_es": "¿Qué dice Anna al final para despedirse?",
         "options": [
-          "Hola",
-          "Buenos días",
-          "Adiós",
-          "Gracias"
+          "Hallo",
+          "Tot ziens",
+          "Dank je",
+          "Maandag"
         ],
-        "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir 'Adiós' o 'Hasta la vista' en neerlandés."
+        "answer_index": 1,
+        "explanation_es": "Anna usa 'Tot ziens' (adiós/hasta la vista) para despedirse de Tom."
       }
     ]
   },
@@ -841,481 +401,41 @@
     "title_es": "Hola y buenos días",
     "level": "a0",
     "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna!\" Anna lacht. Zij zegt: \"Goedemorgen, Tom. Hoe gaat het?\" Tom antwoordt: \"Het gaat goed, dank je. En met jou?\" Anna zegt: \"Ook goed, bedankt.\" Tom zegt: \"Tot ziens!\" Anna zegt: \"Tot ziens, Tom!\" Het is een mooie dag. Ze zijn blij. De zon schijnt in de stad. Iedereen is vrolijk en zegt hallo tegen elkaar.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna!\". Anna sonríe. Ella dice: \"Buenos días, Tom. ¿Cómo estás?\". Tom responde: \"Estoy bien, gracias. ¿Y tú?\". Anna dice: \"Bien también, gracias\". Tom dice: \"¡Adiós!\". Anna dice: \"¡Adiós, Tom!\". Es un día hermoso. Ellos están felices. El sol brilla en la ciudad. Todos están alegres y se saludan.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom cuando ve a Anna?",
-        "options": [
-          "Tot ziens",
-          "Goedemorgen",
-          "Dank je",
-          "Hoe gaat het"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom saluda a Anna por la mañana diciendo 'Goedemorgen' (Buenos días)."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Het gaat goed",
-          "Tot ziens",
-          "Ik ben Tom",
-          "Hallo"
-        ],
-        "answer_index": 0,
-        "explanation_es": "Cuando Tom pregunta 'Hoe gaat het?', Anna responde 'Ook goed' (Bien también)."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens'?",
-        "options": [
-          "Hola",
-          "Buenos días",
-          "Adiós",
-          "Gracias"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir adiós o hasta la vista en neerlandés."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-6",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen!\" Anna lacht en zegt: \"Hallo, hoe gaat het?\" Tom antwoordt: \"Goed, dank je wel. En met jou?\" Anna zegt: \"Ook goed, bedankt.\" Ze zijn blij. Het is een mooie dag. Tom zegt: \"Tot ziens!\" Anna zegt: \"Tot ziens!\" Ze gaan naar het werk. Het is een fijne dag voor iedereen.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días!\" Anna sonríe y dice: \"Hola, ¿cómo estás?\" Tom responde: \"Bien, gracias. ¿Y tú?\" Anna dice: \"También bien, gracias.\" Ellos están felices. Es un día hermoso. Tom dice: \"¡Adiós!\" Anna dice: \"¡Adiós!\" Ellos van al trabajo. Es un buen día para todos.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom al ver a Anna por la mañana?",
-        "options": [
-          "Hallo",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je wel"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom saluda a Anna por la mañana diciendo 'Goedemorgen', que significa 'Buenos días'."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Ze is blij",
-          "Ze zegt hallo",
-          "Ze zegt dat het goed gaat",
-          "Ze gaat naar huis"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Ook goed, bedankt', lo que significa que a ella también le va bien."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens' en español?",
-        "options": [
-          "Hola",
-          "Buenos días",
-          "Adiós",
-          "Gracias"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir 'Adiós' o 'Hasta la vista' en neerlandés."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-7",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Sarah. Tom zegt: \"Goedemorgen! Hoe gaat het?\" Sarah lacht. Zij zegt: \"Hallo! Het gaat goed, dank je. En met jou?\" Tom zegt: \"Ook goed, dank je wel.\" Ze zeggen: \"Tot ziens!\" Tom loopt verder. Het is een mooie dag. Sarah loopt ook verder. Ze zijn blij. Het is een goede dag in de stad.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Sarah. Tom dice: \"¡Buenos días! ¿Cómo estás?\" Sarah sonríe. Ella dice: \"¡Hola! Estoy bien, gracias. ¿Y tú?\" Tom dice: \"También bien, muchas gracias.\" Ellos dicen: \"¡Adiós!\" Tom sigue caminando. Es un día bonito. Sarah también sigue caminando. Están felices. Es un buen día en la ciudad.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom al principio?",
-        "options": [
-          "Hallo",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom saluda diciendo 'Goedemorgen', que significa 'buenos días'."
-      },
-      {
-        "question_es": "¿Cómo responde Sarah?",
-        "options": [
-          "Slecht",
-          "Goed",
-          "Tot ziens",
-          "Nee"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Sarah responde 'Het gaat goed', que significa 'estoy bien'."
-      },
-      {
-        "question_es": "¿Qué dicen los dos al final de la conversación?",
-        "options": [
-          "Goedemorgen",
-          "Hallo",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Al despedirse, dicen 'Tot ziens', que significa 'hasta la vista' o 'adiós'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-8",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: 'Goedemorgen, Anna!' Anna lacht en zegt: 'Hallo, Tom! Hoe gaat het?' Tom antwoordt: 'Goed, dank je wel. En met jou?' Anna zegt: 'Ook goed, dank je.' Ze zwaaien naar elkaar. Tom zegt: 'Tot ziens!' Anna zegt: 'Tot ziens!' Het is een mooie dag. Ze zijn blij. Het is fijn om elkaar te begroeten.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: '¡Buenos días, Anna!'. Anna sonríe y dice: '¡Hola, Tom! ¿Cómo estás?'. Tom responde: 'Bien, gracias. ¿Y tú?'. Anna dice: 'Bien también, gracias'. Se saludan con la mano. Tom dice: '¡Adiós!'. Anna dice: '¡Adiós!'. Es un día hermoso. Están felices. Es agradable saludarse.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom cuando ve a Anna?",
-        "options": [
-          "Hallo, Anna!",
-          "Goedemorgen, Anna!",
-          "Tot ziens, Anna!",
-          "Hoe gaat het?"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En la historia, Tom dice 'Goedemorgen, Anna!' al verla por la mañana."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Slecht",
-          "Niet goed",
-          "Ook goed",
-          "Tot ziens"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Ook goed', que significa 'también bien'."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens'?",
-        "options": [
-          "Buenos días",
-          "Hola",
-          "Adiós",
-          "Gracias"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir adiós en neerlandés."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-9",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen!\" Anna lacht. Zij zegt: \"Hallo! Hoe gaat het?\" Tom antwoordt: \"Goed, dank je. En met jou?\" Anna zegt: \"Ook goed.\" Tom zegt: \"Tot ziens!\" Anna zegt: \"Dag!\" Het is een mooie dag. Tom is blij. Hij groet iedereen op straat. Hallo, goedemorgen en tot ziens. Iedereen is vriendelijk vandaag.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días!\" Anna sonríe. Ella dice: \"¡Hola! ¿Cómo estás?\" Tom responde: \"Bien, gracias. ¿Y tú?\" Anna dice: \"También bien\". Tom dice: \"¡Adiós!\" Anna dice: \"¡Hola/Adiós!\" Es un día hermoso. Tom está feliz. Él saluda a todos en la calle. Hola, buenos días y adiós. Todos son amables hoy.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom al ver a Anna por la mañana?",
-        "options": [
-          "Hallo",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Tom dice 'Goedemorgen' (buenos días) cuando ve a Anna por la mañana."
-      },
-      {
-        "question_es": "¿Cómo responde Anna cuando Tom pregunta cómo está?",
-        "options": [
-          "Slecht",
-          "Niet goed",
-          "Ook goed",
-          "Tot ziens"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Ook goed', que significa 'también bien'."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens'?",
-        "options": [
-          "Hola",
-          "Buenos días",
-          "Gracias",
-          "Adiós"
-        ],
-        "answer_index": 3,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir adiós o hasta la vista en neerlandés."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-10",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: 'Goedemorgen, Anna!' Anna lacht en zegt: 'Hallo, Tom! Hoe gaat het?' Tom antwoordt: 'Goed, dank je wel. En met jou?' Anna zegt: 'Ook goed, dank je.' Ze zijn blij. Tom zegt: 'Tot ziens!' Anna zegt: 'Tot ziens!' Het is een mooie dag. Ze gaan naar school. Het is fijn om elkaar te begroeten.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: '¡Buenos días, Anna!'. Anna sonríe y dice: '¡Hola, Tom! ¿Cómo estás?'. Tom responde: 'Bien, gracias. ¿Y tú?'. Anna dice: 'También bien, gracias'. Ellos están felices. Tom dice: '¡Adiós!'. Anna dice: '¡Adiós!'. Es un hermoso día. Ellos van a la escuela. Es agradable saludarse.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom cuando ve a Anna?",
-        "options": [
-          "Hallo, Tom",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je wel"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Tom saluda a Anna por la mañana diciendo 'Goedemorgen' (Buenos días)."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Slecht",
-          "Goed",
-          "Tot ziens",
-          "Niet goed"
-        ],
-        "answer_index": 1,
-        "explanation_es": "Anna responde 'Ook goed' (también bien) cuando Tom le pregunta cómo está."
-      },
-      {
-        "question_es": "¿Qué dicen Tom y Anna al final de la conversación?",
-        "options": [
-          "Goedemorgen",
-          "Hallo",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Ambos dicen 'Tot ziens', que significa 'Adiós' o 'Hasta la vista'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-11",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna! Hoe gaat het?\" Anna lacht. Zij zegt: \"Hallo Tom! Het gaat goed, dank je. En met jou?\" Tom antwoordt: \"Prima, dank je wel.\" Ze zeggen: \"Tot ziens!\" Het is een mooie dag. Tom is blij. Anna is ook blij. Ze gaan naar hun werk. Het is een goede dag voor iedereen in de stad.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna! ¿Cómo estás?\" Anna sonríe. Ella dice: \"¡Hola Tom! Estoy bien, gracias. ¿Y tú?\" Tom responde: \"Muy bien, gracias.\" Ellos dicen: \"¡Adiós!\" Es un día hermoso. Tom está feliz. Anna también está feliz. Ellos van a su trabajo. Es un buen día para todos en la ciudad.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom al principio?",
-        "options": [
-          "Hallo",
-          "Goedemorgen",
-          "Tot ziens",
-          "Dank je"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Tom saluda a Anna diciendo 'Goedemorgen' (Buenos días)."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Slecht",
-          "Prima",
-          "Goed",
-          "Niet goed"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Het gaat goed' (Estoy bien)."
-      },
-      {
-        "question_es": "¿Qué dicen al final de la conversación?",
-        "options": [
-          "Goedemorgen",
-          "Hallo",
-          "Tot ziens",
-          "Dank je wel"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La despedida utilizada en el texto es 'Tot ziens' (Adiós/Hasta la vista)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-12",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna! Hoe gaat het?\" Anna lacht. Zij zegt: \"Hallo Tom! Het gaat goed, dank je. En met jou?\" Tom zegt: \"Ook goed, dank je wel.\" Ze zeggen dag tegen elkaar. Het is een mooie dag. Tom en Anna zijn blij. Ze lopen naar hun werk. Het is een fijne ontmoeting op de vroege ochtend.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna! ¿Cómo estás?\" Anna sonríe. Ella dice: \"¡Hola Tom! Estoy bien, gracias. ¿Y tú?\" Tom dice: \"Bien también, muchas gracias\". Se despiden. Es un día bonito. Tom y Anna están felices. Caminan hacia su trabajo. Es un encuentro agradable temprano por la mañana.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Tom al ver a Anna?",
-        "options": [
-          "Dag!",
-          "Goedemorgen!",
-          "Tot ziens!",
-          "Goedenavond!"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En la historia, Tom dice 'Goedemorgen' (Buenos días) al ver a Anna por la mañana."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Tom?",
-        "options": [
-          "Slecht.",
-          "Niet zo goed.",
-          "Het gaat goed.",
-          "Tot ziens."
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Het gaat goed' (Estoy bien) cuando Tom pregunta cómo está."
-      },
-      {
-        "question_es": "¿Qué hacen Tom y Anna después de hablar?",
-        "options": [
-          "Ze gaan slapen.",
-          "Ze lopen naar hun werk.",
-          "Ze eten samen.",
-          "Ze gaan naar huis."
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona explícitamente que caminan hacia su trabajo después de saludarse."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-13",
-    "title_nl": "Hallo en tot ziens",
-    "title_es": "Hola y adiós",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Hallo! Ik ben Anna. Hoe gaat het? Goed, dank je. En met jou? Ook goed. Ik ben Tom. Wij zijn in de stad. Het is een mooie dag. Wij zeggen hallo tegen de mensen. Nu is het tijd voor de les. Tot ziens, Tom! Tot ziens, Anna. Wij gaan naar school. Het is leuk. Dag allemaal!",
-    "content_es": "¡Hola! Yo soy Anna. ¿Cómo estás? Bien, gracias. ¿Y tú? También bien. Yo soy Tom. Estamos en la ciudad. Es un día bonito. Decimos hola a la gente. Ahora es hora de la clase. ¡Adiós, Tom! Adiós, Anna. Vamos a la escuela. Es divertido. ¡Adiós a todos!",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se llama la mujer del texto?",
-        "options": [
-          "Tom",
-          "Anna",
-          "De stad",
-          "School"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto dice explícitamente: 'Ik ben Anna'."
-      },
-      {
-        "question_es": "¿Qué dicen los personajes antes de separarse?",
-        "options": [
-          "Hallo",
-          "Tot ziens",
-          "Dank je",
-          "Goed"
-        ],
-        "answer_index": 1,
-        "explanation_es": "'Tot ziens' es la forma estándar de decir 'adiós' o 'hasta luego' en neerlandés."
-      },
-      {
-        "question_es": "¿A dónde van Anna y Tom?",
-        "options": [
-          "A la ciudad",
-          "A casa",
-          "A la escuela",
-          "Al parque"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona: 'Wij gaan naar school' (Nosotros vamos a la escuela)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-14",
-    "title_nl": "Hallo en goedemorgen",
-    "title_es": "Hola y buenos días",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna! Hoe gaat het?\" Anna lacht. Zij zegt: \"Hallo Tom! Het gaat goed, dank je. En met jou?\" Tom zegt: \"Met mij gaat het ook goed. Tot ziens!\" Anna zwaait. \"Tot ziens, Tom!\" Het is een mooie dag in de stad. Ze zijn allebei blij. Het is fijn om mensen te groeten in de ochtend.",
-    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna! ¿Cómo estás?\" Anna sonríe. Ella dice: \"¡Hola Tom! Estoy bien, gracias. ¿Y tú?\" Tom dice: \"Yo también estoy bien. ¡Adiós!\" Anna saluda con la mano. \"¡Adiós, Tom!\" Es un día hermoso en la ciudad. Ambos están felices. Es agradable saludar a la gente por la mañana.",
+    "content_nl": "Het is ochtend. Tom loopt op straat. Hij ziet Anna. Tom zegt: \"Goedemorgen, Anna! Hoe gaat het?\" Anna lacht. Zij zegt: \"Hallo Tom! Het gaat goed, dank je. En met jou?\" Tom zegt: \"Ook goed, dank je wel.\" Ze zeggen samen: \"Tot ziens!\" Het is een mooie dag. Tom is blij. Anna is ook blij. Ze gaan naar het werk. Het is een fijne dag voor iedereen in de stad.",
+    "content_es": "Es por la mañana. Tom camina por la calle. Él ve a Anna. Tom dice: \"¡Buenos días, Anna! ¿Cómo estás?\" Anna sonríe. Ella dice: \"¡Hola Tom! Estoy bien, gracias. ¿Y tú?\" Tom dice: \"También bien, muchas gracias\". Ellos dicen juntos: \"¡Adiós!\" Es un día hermoso. Tom está feliz. Anna también está feliz. Ellos van al trabajo. Es un buen día para todos en la ciudad.",
     "questions_json": [
       {
         "question_es": "¿Qué dice Tom al ver a Anna?",
         "options": [
           "Hallo, hoe gaat het?",
-          "Goedemorgen, Anna!",
+          "Goedemorgen, hoe gaat het?",
           "Tot ziens!",
           "Dank je wel."
         ],
         "answer_index": 1,
-        "explanation_es": "En el texto, Tom saluda a Anna diciendo 'Goedemorgen, Anna!', que significa 'Buenos días, Anna'."
+        "explanation_es": "En la historia, Tom saluda a Anna por la mañana diciendo 'Goedemorgen, Anna! Hoe gaat het?'."
       },
       {
         "question_es": "¿Cómo responde Anna?",
         "options": [
+          "Ze is blij en zegt dat het goed gaat.",
           "Ze zegt niets.",
-          "Ze is verdrietig.",
-          "Ze zegt dat het goed gaat.",
-          "Ze zegt goedemorgen."
+          "Ze zegt tot ziens.",
+          "Ze is boos."
         ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Het gaat goed', lo que significa que ella está bien."
-      },
-      {
-        "question_es": "¿Qué significa 'Tot ziens'?",
-        "options": [
-          "Buenos días",
-          "Hola",
-          "Adiós",
-          "Gracias"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Tot ziens' es la forma estándar en neerlandés para decir adiós o hasta luego."
-      }
-    ]
-  },
-  {
-    "slug": "a0-begroetingen-15",
-    "title_nl": "Hallo en tot ziens",
-    "title_es": "Hola y adiós",
-    "level": "a0",
-    "theme": "begroetingen",
-    "content_nl": "Het is maandag. Jan is op straat. Hij ziet Anna. Jan zegt: \"Hallo, hoe gaat het?\" Anna antwoordt: \"Goed, dank je. En met jou?\" Jan zegt: \"Ook goed.\" Ze praten even. Dan moet Anna gaan. Ze zegt: \"Tot ziens, Jan!\" Jan zegt: \"Tot ziens, Anna!\" Het is een mooie dag. Iedereen is blij. Het is fijn om mensen te groeten in het Nederlands. Nu gaat Jan naar huis. Dag, Anna!",
-    "content_es": "Es lunes. Jan está en la calle. Él ve a Anna. Jan dice: \"Hola, ¿cómo estás?\". Anna responde: \"Bien, gracias. ¿Y tú?\". Jan dice: \"Bien también\". Hablan un momento. Luego, Anna tiene que irse. Ella dice: \"¡Adiós, Jan!\". Jan dice: \"¡Adiós, Anna!\". Es un día hermoso. Todos están felices. Es agradable saludar a la gente en neerlandés. Ahora Jan va a casa. ¡Adiós, Anna!",
-    "questions_json": [
-      {
-        "question_es": "¿Qué dice Jan cuando ve a Anna?",
-        "options": [
-          "Tot ziens",
-          "Hallo, hoe gaat het?",
-          "Dank je",
-          "Goedemorgen"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto, Jan saluda a Anna preguntando 'Hallo, hoe gaat het?' (Hola, ¿cómo estás?)."
-      },
-      {
-        "question_es": "¿Cómo responde Anna a la pregunta de Jan?",
-        "options": [
-          "Slecht",
-          "Tot ziens",
-          "Goed, dank je",
-          "Nee"
-        ],
-        "answer_index": 2,
-        "explanation_es": "Anna responde 'Goed, dank je', que significa 'Bien, gracias'."
+        "answer_index": 0,
+        "explanation_es": "Anna sonríe y responde que está bien ('Het gaat goed')."
       },
       {
         "question_es": "¿Qué dicen al final de la conversación?",
         "options": [
+          "Goedemorgen",
           "Hallo",
           "Tot ziens",
-          "Dank je",
-          "Maandag"
+          "Dank je"
         ],
-        "answer_index": 1,
-        "explanation_es": "Para despedirse, ambos dicen 'Tot ziens', que significa 'Adiós' o 'Hasta la vista'."
+        "answer_index": 2,
+        "explanation_es": "La historia termina con ambos diciendo 'Tot ziens', que significa 'adiós' o 'hasta la vista'."
       }
     ]
   },
@@ -1325,8 +445,8 @@
     "title_es": "Pronombres personales",
     "level": "a0",
     "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Jij bent Anna. Wij zijn vrienden. Hij is Tom. Zij is Lisa. Zij zijn ook vrienden. Het is een hond. De hond is lief. Wij spelen in het park. Ik zie jou. Jij ziet mij. Wij zijn blij. Hij loopt. Zij rent. Het eet een appel. Iedereen is hier. Wij praten en wij lachen. Het is een mooie dag in het park. Wij zijn samen.",
-    "content_es": "Yo soy Jan. Tú eres Anna. Nosotros somos amigos. Él es Tom. Ella es Lisa. Ellos también son amigos. Es un perro. El perro es cariñoso. Nosotros jugamos en el parque. Yo te veo a ti. Tú me ves a mí. Nosotros estamos felices. Él camina. Ella corre. Él/Ella/Eso come una manzana. Todos están aquí. Nosotros hablamos y reímos. Es un día bonito en el parque. Estamos juntos.",
+    "content_nl": "Ik ben Jan. Jij bent Anna. Wij zijn vrienden. Hij is Tom. Zij is Lisa. Zij zijn ook vrienden. Het is een hond. De hond is lief. Wij spelen in het park. Ik zie jou. Jij ziet mij. Wij zijn blij. Hij loopt. Zij rent. Het eet een appel. Wij praten samen. Het is een leuke dag in het park. Wij zijn allemaal hier. Tot ziens!",
+    "content_es": "Yo soy Jan. Tú eres Anna. Nosotros somos amigos. Él es Tom. Ella es Lisa. Ellos también son amigos. Es un perro. El perro es cariñoso. Nosotros jugamos en el parque. Yo te veo a ti. Tú me ves a mí. Nosotros estamos felices. Él camina. Ella corre. Él/ello come una manzana. Nosotros hablamos juntos. Es un día bonito en el parque. Todos estamos aquí. ¡Adiós!",
     "questions_json": [
       {
         "question_es": "¿Quién es Jan?",
@@ -1337,73 +457,73 @@
           "Zij"
         ],
         "answer_index": 0,
-        "explanation_es": "En la historia, Jan dice 'Ik ben Jan' (Yo soy Jan)."
+        "explanation_es": "En el texto, Jan dice 'Ik ben Jan' (Yo soy Jan)."
       },
       {
-        "question_es": "¿Cómo se dice 'Wij' en español?",
+        "question_es": "¿Cómo se refiere el texto al perro?",
         "options": [
-          "Yo",
-          "Tú",
-          "Él/Ella",
-          "Nosotros"
+          "Hij",
+          "Zij",
+          "Wij",
+          "Het"
         ],
         "answer_index": 3,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
+        "explanation_es": "En neerlandés, para animales o cosas neutras se utiliza el pronombre 'Het'."
       },
       {
-        "question_es": "¿Quién es Tom?",
+        "question_es": "¿Qué hacen Jan y Anna?",
         "options": [
-          "Een vriend",
-          "Een hond",
-          "Anna",
-          "Lisa"
+          "Ze slapen",
+          "Ze spelen",
+          "Ze eten",
+          "Ze rennen"
         ],
-        "answer_index": 0,
-        "explanation_es": "La historia menciona que 'Hij is Tom' y que 'Wij zijn vrienden'."
+        "answer_index": 1,
+        "explanation_es": "El texto dice: 'Wij spelen in het park' (Nosotros jugamos en el parque)."
       }
     ]
   },
   {
     "slug": "a0-persoonlijke_voornaamwoorden-2",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
+    "title_nl": "Ik en jij",
+    "title_es": "Yo y tú",
     "level": "a0",
     "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is meneer de Vries. Hij is mijn leraar. Hij spreekt Nederlands. Jullie zijn ook in de klas. Het is een leuke dag. Wij leren samen. Wat doen zij daar? Zij drinken koffie. Ik zie jou. Jij ziet mij. Wij zijn nu vrienden. Hallo! Hoe gaat het met jullie?",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi amiga. Nosotros estamos felices. Allí está el señor de Vries. Él es mi profesor. Él habla holandés. Ustedes también están en la clase. Es un día agradable. Nosotros aprendemos juntos. ¿Qué hacen ellos allí? Ellos beben café. Yo te veo a ti. Tú me ves a mí. Nosotros somos amigos ahora. ¡Hola! ¿Cómo están ustedes?",
+    "content_nl": "Ik ben Jan. Ik ben een man. Jij bent Anna. Jij bent een vrouw. Wij zijn vrienden. Wij zijn in de stad. Hij is Tom. Hij is een jongen. Zij is Saar. Zij is een meisje. Wij eten een appel. Het is lekker. Zij (meervoud) zijn blij. Ik ben blij. Jij bent blij. Wij zijn samen. Het is een mooie dag.",
+    "content_es": "Yo soy Jan. Yo soy un hombre. Tú eres Anna. Tú eres una mujer. Nosotros somos amigos. Nosotros estamos en la ciudad. Él es Tom. Él es un chico. Ella es Saar. Ella es una niña. Nosotros comemos una manzana. Es rica. Ellos están felices. Yo estoy feliz. Tú estás feliz. Nosotros estamos juntos. Es un día bonito.",
     "questions_json": [
       {
-        "question_es": "¿Quién es Maria?",
+        "question_es": "¿Quién es Jan?",
         "options": [
-          "Mijn leraar",
-          "Mijn vriendin",
-          "Mijn broer",
-          "Mijn buurman"
+          "Een vrouw",
+          "Een man",
+          "Een jongen",
+          "Een meisje"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi amiga)."
+        "explanation_es": "El texto dice explícitamente: 'Ik ben Jan. Ik ben een man'."
       },
       {
-        "question_es": "¿Qué hace el señor de Vries?",
+        "question_es": "¿Quiénes son amigos?",
         "options": [
-          "Hij drinkt koffie",
-          "Hij woont in Utrecht",
-          "Hij is mijn leraar",
-          "Hij is mijn vriend"
+          "Jan en Tom",
+          "Anna en Saar",
+          "Ik en jij",
+          "Tom en Saar"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij is mijn leraar' (Él es mi profesor)."
+        "explanation_es": "El texto dice: 'Ik ben Jan... Jij bent Anna... Wij zijn vrienden'."
       },
       {
-        "question_es": "¿Qué hacen ellos (zij) allí?",
+        "question_es": "¿Qué significa 'Wij' en español?",
         "options": [
-          "Zij drinken koffie",
-          "Zij leren Nederlands",
-          "Zij wonen in Utrecht",
-          "Zij zijn in de klas"
+          "Yo",
+          "Tú",
+          "Nosotros",
+          "Ellos"
         ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Zij drinken koffie' (Ellos beben café)."
+        "answer_index": 2,
+        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
       }
     ]
   },
@@ -1413,41 +533,41 @@
     "title_es": "Yo soy Jan",
     "level": "a0",
     "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij is groot. Wij eten samen. Zij drinkt sap. Ik drink water. Wij zijn een team. Jij bent ook mijn vriend. Wij praten veel. Het is een mooie dag. Wij zijn nu in de stad. Alles is goed.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Esta es Maria. Ella es mi novia. Nosotros estamos felices. Ahí está Tom. Él es mi hermano. Él es alto. Nosotros comemos juntos. Ella bebe jugo. Yo bebo agua. Nosotros somos un equipo. Tú eres también mi amigo. Nosotros hablamos mucho. Es un día bonito. Nosotros estamos ahora en la ciudad. Todo está bien.",
+    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij woont in Amsterdam. Jullie zijn ook in Utrecht. Wij drinken koffie. Het is lekker. Jij bent ook hier. Wij praten samen. Het is een mooie dag. Ik ben gelukkig. Jij bent mijn vriend. Wij zijn samen.",
+    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi novia. Nosotros estamos felices. Allí está Tom. Él es mi hermano. Él vive en Ámsterdam. Ustedes también están en Utrecht. Nosotros bebemos café. Está rico. Tú también estás aquí. Nosotros hablamos juntos. Es un día bonito. Yo estoy feliz. Tú eres mi amigo. Nosotros estamos juntos.",
     "questions_json": [
       {
         "question_es": "¿Quién es Maria?",
         "options": [
-          "Zij is een vriendin",
-          "Zij is een broer",
-          "Zij is een stad",
-          "Zij is een team"
+          "Zij is de zus van Jan",
+          "Zij is de vriendin van Jan",
+          "Zij is de broer van Jan",
+          "Zij is de leraar"
         ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi amiga/novia)."
+        "answer_index": 1,
+        "explanation_es": "En el texto dice: 'Zij is mijn vriendin' (Ella es mi novia/amiga)."
       },
       {
-        "question_es": "¿Qué significa 'Hij' en el texto?",
+        "question_es": "¿Dónde vive Tom?",
+        "options": [
+          "Utrecht",
+          "Rotterdam",
+          "Amsterdam",
+          "Den Haag"
+        ],
+        "answer_index": 2,
+        "explanation_es": "En el texto dice: 'Hij woont in Amsterdam' (Él vive en Ámsterdam)."
+      },
+      {
+        "question_es": "¿Qué significa 'Wij' en español?",
         "options": [
           "Yo",
           "Tú",
           "Él",
           "Nosotros"
         ],
-        "answer_index": 2,
-        "explanation_es": "'Hij' es el pronombre personal para 'Él' en neerlandés."
-      },
-      {
-        "question_es": "¿Quiénes son 'Wij'?",
-        "options": [
-          "Solo Jan",
-          "Solo Maria",
-          "Solo Tom",
-          "Jan y sus amigos/familia"
-        ],
         "answer_index": 3,
-        "explanation_es": "'Wij' significa 'Nosotros', refiriéndose al grupo de personas mencionado."
+        "explanation_es": "'Wij' es el pronombre personal para 'nosotros' en holandés."
       }
     ]
   },
@@ -1457,170 +577,38 @@
     "title_es": "Yo soy Jan",
     "level": "a0",
     "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij is groot. Jullie zijn ook hier. Dat is leuk! Wij eten samen een appel. Het is een lekkere appel. Zij eet ook. Hij eet ook. Wij zijn nu samen. Het is een mooie dag voor ons.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi novia. Nosotros estamos felices. Ahí está Tom. Él es mi hermano. Él es alto. Vosotros también estáis aquí. ¡Eso es divertido! Nosotros comemos una manzana juntos. Es una manzana rica. Ella también come. Él también come. Nosotros estamos juntos ahora. Es un día bonito para nosotros.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria según la historia?",
-        "options": [
-          "Mi hermano",
-          "Mi amiga/novia",
-          "Mi madre",
-          "Mi hermana"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Dit is Maria. Zij is mijn vriendin' (Esta es Maria. Ella es mi amiga/novia)."
-      },
-      {
-        "question_es": "¿Qué pronombre se usa para referirse a Tom?",
-        "options": [
-          "Zij",
-          "Wij",
-          "Hij",
-          "Ik"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Daar is Tom. Hij is mijn broer' (Ahí está Tom. Él es mi hermano). 'Hij' significa 'él'."
-      },
-      {
-        "question_es": "¿Qué significa 'Wij' en el texto?",
-        "options": [
-          "Nosotros",
-          "Ellos",
-          "Vosotros",
-          "Ella"
-        ],
-        "answer_index": 0,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-5",
-    "title_nl": "Ik en jij",
-    "title_es": "Yo y tú",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Jij bent Anna. Jij woont in Amsterdam. Wij zijn vrienden. Wij praten samen. Hij is Tom. Hij is mijn broer. Zij is Lisa. Zij is mijn zus. Wij zijn een familie. Ik zie jou. Jij ziet mij. Wij zijn blij.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Tú eres Anna. Tú vives en Ámsterdam. Nosotros somos amigos. Nosotros hablamos juntos. Él es Tom. Él es mi hermano. Ella es Lisa. Ella es mi hermana. Nosotros somos una familia. Yo te veo a ti. Tú me ves a mí. Nosotros estamos felices.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se llama el narrador?",
-        "options": [
-          "Anna",
-          "Tom",
-          "Jan",
-          "Lisa"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto comienza diciendo 'Ik ben Jan' (Yo soy Jan)."
-      },
-      {
-        "question_es": "¿Quién es Tom?",
-        "options": [
-          "El hermano de Jan",
-          "El amigo de Jan",
-          "El padre de Jan",
-          "El vecino de Jan"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice 'Hij is Tom. Hij is mijn broer' (Él es Tom. Él es mi hermano)."
-      },
-      {
-        "question_es": "¿Qué significa 'Wij' en español?",
-        "options": [
-          "Tú",
-          "Él",
-          "Ella",
-          "Nosotros"
-        ],
-        "answer_index": 3,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-6",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij is groot. Jullie zijn ook in Utrecht. Wij drinken koffie. Het is lekker. Ik kijk naar hen. Zij lachen. Jij bent ook hier. Wij zijn een leuke groep. Alles is goed. Ik ben blij met jullie.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Esta es Maria. Ella es mi amiga. Nosotros estamos felices. Ahí está Tom. Él es mi hermano. Él es alto. Ustedes también están en Utrecht. Nosotros bebemos café. Está rico. Yo miro hacia ellos. Ellos se ríen. Tú también estás aquí. Nosotros somos un grupo divertido. Todo está bien. Estoy feliz con ustedes.",
+    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij is groot. Jullie zijn ook in Utrecht. Wij drinken koffie. Ik ben blij met jullie. Zij drinken ook koffie. Het is gezellig. Wij zijn samen. Ik ben gelukkig.",
+    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi novia. Nosotros estamos felices. Ahí está Tom. Él es mi hermano. Él es alto. Ustedes también están en Utrecht. Nosotros bebemos café. Yo estoy feliz con ustedes. Ellos también beben café. Es agradable. Nosotros estamos juntos. Yo soy feliz.",
     "questions_json": [
       {
         "question_es": "¿Quién es Maria?",
         "options": [
-          "Zij is mijn broer",
-          "Zij is mijn vriendin",
-          "Zij is mijn moeder",
-          "Zij is mijn zus"
+          "Zij is mijn broer.",
+          "Zij is mijn vriendin.",
+          "Zij is mijn vader.",
+          "Zij is mijn hond."
         ],
         "answer_index": 1,
-        "explanation_es": "En el texto dice: 'Zij is mijn vriendin' (Ella es mi amiga)."
+        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi novia/amiga)."
       },
       {
         "question_es": "¿Quién es Tom?",
         "options": [
-          "Hij is mijn vriend",
-          "Hij is mijn vader",
-          "Hij is mijn broer",
-          "Hij is mijn buurman"
-        ],
-        "answer_index": 2,
-        "explanation_es": "En el texto dice: 'Hij is mijn broer' (Él es mi hermano)."
-      },
-      {
-        "question_es": "¿Qué hacen 'wij' (nosotros)?",
-        "options": [
-          "Wij eten brood",
-          "Wij slapen",
-          "Wij drinken koffie",
-          "Wij lezen"
-        ],
-        "answer_index": 2,
-        "explanation_es": "En el texto dice: 'Wij drinken koffie' (Nosotros bebemos café)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-7",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar loopt Tom. Hij is mijn broer. Hij is groot. Jullie zijn ook in Utrecht. Wij drinken koffie. Het is lekker. Jij bent ook hier. Wij praten. Ik ben Jan, jij bent blij. Wij zijn samen in de stad. Het is een mooie dag.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi amiga. Nosotros estamos felices. Allí camina Tom. Él es mi hermano. Él es alto. Vosotros también estáis en Utrecht. Nosotros bebemos café. Está rico. Tú también estás aquí. Nosotros hablamos. Yo soy Jan, tú estás feliz. Nosotros estamos juntos en la ciudad. Es un día bonito.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria?",
-        "options": [
-          "Zij is mijn broer",
-          "Zij is mijn vriendin",
-          "Zij is Jan",
-          "Zij is de stad"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi amiga)."
-      },
-      {
-        "question_es": "¿Quién es Tom?",
-        "options": [
-          "Hij is mijn vriend",
-          "Hij is mijn vader",
-          "Hij is mijn broer",
-          "Hij is Maria"
+          "Hij is mijn vriend.",
+          "Hij is mijn buurman.",
+          "Hij is mijn broer.",
+          "Hij is mijn docent."
         ],
         "answer_index": 2,
         "explanation_es": "El texto dice: 'Hij is mijn broer' (Él es mi hermano)."
       },
       {
-        "question_es": "¿Qué hacen ellos?",
+        "question_es": "¿Qué hacen 'wij' (nosotros)?",
         "options": [
-          "Zij drinken koffie",
-          "Zij eten brood",
-          "Zij slapen",
-          "Zij rennen"
+          "Wij drinken koffie.",
+          "Wij eten brood.",
+          "Wij slapen.",
+          "Wij rennen."
         ],
         "answer_index": 0,
         "explanation_es": "El texto dice: 'Wij drinken koffie' (Nosotros bebemos café)."
@@ -1628,354 +616,46 @@
     ]
   },
   {
-    "slug": "a0-persoonlijke_voornaamwoorden-8",
-    "title_nl": "Ik en jij",
-    "title_es": "Yo y tú",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik ben een man. Jij bent Anna. Jij bent een vrouw. Wij zijn vrienden. Wij zijn in de stad. Hij is Tom. Hij is mijn vriend. Zij is Lisa. Zij is de vriendin van Tom. Wij zijn samen. Het is een mooie dag. Het is leuk. Ik ben blij. Jij bent ook blij. Wij zijn een groep. Iedereen is hier.",
-    "content_es": "Yo soy Jan. Yo soy un hombre. Tú eres Anna. Tú eres una mujer. Nosotros somos amigos. Nosotros estamos en la ciudad. Él es Tom. Él es mi amigo. Ella es Lisa. Ella es la amiga de Tom. Nosotros estamos juntos. Es un día bonito. Es divertido. Yo estoy feliz. Tú también estás feliz. Nosotros somos un grupo. Todos están aquí.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Jan?",
-        "options": [
-          "Een vrouw",
-          "Een man",
-          "Een vriendin",
-          "Een groep"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Ik ben Jan. Ik ben een man'."
-      },
-      {
-        "question_es": "¿Quiénes son amigos?",
-        "options": [
-          "Jan en Anna",
-          "Tom en Lisa",
-          "Ik en jij",
-          "Allemaal"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto menciona explícitamente 'Wij (Jan en Anna) zijn vrienden'."
-      },
-      {
-        "question_es": "¿Qué pronombre se usa para Tom?",
-        "options": [
-          "Zij",
-          "Wij",
-          "Hij",
-          "Ik"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij (Tom) is mijn vriend'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-9",
+    "slug": "a0-persoonlijke_voornaamwoorden-5",
     "title_nl": "Ik ben Jan",
     "title_es": "Yo soy Jan",
     "level": "a0",
     "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Jij bent Anna. Wij zijn vrienden. Hij is Tom. Zij is Lisa. Hij en zij zijn ook vrienden. Het is een mooie dag. Wij lopen in het park. Ik zie een hond. Hij is groot. Jij ziet een kat. Zij is klein. Wij zijn blij. Wat doen jullie vandaag?",
-    "content_es": "Yo soy Jan. Tú eres Anna. Nosotros somos amigos. Él es Tom. Ella es Lisa. Él y ella también son amigos. Es un día bonito. Nosotros caminamos en el parque. Yo veo un perro. Él es grande. Tú ves un gato. Ella es pequeña. Nosotros estamos felices. ¿Qué hacen ustedes hoy?",
+    "content_nl": "Ik ben Jan. Ik ben blij. Jij bent Marie. Jij bent aardig. Wij zijn vrienden. Hij is Tom. Hij is groot. Zij is Anna. Zij is klein. Wij eten samen. Wij zijn in de klas. Het is leuk. Ik zie jou. Jij ziet mij. Wij kijken naar hem. Wij kijken naar haar. Wij zijn hier samen. Het is een goede dag.",
+    "content_es": "Yo soy Jan. Yo estoy feliz. Tú eres Marie. Tú eres amable. Nosotros somos amigos. Él es Tom. Él es alto. Ella es Anna. Ella es baja. Nosotros comemos juntos. Nosotros estamos en la clase. Es divertido. Yo te veo a ti. Tú me ves a mí. Nosotros miramos a él. Nosotros miramos a ella. Nosotros estamos aquí juntos. Es un buen día.",
     "questions_json": [
       {
         "question_es": "¿Quién es Jan?",
-        "options": [
-          "Yo",
-          "Tú",
-          "Él",
-          "Nosotros"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto empieza diciendo 'Ik ben Jan', que significa 'Yo soy Jan'."
-      },
-      {
-        "question_es": "¿Quién es Anna?",
-        "options": [
-          "Ik",
-          "Jij",
-          "Hij",
-          "Zij"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice 'Jij bent Anna', por lo tanto Anna es 'jij' (tú)."
-      },
-      {
-        "question_es": "¿Cómo son los amigos en el parque?",
-        "options": [
-          "Tristes",
-          "Felices",
-          "Enojados",
-          "Cansados"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice 'Wij zijn blij', que significa 'Nosotros estamos felices'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-10",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Peter. Hij is mijn broer. Hij woont in Amsterdam. Jullie zijn vandaag in de klas. Wij spreken Nederlands. Jij leert ook Nederlands. Dat is goed! Zij, hij, wij, jullie en ik. Het is leuk.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Esta es Maria. Ella es mi amiga. Nosotros estamos felices. Allí está Peter. Él es mi hermano. Él vive en Ámsterdam. Vosotros estáis hoy en clase. Nosotros hablamos neerlandés. Tú también aprendes neerlandés. ¡Eso es bueno! Ella, él, nosotros, vosotros y yo. Es divertido.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria?",
-        "options": [
-          "Mijn broer",
-          "Mijn vriendin",
-          "De docent",
-          "Ik"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Dit is Maria. Zij is mijn vriendin.'"
-      },
-      {
-        "question_es": "¿Dónde vive Peter?",
-        "options": [
-          "Utrecht",
-          "Rotterdam",
-          "Amsterdam",
-          "Den Haag"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij woont in Amsterdam.'"
-      },
-      {
-        "question_es": "¿Qué idioma aprenden?",
-        "options": [
-          "Engels",
-          "Duits",
-          "Frans",
-          "Nederlands"
-        ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'Wij spreken Nederlands. Jij leert ook Nederlands.'"
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-11",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Jij bent Anna. Wij zijn vrienden. Hij is Tom. Zij is Sarah. Hij en zij zijn ook vrienden. Wij wonen in Amsterdam. Het is een mooie stad. Wij zijn blij. Zij studeren Nederlands. Ik leer ook Nederlands. Het is leuk. Wij spreken samen. Jij spreekt goed. Hij spreekt goed. Zij spreekt goed. Iedereen is vrolijk.",
-    "content_es": "Yo soy Jan. Tú eres Anna. Nosotros somos amigos. Él es Tom. Ella es Sarah. Él y ella también son amigos. Nosotros vivimos en Ámsterdam. Es una ciudad bonita. Nosotros estamos felices. Ellos estudian holandés. Yo también aprendo holandés. Es divertido. Nosotros hablamos juntos. Tú hablas bien. Él habla bien. Ella habla bien. Todos están alegres.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Jan?",
-        "options": [
-          "Yo",
-          "Tú",
-          "Él",
-          "Ella"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto empieza diciendo 'Ik ben Jan', que significa 'Yo soy Jan'."
-      },
-      {
-        "question_es": "¿Quiénes son amigos?",
-        "options": [
-          "Solo Jan",
-          "Solo Anna",
-          "Jan y Anna",
-          "Ninguno"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice 'Wij zijn vrienden' refiriéndose a Jan y Anna."
-      },
-      {
-        "question_es": "¿Qué significa 'Wij' en español?",
-        "options": [
-          "Yo",
-          "Tú",
-          "Ellos",
-          "Nosotros"
-        ],
-        "answer_index": 3,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-12",
-    "title_nl": "Ik en jij",
-    "title_es": "Yo y tú",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Jij bent Anna. Jij woont in Amsterdam. Wij zijn vrienden. Hij is Tom. Hij is mijn broer. Zij is Lisa. Zij is mijn zus. Wij zijn samen. Het is een mooie dag. Ik ben blij. Jij bent ook blij. Wij zijn in het park. Het is gezellig.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Tú eres Anna. Tú vives en Ámsterdam. Nosotros somos amigos. Él es Tom. Él es mi hermano. Ella es Lisa. Ella es mi hermana. Nosotros estamos juntos. Es un día hermoso. Yo estoy feliz. Tú también estás feliz. Nosotros estamos en el parque. Es agradable.",
-    "questions_json": [
-      {
-        "question_es": "¿Cómo se llama el narrador?",
-        "options": [
-          "Tom",
-          "Jan",
-          "Anna",
-          "Lisa"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto comienza diciendo 'Ik ben Jan' (Yo soy Jan)."
-      },
-      {
-        "question_es": "¿Quién es Tom según el texto?",
         "options": [
           "Un amigo",
-          "Un hermano",
-          "Un padre",
-          "Un profesor"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice 'Hij is mijn broer' (Él es mi hermano)."
-      },
-      {
-        "question_es": "¿Qué significa 'Wij' en español?",
-        "options": [
-          "Él",
-          "Ella",
-          "Nosotros",
-          "Ellos"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-13",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij woont in Amsterdam. Jullie zijn vandaag in de stad. Zij drinken koffie in een café. Het is een mooie dag. Wij praten en wij lachen. Het is leuk. Ik ben gelukkig met mijn vriendin en mijn broer.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi amiga. Nosotros estamos felices. Allí está Tom. Él es mi hermano. Él vive en Ámsterdam. Vosotros estáis hoy en la ciudad. Ellos beben café en un café. Es un día bonito. Nosotros hablamos y nosotros reímos. Es divertido. Yo estoy feliz con mi amiga y mi hermano.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria?",
-        "options": [
-          "Zij is de zus van Jan",
-          "Zij is de vriendin van Jan",
-          "Zij is de moeder van Jan",
-          "Zij is een vreemde"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi amiga)."
-      },
-      {
-        "question_es": "¿Quién es Tom?",
-        "options": [
-          "Hij is de broer van Jan",
-          "Hij is de vader van Jan",
-          "Hij is de buurman van Jan",
-          "Hij is een vriend"
+          "Un profesor",
+          "Un estudiante",
+          "Un hermano"
         ],
         "answer_index": 0,
-        "explanation_es": "El texto dice: 'Hij is mijn broer' (Él es mi hermano)."
+        "explanation_es": "El texto menciona que 'Wij zijn vrienden' (Nosotros somos amigos)."
       },
       {
-        "question_es": "¿Dónde vive Tom?",
+        "question_es": "¿Cómo es Anna?",
         "options": [
-          "In Utrecht",
-          "In Rotterdam",
-          "In Amsterdam",
-          "In Den Haag"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto indica claramente: 'Hij woont in Amsterdam'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-14",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Zij woont ook in Utrecht. Wij zijn blij. Daar is Tom. Hij is mijn broer. Hij woont in Amsterdam. Jullie zijn in de klas. Wij spreken Nederlands. Het is een mooie dag. Jij bent ook hier. Wij leren samen. Het is leuk.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi novia. Ella vive también en Utrecht. Nosotros estamos felices. Ahí está Tom. Él es mi hermano. Él vive en Ámsterdam. Vosotros estáis en clase. Nosotros hablamos neerlandés. Es un día bonito. Tú estás también aquí. Nosotros aprendemos juntos. Es divertido.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria?",
-        "options": [
-          "Zij is de zus van Jan",
-          "Zij is de vriendin van Jan",
-          "Zij is de lerares",
-          "Zij is Tom"
+          "Grande",
+          "Pequeña",
+          "Agradable",
+          "Feliz"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Dit is Maria. Zij is mijn vriendin'."
+        "explanation_es": "El texto dice 'Zij is klein', que significa 'Ella es pequeña'."
       },
       {
-        "question_es": "¿Dónde vive Tom?",
+        "question_es": "¿Dónde están ellos?",
         "options": [
-          "In Utrecht",
-          "In de klas",
-          "In Amsterdam",
-          "In huis"
+          "En casa",
+          "En la escuela",
+          "En la clase",
+          "En el parque"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Daar is Tom. Hij is mijn broer. Hij woont in Amsterdam'."
-      },
-      {
-        "question_es": "¿Qué significa 'Wij' en el texto?",
-        "options": [
-          "Yo",
-          "Tú",
-          "Nosotros",
-          "Ellos"
-        ],
-        "answer_index": 2,
-        "explanation_es": "'Wij' es el pronombre personal para 'nosotros'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-persoonlijke_voornaamwoorden-15",
-    "title_nl": "Ik ben Jan",
-    "title_es": "Yo soy Jan",
-    "level": "a0",
-    "theme": "persoonlijke_voornaamwoorden",
-    "content_nl": "Ik ben Jan. Ik woon in Utrecht. Dit is Maria. Zij is mijn vriendin. Wij zijn blij. Daar loopt Tom. Hij is mijn broer. Hij is groot. Wij eten samen. Zij drinkt water. Ik drink koffie. Hoe heet jij? Ik ben blij met jou. Wij zijn vrienden.",
-    "content_es": "Yo soy Jan. Yo vivo en Utrecht. Ella es Maria. Ella es mi amiga. Nosotros estamos felices. Ahí camina Tom. Él es mi hermano. Él es alto. Nosotros comemos juntos. Ella bebe agua. Yo bebo café. ¿Cómo te llamas tú? Yo estoy feliz contigo. Nosotros somos amigos.",
-    "questions_json": [
-      {
-        "question_es": "¿Quién es Maria?",
-        "options": [
-          "Mi hermano",
-          "Mi amiga",
-          "Mi padre",
-          "Mi perro"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Zij is mijn vriendin' (Ella es mi amiga)."
-      },
-      {
-        "question_es": "¿Qué bebe Jan?",
-        "options": [
-          "Agua",
-          "Té",
-          "Koffie",
-          "Leche"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik drink koffie' (Yo bebo café)."
-      },
-      {
-        "question_es": "¿Quién es Tom?",
-        "options": [
-          "Mi amigo",
-          "Mi hermano",
-          "Mi profesor",
-          "Mi vecino"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij is mijn broer' (Él es mi hermano)."
+        "explanation_es": "El texto dice 'Wij zijn in de klas', que significa 'Estamos en la clase'."
       }
     ]
   },
@@ -1985,11 +665,11 @@
     "title_es": "Números básicos y contar",
     "level": "a0",
     "theme": "getallen_basis",
-    "content_nl": "Ik ben Anna. Ik heb één appel en twee bananen. Ik zie drie honden in de tuin. Mijn vriend heeft vier boeken. Hij leest vijf minuten. Wij tellen samen: één, twee, drie, vier, vijf, zes, zeven, acht, negen, tien. Het is leuk om te tellen in het Nederlands. Ik leer elke dag nieuwe woorden. Tien is een mooi getal. Nu ben ik blij.",
-    "content_es": "Soy Anna. Tengo una manzana y dos plátanos. Veo tres perros en el jardín. Mi amigo tiene cuatro libros. Él lee cinco minutos. Contamos juntos: uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez. Es divertido contar en holandés. Aprendo palabras nuevas cada día. Diez es un número bonito. Ahora estoy feliz.",
+    "content_nl": "Ik heb één appel. Jij hebt twee bananen. Wij hebben drie sinaasappels. De winkel is open. Ik koop vier broden en vijf eieren. Zes, zeven, acht, negen, tien. Ik tel alles. Het is heel goed. Ik ben blij. Hoeveel appels heb ik? Eén appel. Hoeveel bananen heb jij? Twee bananen. De getallen zijn leuk. Ik leer Nederlands vandaag. Het is een mooie dag.",
+    "content_es": "Yo tengo una manzana. Tú tienes dos plátanos. Nosotros tenemos tres naranjas. La tienda está abierta. Compro cuatro panes y cinco huevos. Seis, siete, ocho, nueve, diez. Cuento todo. Es muy bueno. Estoy feliz. ¿Cuántas manzanas tengo? Una manzana. ¿Cuántos plátanos tienes tú? Dos plátanos. Los números son divertidos. Aprendo neerlandés hoy. Es un día bonito.",
     "questions_json": [
       {
-        "question_es": "¿Cuántas manzanas tiene Anna?",
+        "question_es": "¿Cuántas manzanas tiene el protagonista?",
         "options": [
           "Eén",
           "Twee",
@@ -1997,29 +677,29 @@
           "Vier"
         ],
         "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik heb één appel' (Tengo una manzana)."
+        "explanation_es": "El texto dice: 'Ik heb één appel' (Yo tengo una manzana)."
       },
       {
-        "question_es": "¿Cuántos perros ve Anna en el jardín?",
+        "question_es": "¿Cuántos plátanos tiene la otra persona?",
         "options": [
-          "Twee",
           "Drie",
+          "Twee",
           "Vier",
           "Vijf"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Ik zie drie honden' (Veo tres perros)."
+        "explanation_es": "El texto dice: 'Jij hebt twee bananen' (Tú tienes dos plátanos)."
       },
       {
-        "question_es": "¿Hasta qué número cuentan en la historia?",
+        "question_es": "¿Qué número sigue después de 'acht' (ocho)?",
         "options": [
-          "Vijf",
+          "Zes",
           "Zeven",
-          "Acht",
+          "Negen",
           "Tien"
         ],
-        "answer_index": 3,
-        "explanation_es": "La lista de números en el texto termina en 'tien' (diez)."
+        "answer_index": 2,
+        "explanation_es": "En la secuencia numérica presentada: 'Zes, zeven, acht, negen, tien', el número después de ocho es nueve (negen)."
       }
     ]
   },
@@ -2029,8 +709,8 @@
     "title_es": "Un día en el mercado",
     "level": "a0",
     "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost één euro. Ik koop ook twee bananen. De bananen kosten drie euro. Daarna koop ik vijf sinaasappels. De sinaasappels kosten vier euro. Ik heb nu acht stuks fruit. Ik ben blij. Ik betaal met geld. Alles is lekker. Ik ga naar huis met mijn tas. Tot ziens, markt!",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta un euro. También compro dos plátanos. Los plátanos cuestan tres euros. Después compro cinco naranjas. Las naranjas cuestan cuatro euros. Ahora tengo ocho piezas de fruta. Estoy feliz. Pago con dinero. Todo está rico. Me voy a casa con mi bolsa. ¡Adiós, mercado!",
+    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost twee euro. Ik zie ook drie bananen. De drie bananen kosten vier euro. Ik koop ook vijf sinaasappels. De vijf sinaasappels kosten zes euro. Ik ben blij. Ik heb één appel, drie bananen en vijf sinaasappels. Mijn tas is vol. Het is een goede dag op de markt. Ik ga nu naar huis. Tot ziens!",
+    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta dos euros. También veo tres plátanos. Los tres plátanos cuestan cuatro euros. Compro también cinco naranjas. Las cinco naranjas cuestan seis euros. Estoy feliz. Tengo una manzana, tres plátanos y cinco naranjas. Mi bolsa está llena. Es un buen día en el mercado. Ahora voy a casa. ¡Adiós!",
     "questions_json": [
       {
         "question_es": "¿Cuántas manzanas compra?",
@@ -2044,62 +724,18 @@
         "explanation_es": "El texto dice: 'Ik koop één appel'."
       },
       {
-        "question_es": "¿Cuántas piezas de fruta tiene en total?",
+        "question_es": "¿Cuánto cuestan los tres plátanos?",
         "options": [
-          "Zes",
-          "Zeven",
-          "Acht",
-          "Negen"
+          "Twee euro",
+          "Drie euro",
+          "Vier euro",
+          "Zes euro"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik heb nu acht stuks fruit'."
+        "explanation_es": "El texto dice: 'De drie bananen kosten vier euro'."
       },
       {
-        "question_es": "¿Cuántos plátanos compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vijf"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Ik koop ook twee bananen'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-3",
-    "title_nl": "Een dag op school",
-    "title_es": "Un día en la escuela",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben op school. Ik zie één leraar. De leraar heeft twee boeken. In de klas zijn drie tafels. Op de tafels liggen vier pennen. Ik tel: één, twee, drie, vier. Ik zie ook vijf stoelen. De school is leuk. Ik ben blij. Ik leer veel vandaag. Eén, twee, drie, vier, vijf. Dat is goed!",
-    "content_es": "Estoy en la escuela. Veo a un profesor. El profesor tiene dos libros. En la clase hay tres mesas. Sobre las mesas hay cuatro bolígrafos. Cuento: uno, dos, tres, cuatro. También veo cinco sillas. La escuela es divertida. Estoy feliz. Aprendo mucho hoy. Uno, dos, tres, cuatro, cinco. ¡Eso está bien!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántos libros tiene el profesor?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'De leraar heeft twee boeken'."
-      },
-      {
-        "question_es": "¿Cuántas mesas hay en la clase?",
-        "options": [
-          "Twee",
-          "Drie",
-          "Vier",
-          "Vijf"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'In de klas zijn drie tafels'."
-      },
-      {
-        "question_es": "¿Cuántas sillas ve el narrador?",
+        "question_es": "¿Cuántas naranjas compra?",
         "options": [
           "Drie",
           "Vier",
@@ -2107,7 +743,51 @@
           "Zes"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik zie ook vijf stoelen'."
+        "explanation_es": "El texto dice: 'Ik koop ook vijf sinaasappels'."
+      }
+    ]
+  },
+  {
+    "slug": "a0-getallen_basis-3",
+    "title_nl": "Een dag op de markt",
+    "title_es": "Un día en el mercado",
+    "level": "a0",
+    "theme": "getallen_basis",
+    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost één euro. Dan koop ik twee bananen. De bananen kosten twee euro. Ik koop ook drie sinaasappels. De sinaasappels kosten drie euro. Ik heb nu zes stuks fruit in mijn tas. Ik ben blij. Eén, twee, drie, vier, vijf, zes. Ik heb veel fruit voor vandaag. De markt is heel leuk.",
+    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta un euro. Luego compro dos plátanos. Los plátanos cuestan dos euros. También compro tres naranjas. Las naranjas cuestan tres euros. Ahora tengo seis piezas de fruta en mi bolsa. Estoy feliz. Uno, dos, tres, cuatro, cinco, seis. Tengo mucha fruta para hoy. El mercado es muy divertido.",
+    "questions_json": [
+      {
+        "question_es": "¿Cuántas manzanas compra?",
+        "options": [
+          "Eén",
+          "Twee",
+          "Drie",
+          "Zes"
+        ],
+        "answer_index": 0,
+        "explanation_es": "El texto dice: 'Ik koop één appel'."
+      },
+      {
+        "question_es": "¿Cuántas frutas tiene en total en su bolsa?",
+        "options": [
+          "Drie",
+          "Vier",
+          "Vijf",
+          "Zes"
+        ],
+        "answer_index": 3,
+        "explanation_es": "El texto dice: 'Ik heb nu zes stuks fruit in mijn tas'."
+      },
+      {
+        "question_es": "¿Cuánto cuestan las naranjas?",
+        "options": [
+          "Eén euro",
+          "Twee euro",
+          "Drie euro",
+          "Zes euro"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'De sinaasappels kosten drie euro'."
       }
     ]
   },
@@ -2117,272 +797,8 @@
     "title_es": "Un día en el mercado",
     "level": "a0",
     "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost twee euro. Ik zie ook drie bananen. De bananen kosten vier euro. Dan koop ik vijf sinaasappels. De sinaasappels kosten zes euro. Ik heb nu veel fruit in mijn tas. Ik ben blij. Eén, twee, drie, vier, vijf, zes. Wat een mooie dag op de markt!",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta dos euros. También veo tres plátanos. Los plátanos cuestan cuatro euros. Luego compro cinco naranjas. Las naranjas cuestan seis euros. Ahora tengo mucha fruta en mi bolsa. Estoy feliz. Uno, dos, tres, cuatro, cinco, seis. ¡Qué bonito día en el mercado!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra el narrador?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel'."
-      },
-      {
-        "question_es": "¿Cuánto cuestan las manzanas?",
-        "options": [
-          "Vier euro",
-          "Zes euro",
-          "Twee euro",
-          "Vijf euro"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'De appel kost twee euro'."
-      },
-      {
-        "question_es": "¿Cuántas naranjas compra el narrador?",
-        "options": [
-          "Drie",
-          "Vier",
-          "Vijf",
-          "Zes"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Dan koop ik vijf sinaasappels'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-5",
-    "title_nl": "Een dag op de markt",
-    "title_es": "Un día en el mercado",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik koop fruit. Eén appel kost één euro. Ik koop twee appels. Dat is twee euro. Ik zie ook bananen. Drie bananen kosten drie euro. Ik koop ook vier peren. Alles samen is negen euro. Ik betaal met een biljet van tien euro. Ik krijg één euro terug. Ik ben blij met mijn fruit. Eén, twee, drie, vier, vijf, zes, zeven, acht, negen, tien. Wat een mooie dag!",
-    "content_es": "Estoy en el mercado. Compro fruta. Una manzana cuesta un euro. Compro dos manzanas. Eso son dos euros. También veo plátanos. Tres plátanos cuestan tres euros. También compro cuatro peras. Todo junto son nueve euros. Pago con un billete de diez euros. Recibo un euro de cambio. Estoy feliz con mi fruta. Uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez. ¡Qué buen día!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuánto cuestan dos manzanas?",
-        "options": [
-          "Eén euro",
-          "Twee euro",
-          "Drie euro",
-          "Vier euro"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Eén appel kost één euro. Ik koop twee appels. Dat is twee euro'."
-      },
-      {
-        "question_es": "¿Cuánto cuestan tres plátanos?",
-        "options": [
-          "Twee euro",
-          "Drie euro",
-          "Vier euro",
-          "Vijf euro"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Drie bananen kosten drie euro'."
-      },
-      {
-        "question_es": "¿Cuánto dinero recibe de vuelta?",
-        "options": [
-          "Negen euro",
-          "Tien euro",
-          "Eén euro",
-          "Twee euro"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El total es nueve euros y paga con diez, por lo tanto recibe un euro de vuelta."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-6",
-    "title_nl": "Een dag in de winkel",
-    "title_es": "Un día en la tienda",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben in de winkel. Ik koop één appel. De appel kost twee euro. Daarna koop ik drie bananen. De bananen kosten vier euro. Ik heb vijf euro in mijn hand. Ik geef het geld aan de man. De man zegt: 'Dank u wel'. Ik ga naar huis met mijn fruit. Ik ben blij. Eén, twee, drie, vier, vijf. Wat een mooie dag in de stad.",
-    "content_es": "Estoy en la tienda. Compro una manzana. La manzana cuesta dos euros. Después compro tres plátanos. Los plátanos cuestan cuatro euros. Tengo cinco euros en mi mano. Le doy el dinero al hombre. El hombre dice: 'Gracias'. Me voy a casa con mi fruta. Estoy feliz. Uno, dos, tres, cuatro, cinco. Qué día tan bonito en la ciudad.",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "En el texto dice: 'Ik koop één appel'."
-      },
-      {
-        "question_es": "¿Cuánto cuestan las manzanas?",
-        "options": [
-          "Eén euro",
-          "Twee euro",
-          "Drie euro",
-          "Vier euro"
-        ],
-        "answer_index": 1,
-        "explanation_es": "En el texto dice: 'De appel kost twee euro'."
-      },
-      {
-        "question_es": "¿Cuántos euros tiene la persona?",
-        "options": [
-          "Drie",
-          "Vier",
-          "Vijf",
-          "Zes"
-        ],
-        "answer_index": 2,
-        "explanation_es": "En el texto dice: 'Ik heb vijf euro in mijn hand'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-7",
-    "title_nl": "Een dag op de markt",
-    "title_es": "Un día en el mercado",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost één euro. Dan koop ik twee bananen. De bananen kosten twee euro. Ik zie ook drie sinaasappels. Ik koop vier peren. Alles is vers. Ik heb nu vijf stuks fruit in mijn tas. Ik ben blij. Eén, twee, drie, vier, vijf. De markt is leuk!",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta un euro. Luego compro dos plátanos. Los plátanos cuestan dos euros. También veo tres naranjas. Compro cuatro peras. Todo está fresco. Ahora tengo cinco piezas de fruta en mi bolsa. Estoy feliz. Uno, dos, tres, cuatro, cinco. ¡El mercado es divertido!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel'."
-      },
-      {
-        "question_es": "¿Cuántas peras compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'Ik koop vier peren'."
-      },
-      {
-        "question_es": "¿Cuántas piezas de fruta tiene en total?",
-        "options": [
-          "Drie",
-          "Vier",
-          "Vijf",
-          "Zes"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik heb nu vijf stuks fruit in mijn tas'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-8",
-    "title_nl": "Een dag op de markt",
-    "title_es": "Un día en el mercado",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. Ik koop ook twee bananen. Mijn vriend koopt drie sinaasappels. Wij zien vier mensen bij de winkel. De appels kosten vijf euro. De bananen kosten zes euro. Alles is lekker. Wij zijn blij. Eén, twee, drie, vier, vijf, zes. De markt is leuk!",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. También compro dos plátanos. Mi amigo compra tres naranjas. Vemos a cuatro personas en la tienda. Las manzanas cuestan cinco euros. Los plátanos cuestan seis euros. Todo está rico. Estamos felices. Uno, dos, tres, cuatro, cinco, seis. ¡El mercado es divertido!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra el narrador?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel' (Compro una manzana)."
-      },
-      {
-        "question_es": "¿Cuántas naranjas compra el amigo?",
-        "options": [
-          "Vier",
-          "Drie",
-          "Twee",
-          "Vijf"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Mijn vriend koopt drie sinaasappels' (Mi amigo compra tres naranjas)."
-      },
-      {
-        "question_es": "¿Cuánto cuestan los plátanos?",
-        "options": [
-          "Vier euro",
-          "Vijf euro",
-          "Zes euro",
-          "Drie euro"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'De bananen kosten zes euro' (Los plátanos cuestan seis euros)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-9",
-    "title_nl": "Een dag in de winkel",
-    "title_es": "Un día en la tienda",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben in de winkel. Ik koop één appel. Ik koop ook twee bananen. De appel kost één euro. De bananen kosten twee euro. Ik heb drie euro in mijn hand. De winkelier zegt: 'Dank u wel'. Ik heb één appel en twee bananen. Dat zijn drie stuks fruit. Ik ben blij met mijn fruit. Ik ga nu naar huis. Tot ziens!",
-    "content_es": "Estoy en la tienda. Compro una manzana. También compro dos plátanos. La manzana cuesta un euro. Los plátanos cuestan dos euros. Tengo tres euros en mi mano. El tendero dice: 'Gracias'. Tengo una manzana y dos plátanos. Son tres piezas de fruta. Estoy feliz con mi fruta. Ahora voy a casa. ¡Adiós!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel'."
-      },
-      {
-        "question_es": "¿Cuántos plátanos compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Ik koop ook twee bananen'."
-      },
-      {
-        "question_es": "¿Cuánto dinero tiene en total?",
-        "options": [
-          "Eén euro",
-          "Twee euro",
-          "Drie euro",
-          "Vier euro"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik heb drie euro in mijn hand'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-10",
-    "title_nl": "Een dag in de winkel",
-    "title_es": "Un día en la tienda",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben in de winkel. Ik koop fruit. Eén appel kost één euro. Ik koop twee appels. Dat is twee euro. Ik koop ook drie bananen. Drie bananen kosten drie euro. Nu heb ik vijf stuks fruit. Ik betaal met vijf euro. De winkelier zegt: \"Dank u wel.\" Ik ben blij. Ik heb nu veel lekker fruit voor thuis. De zon schijnt en ik loop naar huis. Het is een mooie dag.",
-    "content_es": "Estoy en la tienda. Compro fruta. Una manzana cuesta un euro. Compro dos manzanas. Eso son dos euros. También compro tres plátanos. Tres plátanos cuestan tres euros. Ahora tengo cinco piezas de fruta. Pago con cinco euros. El tendero dice: \"Muchas gracias\". Estoy feliz. Ahora tengo mucha fruta rica para casa. El sol brilla y camino a casa. Es un día bonito.",
+    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost twee euro. Ik zie ook drie bananen. De drie bananen kosten vier euro. Ik heb vijf euro in mijn hand. Ik betaal voor de appel en de bananen. Ik ben blij. Eén, twee, drie, vier, vijf. Ik tel mijn fruit. Het is een goede dag op de markt.",
+    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta dos euros. También veo tres plátanos. Los tres plátanos cuestan cuatro euros. Tengo cinco euros en mi mano. Pago por la manzana y los plátanos. Estoy feliz. Uno, dos, tres, cuatro, cinco. Cuento mi fruta. Es un buen día en el mercado.",
     "questions_json": [
       {
         "question_es": "¿Cuántas manzanas compra la persona?",
@@ -2390,24 +806,24 @@
           "Eén",
           "Twee",
           "Drie",
-          "Vijf"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Ik koop twee appels' (Compro dos manzanas)."
-      },
-      {
-        "question_es": "¿Cuántos plátanos compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
           "Vier"
         ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik koop ook drie bananen' (También compro tres plátanos)."
+        "answer_index": 0,
+        "explanation_es": "El texto dice: 'Ik koop één appel', que significa 'Compro una manzana'."
       },
       {
-        "question_es": "¿Cuánto dinero paga en total?",
+        "question_es": "¿Cuánto cuestan los tres plátanos?",
+        "options": [
+          "Eén euro",
+          "Twee euro",
+          "Drie euro",
+          "Vier euro"
+        ],
+        "answer_index": 3,
+        "explanation_es": "El texto dice: 'De drie bananen kosten vier euro'."
+      },
+      {
+        "question_es": "¿Cuánto dinero tiene la persona en la mano?",
         "options": [
           "Twee euro",
           "Drie euro",
@@ -2415,62 +831,18 @@
           "Vijf euro"
         ],
         "answer_index": 3,
-        "explanation_es": "El texto dice: 'Ik betaal met vijf euro' (Pago con cinco euros)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-getallen_basis-11",
-    "title_nl": "Een dag op de markt",
-    "title_es": "Un día en el mercado",
-    "level": "a0",
-    "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost twee euro. Ik koop ook drie bananen. De bananen kosten vier euro. Ik heb vijf euro in mijn hand. Ik geef het geld aan de man. De man lacht. Ik heb nu fruit. Eén appel en drie bananen. Ik ben blij. Tot ziens!",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta dos euros. También compro tres plátanos. Los plátanos cuestan cuatro euros. Tengo cinco euros en mi mano. Le doy el dinero al hombre. El hombre sonríe. Ahora tengo fruta. Una manzana y tres plátanos. Estoy feliz. ¡Adiós!",
-    "questions_json": [
-      {
-        "question_es": "¿Cuántas manzanas compra?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel'."
-      },
-      {
-        "question_es": "¿Cuántos euros cuestan los plátanos?",
-        "options": [
-          "Eén",
-          "Twee",
-          "Drie",
-          "Vier"
-        ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'De bananen kosten vier euro'."
-      },
-      {
-        "question_es": "¿Cuánto dinero tiene en la mano?",
-        "options": [
-          "Drie",
-          "Vier",
-          "Vijf",
-          "Zes"
-        ],
-        "answer_index": 2,
         "explanation_es": "El texto dice: 'Ik heb vijf euro in mijn hand'."
       }
     ]
   },
   {
-    "slug": "a0-getallen_basis-12",
-    "title_nl": "Een dag op de markt",
-    "title_es": "Un día en el mercado",
+    "slug": "a0-getallen_basis-5",
+    "title_nl": "Een dag in de winkel",
+    "title_es": "Un día en la tienda",
     "level": "a0",
     "theme": "getallen_basis",
-    "content_nl": "Ik ben op de markt. Ik zie veel fruit. Ik koop één appel. De appel kost twee euro. Ik koop ook drie bananen. De bananen kosten vier euro. Nu heb ik veel fruit. Ik zie vijf mensen bij de markt. Ik ben blij. Ik heb één appel en drie bananen. Dat is vier stuks fruit. De markt is leuk en ik heb nu lekker eten voor vandaag.",
-    "content_es": "Estoy en el mercado. Veo mucha fruta. Compro una manzana. La manzana cuesta dos euros. También compro tres plátanos. Los plátanos cuestan cuatro euros. Ahora tengo mucha fruta. Veo cinco personas en el mercado. Estoy feliz. Tengo una manzana y tres plátanos. Eso son cuatro piezas de fruta. El mercado es divertido y ahora tengo comida rica para hoy.",
+    "content_nl": "Ik ben in de winkel. Ik koop één appel en twee bananen. De appel kost één euro. De twee bananen kosten drie euro. Ik heb vier euro in mijn hand. De winkelier zegt: 'Dank u wel.' Ik loop naar buiten met mijn fruit. Ik ben blij. Eén, twee, drie, vier. Alles is goed. Ik ga nu naar huis. Tot ziens!",
+    "content_es": "Estoy en la tienda. Compro una manzana y dos plátanos. La manzana cuesta un euro. Los dos plátanos cuestan tres euros. Tengo cuatro euros en mi mano. El tendero dice: 'Gracias'. Salgo con mi fruta. Estoy feliz. Uno, dos, tres, cuatro. Todo está bien. Ahora voy a casa. ¡Adiós!",
     "questions_json": [
       {
         "question_es": "¿Cuántas manzanas compra la persona?",
@@ -2481,10 +853,10 @@
           "Vier"
         ],
         "answer_index": 0,
-        "explanation_es": "El texto dice: 'Ik koop één appel' (Compro una manzana)."
+        "explanation_es": "El texto dice: 'Ik koop één appel'."
       },
       {
-        "question_es": "¿Cuánto cuestan los plátanos?",
+        "question_es": "¿Cuánto dinero tiene en la mano?",
         "options": [
           "Eén euro",
           "Twee euro",
@@ -2492,18 +864,18 @@
           "Vier euro"
         ],
         "answer_index": 3,
-        "explanation_es": "El texto dice: 'De bananen kosten vier euro' (Los plátanos cuestan cuatro euros)."
+        "explanation_es": "El texto dice: 'Ik heb vier euro in mijn hand'."
       },
       {
-        "question_es": "¿Cuántas personas ve la persona en el mercado?",
+        "question_es": "¿Cuántos plátanos compra?",
         "options": [
+          "Eén",
+          "Twee",
           "Drie",
-          "Vier",
-          "Vijf",
-          "Zes"
+          "Vier"
         ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Ik zie vijf mensen' (Veo cinco personas)."
+        "answer_index": 1,
+        "explanation_es": "El texto dice: '...en twee bananen'."
       }
     ]
   },
@@ -2513,41 +885,41 @@
     "title_es": "Ser/estar y tener en presente",
     "level": "a0",
     "theme": "werkwoorden_basis",
-    "content_nl": "Ik ben Tom. Ik ben een student. Ik ben blij. Ik heb een boek. Ik heb ook een pen. Mijn vriend is Jan. Jan is vrolijk. Hij heeft een blauwe tas. Wij zijn in de klas. Wij hebben een les. De les is leuk. Wij zijn nu gelukkig.",
-    "content_es": "Yo soy Tom. Yo soy un estudiante. Yo estoy feliz. Yo tengo un libro. Yo tengo también un bolígrafo. Mi amigo es Jan. Jan está alegre. Él tiene una mochila azul. Nosotros estamos en la clase. Nosotros tenemos una lección. La lección es divertida. Nosotros estamos felices ahora.",
+    "content_nl": "Ik ben Tom. Ik ben een student in Amsterdam. Ik heb een kleine kamer. De kamer is mooi en licht. Ik heb ook een fiets. Mijn fiets is rood. Mijn vriendin is Anna. Zij is aardig. Wij hebben samen een boek. Het boek is interessant. Wij zijn blij in de stad.",
+    "content_es": "Yo soy Tom. Soy estudiante en Ámsterdam. Tengo una habitación pequeña. La habitación es bonita y luminosa. También tengo una bicicleta. Mi bicicleta es roja. Mi amiga es Anna. Ella es amable. Nosotros tenemos un libro juntos. El libro es interesante. Estamos felices en la ciudad.",
     "questions_json": [
       {
-        "question_es": "¿Quién es Tom?",
+        "question_es": "¿Dónde vive Tom?",
         "options": [
-          "Un profesor",
-          "Un estudiante",
-          "Un amigo",
-          "Un libro"
+          "In Utrecht",
+          "In Amsterdam",
+          "In Rotterdam",
+          "In een kamer zonder licht"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Ik ben een student' (Yo soy un estudiante)."
+        "explanation_es": "El texto dice explícitamente: 'Ik ben een student in Amsterdam'."
       },
       {
-        "question_es": "¿Qué tiene Tom?",
+        "question_es": "¿De qué color es la bicicleta de Tom?",
         "options": [
-          "Una mochila azul",
-          "Un bolígrafo y un libro",
-          "Un amigo",
-          "Una clase"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona: 'Ik heb een boek. Ik heb ook een pen' (Tengo un libro. También tengo un bolígrafo)."
-      },
-      {
-        "question_es": "¿Dónde están Tom y Jan?",
-        "options": [
-          "En casa",
-          "En la biblioteca",
-          "En la clase",
-          "En el parque"
+          "Blauw",
+          "Groen",
+          "Rood",
+          "Geel"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Wij zijn in de klas' (Nosotros estamos en la clase)."
+        "explanation_es": "El texto menciona: 'Mijn fiets is rood'."
+      },
+      {
+        "question_es": "¿Qué tienen Tom y Anna juntos?",
+        "options": [
+          "Een fiets",
+          "Een kamer",
+          "Een boek",
+          "Een stad"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'Wij hebben samen een boek'."
       }
     ]
   },
@@ -2557,184 +929,52 @@
     "title_es": "Tom trabaja y come",
     "level": "a0",
     "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt op de computer. Het is twaalf uur. Tom is moe en hongerig. Hij loopt naar een café. Hij bestelt een broodje en drinkt water. Hij eet het broodje op. Het is lekker. Tom kijkt op zijn horloge. Hij gaat terug naar het kantoor. Hij werkt weer. Tom houdt van zijn baan.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe en la computadora. Son las doce. Tom está cansado y hambriento. Él camina a un café. Él pide un sándwich y bebe agua. Él se come el sándwich. Es rico. Tom mira su reloj. Él regresa a la oficina. Él trabaja de nuevo. A Tom le gusta su trabajo.",
+    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij loopt naar het café. Tom drinkt koffie. Hij eet een broodje. Hij kijkt naar de mensen. Het is een mooie dag. Tom leest een boek. Hij is blij. Hij gaat naar huis. Hij slaapt in zijn bed. Het is avond. Tom droomt. Hij is moe.",
+    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él camina al café. Tom bebe café. Él come un sándwich. Él mira a la gente. Es un día bonito. Tom lee un libro. Él está feliz. Él va a casa. Él duerme en su cama. Es de noche. Tom sueña. Él está cansado.",
     "questions_json": [
-      {
-        "question_es": "¿Qué hace Tom en el café?",
-        "options": [
-          "Hij slaapt",
-          "Hij eet een broodje",
-          "Hij werkt op de computer",
-          "Hij drinkt koffie"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij bestelt een broodje' (Él pide un sándwich) y 'Hij eet het broodje op'."
-      },
       {
         "question_es": "¿Dónde trabaja Tom?",
         "options": [
           "In een café",
-          "In een huis",
           "In een kantoor",
-          "In een winkel"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona explícitamente: 'Hij werkt in een kantoor'."
-      },
-      {
-        "question_es": "¿Cómo se siente Tom a las doce?",
-        "options": [
-          "Blij en gezond",
-          "Moe en hongerig",
-          "Boos en koud",
-          "Blij en dorstig"
+          "Thuis",
+          "In een park"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Tom is moe en hongerig'."
+        "explanation_es": "El texto dice: 'Hij werkt in een kantoor'."
+      },
+      {
+        "question_es": "¿Qué bebe Tom?",
+        "options": [
+          "Thee",
+          "Water",
+          "Koffie",
+          "Melk"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'Tom drinkt koffie'."
+      },
+      {
+        "question_es": "¿Qué hace Tom al final del día?",
+        "options": [
+          "Hij werkt",
+          "Hij eet",
+          "Hij slaapt",
+          "Hij leest"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto dice: 'Hij slaapt in zijn bed'."
       }
     ]
   },
   {
     "slug": "a0-werkwoorden_basis-3",
-    "title_nl": "Sam werkt en eet",
-    "title_es": "Sam trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Sam is in de stad. Sam werkt in een café. Hij loopt veel. Hij pakt een kop koffie. Hij drinkt de koffie. Daarna eet Sam een appel. Hij is moe, maar hij is blij. Hij leest een boek in het park. De zon schijnt. Sam kijkt naar de mensen. Hij praat met een vriend. Het is een goede dag voor Sam.",
-    "content_es": "Sam está en la ciudad. Sam trabaja en una cafetería. Él camina mucho. Él toma una taza de café. Él bebe el café. Después, Sam come una manzana. Él está cansado, pero está feliz. Él lee un libro en el parque. El sol brilla. Sam mira a la gente. Él habla con un amigo. Es un buen día para Sam.",
-    "questions_json": [
-      {
-        "question_es": "¿Dónde trabaja Sam?",
-        "options": [
-          "In een park",
-          "In een café",
-          "In een huis",
-          "In een winkel"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Sam werkt in een café'."
-      },
-      {
-        "question_es": "¿Qué come Sam?",
-        "options": [
-          "Een banaan",
-          "Een koekje",
-          "Een appel",
-          "Een broodje"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto menciona: 'Daarna eet Sam een appel'."
-      },
-      {
-        "question_es": "¿Qué hace Sam en el parque?",
-        "options": [
-          "Hij slaapt",
-          "Hij werkt",
-          "Hij rent",
-          "Hij leest een boek"
-        ],
-        "answer_index": 3,
-        "explanation_es": "El texto dice: 'Hij leest een boek in het park'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-4",
     "title_nl": "Tom werkt en eet",
     "title_es": "Tom trabaja y come",
     "level": "a0",
     "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt veel. Om twaalf uur stopt hij. Tom heeft honger. Hij loopt naar een café. Hij bestelt een broodje en drinkt water. Het is lekker. Daarna gaat hij terug naar zijn werk. Hij werkt tot vijf uur. Dan is de dag voorbij. Tom gaat naar huis. Hij slaapt in zijn bed. Het is een goede dag.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe mucho. A las doce él para. Tom tiene hambre. Él camina a un café. Él pide un sándwich y bebe agua. Está rico. Después él regresa a su trabajo. Él trabaja hasta las cinco. Entonces el día termina. Tom va a casa. Él duerme en su cama. Es un buen día.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué hace Tom en la oficina?",
-        "options": [
-          "Hij slaapt",
-          "Hij typt",
-          "Hij loopt",
-          "Hij eet"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice 'Hij typt veel' (Él escribe mucho)."
-      },
-      {
-        "question_es": "¿Qué bebe Tom en el café?",
-        "options": [
-          "Koffie",
-          "Melk",
-          "Water",
-          "Thee"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice 'hij drinkt water' (él bebe agua)."
-      },
-      {
-        "question_es": "¿A qué hora termina de trabajar Tom?",
-        "options": [
-          "Om twaalf uur",
-          "Om vijf uur",
-          "Om zes uur",
-          "Om acht uur"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto menciona 'Hij werkt tot vijf uur' (Él trabaja hasta las cinco)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-5",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een winkel. Hij loopt naar huis. Tom is moe. Hij kookt pasta in de keuken. Hij eet de pasta. Daarna drinkt hij water. Hij leest een boek op de bank. Hij is blij. Hij slaapt in zijn bed. Het is een goede dag.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una tienda. Él camina a casa. Tom está cansado. Él cocina pasta en la cocina. Él come la pasta. Después, él bebe agua. Él lee un libro en el sofá. Él está feliz. Él duerme en su cama. Es un buen día.",
-    "questions_json": [
-      {
-        "question_es": "¿Dónde trabaja Tom?",
-        "options": [
-          "In de keuken",
-          "In een winkel",
-          "In een huis",
-          "In een stad"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij werkt in een winkel' (Él trabaja en una tienda)."
-      },
-      {
-        "question_es": "¿Qué come Tom?",
-        "options": [
-          "Soep",
-          "Brood",
-          "Pasta",
-          "Rijst"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij kookt pasta' y 'Hij eet de pasta' (Él cocina pasta y come la pasta)."
-      },
-      {
-        "question_es": "¿Qué hace Tom después de comer?",
-        "options": [
-          "Hij drinkt water",
-          "Hij loopt",
-          "Hij werkt",
-          "Hij kookt"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Daarna drinkt hij water' (Después, él bebe agua)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-6",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt veel. Om twaalf uur stopt hij. Tom heeft honger. Hij loopt naar een café. Hij bestelt een broodje en drinkt water. Hij eet snel en drinkt rustig. Dan gaat hij terug naar het kantoor. Hij werkt weer. Het is een goede dag voor Tom. Hij is blij.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe mucho. A las doce él para. Tom tiene hambre. Él camina a un café. Él pide un sándwich y bebe agua. Él come rápido y bebe tranquilo. Luego él regresa a la oficina. Él trabaja de nuevo. Es un buen día para Tom. Él está feliz.",
+    "content_nl": "Tom is in de stad. Hij werkt op kantoor. Hij typt veel. Om twaalf uur stopt Tom. Hij heeft honger. Hij loopt naar de winkel. Hij koopt een broodje en drinkt water. Hij eet het broodje in het park. Het is lekker. Daarna gaat Tom terug naar het kantoor. Hij werkt weer. Het is een goede dag voor Tom.",
+    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe mucho. A las doce, Tom para. Él tiene hambre. Él camina a la tienda. Él compra un bocadillo y bebe agua. Él come el bocadillo en el parque. Es rico. Después, Tom regresa a la oficina. Él trabaja de nuevo. Es un buen día para Tom.",
     "questions_json": [
       {
         "question_es": "¿Qué hace Tom en la oficina?",
@@ -2742,208 +982,120 @@
           "Hij slaapt",
           "Hij typt",
           "Hij zingt",
-          "Hij kookt"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij typt veel' (Él escribe/teclea mucho)."
-      },
-      {
-        "question_es": "¿Qué hace Tom a las doce?",
-        "options": [
-          "Hij eet een broodje",
-          "Hij drinkt koffie",
-          "Hij gaat naar huis",
-          "Hij leest een boek"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto menciona que a las doce para y pide un 'broodje' (sándwich)."
-      },
-      {
-        "question_es": "¿Cómo se siente Tom?",
-        "options": [
-          "Hij is moe",
-          "Hij is boos",
-          "Hij is blij",
-          "Hij is ziek"
-        ],
-        "answer_index": 2,
-        "explanation_es": "La última frase del texto dice: 'Hij is blij' (Él está feliz)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-7",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt op een computer. Het is twaalf uur. Tom is moe en hongerig. Hij loopt naar een café. Hij bestelt een broodje en drinkt koffie. Hij eet zijn lunch. Tom is blij. Hij leest een boek en kijkt naar de mensen. Daarna gaat hij weer naar kantoor. Hij werkt veel. Tom is een goede werknemer.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe en una computadora. Son las doce. Tom está cansado y hambriento. Él camina hacia un café. Él pide un sándwich y bebe café. Él come su almuerzo. Tom está feliz. Él lee un libro y mira a la gente. Después, él va de nuevo a la oficina. Él trabaja mucho. Tom es un buen empleado.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué hace Tom en la oficina?",
-        "options": [
-          "Hij slaapt",
-          "Hij typt",
-          "Hij kookt",
           "Hij rent"
         ],
         "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij typt op een computer' (Él escribe en una computadora)."
-      },
-      {
-        "question_es": "¿Qué bebe Tom en el café?",
-        "options": [
-          "Thee",
-          "Water",
-          "Koffie",
-          "Melk"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij bestelt een broodje en drinkt koffie' (Él pide un sándwich y bebe café)."
-      },
-      {
-        "question_es": "¿Cómo se siente Tom cuando va al café?",
-        "options": [
-          "Moe en hongerig",
-          "Blij en rijk",
-          "Boos",
-          "Siek"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Tom is moe en hongerig' (Tom está cansado y hambriento)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-8",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt veel. Om twaalf uur stopt hij. Tom gaat naar een café. Hij bestelt een broodje en drinkt water. Hij eet en hij leest een boek. Om één uur gaat hij terug. Hij werkt weer. Het is een goede dag voor Tom. Hij houdt van zijn werk in de stad.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe mucho. A las doce él para. Tom va a un café. Él pide un sándwich y bebe agua. Él come y lee un libro. A la una él regresa. Él trabaja de nuevo. Es un buen día para Tom. A él le gusta su trabajo en la ciudad.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué hace Tom en la oficina?",
-        "options": [
-          "Hij eet",
-          "Hij typt",
-          "Hij slaapt",
-          "Hij drinkt"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice: 'Hij typt veel' (Él escribe mucho)."
-      },
-      {
-        "question_es": "¿Qué hace Tom a las doce?",
-        "options": [
-          "Hij werkt",
-          "Hij gaat naar huis",
-          "Hij stopt",
-          "Hij leest"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto dice: 'Om twaalf uur stopt hij' (A las doce él para)."
-      },
-      {
-        "question_es": "¿Qué bebe Tom en el café?",
-        "options": [
-          "Water",
-          "Koffie",
-          "Thee",
-          "Melk"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto dice: 'Hij bestelt een broodje en drinkt water' (Él pide un sándwich y bebe agua)."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-9",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Tom is moe. Hij gaat naar huis. Hij loopt naar de keuken. Tom heeft honger. Hij eet een appel en hij drinkt water. Hij leest een boek op de bank. Het is leuk. Tom is blij. Hij slaapt in zijn bed. Het is een goede dag.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Tom está cansado. Él va a casa. Él camina a la cocina. Tom tiene hambre. Él come una manzana y bebe agua. Él lee un libro en el sofá. Es divertido. Tom está feliz. Él duerme en su cama. Es un buen día.",
-    "questions_json": [
-      {
-        "question_es": "¿Dónde trabaja Tom?",
-        "options": [
-          "In de keuken",
-          "In een kantoor",
-          "In een bed",
-          "In de stad"
-        ],
-        "answer_index": 1,
-        "explanation_es": "El texto dice explícitamente: 'Hij werkt in een kantoor'."
-      },
-      {
-        "question_es": "¿Qué come Tom?",
-        "options": [
-          "Een appel",
-          "Een boek",
-          "Water",
-          "Een bank"
-        ],
-        "answer_index": 0,
-        "explanation_es": "El texto menciona: 'Hij eet een appel'."
-      },
-      {
-        "question_es": "¿Qué hace Tom en el sofá?",
-        "options": [
-          "Hij slaapt",
-          "Hij werkt",
-          "Hij leest een boek",
-          "Hij eet water"
-        ],
-        "answer_index": 2,
-        "explanation_es": "El texto indica: 'Hij leest een boek op de bank'."
-      }
-    ]
-  },
-  {
-    "slug": "a0-werkwoorden_basis-10",
-    "title_nl": "Tom werkt en eet",
-    "title_es": "Tom trabaja y come",
-    "level": "a0",
-    "theme": "werkwoorden_basis",
-    "content_nl": "Tom is in de stad. Hij werkt in een kantoor. Hij typt veel. Om twaalf uur stopt hij. Tom heeft honger. Hij loopt naar een café. Hij bestelt een broodje en drinkt water. Hij eet snel. Het eten is lekker. Daarna loopt hij terug naar het kantoor. Hij werkt weer. Hij is moe, maar blij. De dag is bijna voorbij. Tom gaat nu naar huis.",
-    "content_es": "Tom está en la ciudad. Él trabaja en una oficina. Él escribe mucho. A las doce él para. Tom tiene hambre. Él camina a un café. Él pide un sándwich y bebe agua. Él come rápido. La comida está rica. Después, él camina de regreso a la oficina. Él trabaja otra vez. Él está cansado, pero feliz. El día casi termina. Tom va ahora a casa.",
-    "questions_json": [
-      {
-        "question_es": "¿Qué hace Tom en la oficina?",
-        "options": [
-          "Hij slaapt",
-          "Hij typt",
-          "Hij drinkt wijn",
-          "Hij leest een boek"
-        ],
-        "answer_index": 1,
         "explanation_es": "El texto dice: 'Hij typt veel' (Él escribe/teclea mucho)."
       },
       {
-        "question_es": "¿Qué hace Tom a las doce?",
+        "question_es": "¿Dónde come Tom?",
         "options": [
-          "Hij gaat naar huis",
-          "Hij werkt",
-          "Hij stopt met werken",
-          "Hij slaapt"
+          "In de winkel",
+          "Op kantoor",
+          "In het park",
+          "Thuis"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Om twaalf uur stopt hij' (A las doce él para)."
+        "explanation_es": "El texto dice: 'Hij eet het broodje in het park' (Él come el bocadillo en el parque)."
       },
       {
-        "question_es": "¿Qué come Tom?",
+        "question_es": "¿Qué bebe Tom?",
         "options": [
-          "Een appel",
-          "Een pizza",
-          "Een broodje",
-          "Een banaan"
+          "Water",
+          "Koffie",
+          "Melk",
+          "Sap"
+        ],
+        "answer_index": 0,
+        "explanation_es": "El texto dice: '...en drinkt water' (...y bebe agua)."
+      }
+    ]
+  },
+  {
+    "slug": "a0-werkwoorden_basis-4",
+    "title_nl": "Luc en Anna werken",
+    "title_es": "Luc y Anna trabajan",
+    "level": "a0",
+    "theme": "werkwoorden_basis",
+    "content_nl": "Luc is in het kantoor. Hij werkt veel. Hij leest een brief. Anna is ook in het kantoor. Zij schrijft een e-mail. Luc drinkt koffie. Anna drinkt thee. Zij praten niet. Zij werken hard. Luc kijkt naar de computer. Anna kijkt naar de klok. Het is vijf uur. Zij stoppen met werken. Zij gaan naar huis. Het is een goede dag.",
+    "content_es": "Luc está en la oficina. Él trabaja mucho. Él lee una carta. Anna también está en la oficina. Ella escribe un correo electrónico. Luc bebe café. Anna bebe té. Ellos no hablan. Ellos trabajan duro. Luc mira a la computadora. Anna mira al reloj. Son las cinco. Ellos dejan de trabajar. Ellos van a casa. Es un buen día.",
+    "questions_json": [
+      {
+        "question_es": "¿Qué bebe Luc?",
+        "options": [
+          "Thee",
+          "Koffie",
+          "Water",
+          "Melk"
+        ],
+        "answer_index": 1,
+        "explanation_es": "El texto dice explícitamente: 'Luc drinkt koffie'."
+      },
+      {
+        "question_es": "¿Qué hace Anna?",
+        "options": [
+          "Zij leest",
+          "Zij eet",
+          "Zij schrijft",
+          "Zij slaapt"
         ],
         "answer_index": 2,
-        "explanation_es": "El texto dice: 'Hij bestelt een broodje' (Él pide un sándwich)."
+        "explanation_es": "El texto dice: 'Zij schrijft een e-mail'."
+      },
+      {
+        "question_es": "¿A qué hora dejan de trabajar?",
+        "options": [
+          "Om vier uur",
+          "Om zes uur",
+          "Om zeven uur",
+          "Om vijf uur"
+        ],
+        "answer_index": 3,
+        "explanation_es": "El texto dice: 'Het is vijf uur. Zij stoppen met werken'."
+      }
+    ]
+  },
+  {
+    "slug": "a0-werkwoorden_basis-5",
+    "title_nl": "Thomas werkt en eet",
+    "title_es": "Thomas trabaja y come",
+    "level": "a0",
+    "theme": "werkwoorden_basis",
+    "content_nl": "Thomas is in de keuken. Hij werkt veel. Thomas kookt soep. Hij snijdt de groenten. Hij proeft de soep. De soep is lekker! Nu eet Thomas. Hij eet met een lepel. Hij drinkt ook water. Thomas is blij. Hij houdt van koken. Daarna leest hij een boek. Hij is moe, maar tevreden. Het is een goede dag voor Thomas.",
+    "content_es": "Thomas está en la cocina. Él trabaja mucho. Thomas cocina sopa. Él corta las verduras. Él prueba la sopa. ¡La sopa está rica! Ahora Thomas come. Él come con una cuchara. Él también bebe agua. Thomas está feliz. A él le gusta cocinar. Después, él lee un libro. Él está cansado, pero satisfecho. Es un buen día para Thomas.",
+    "questions_json": [
+      {
+        "question_es": "¿Qué hace Thomas en la cocina?",
+        "options": [
+          "Hij slaapt",
+          "Hij kookt",
+          "Hij rent",
+          "Hij zwemt"
+        ],
+        "answer_index": 1,
+        "explanation_es": "El texto dice explícitamente: 'Thomas kookt soep'."
+      },
+      {
+        "question_es": "¿Qué bebe Thomas?",
+        "options": [
+          "Wijn",
+          "Melk",
+          "Water",
+          "Thee"
+        ],
+        "answer_index": 2,
+        "explanation_es": "El texto menciona: 'Hij drinkt ook water'."
+      },
+      {
+        "question_es": "¿Qué hace Thomas después de comer?",
+        "options": [
+          "Hij leest een boek",
+          "Hij werkt",
+          "Hij kookt",
+          "Hij slaapt"
+        ],
+        "answer_index": 0,
+        "explanation_es": "El texto indica: 'Daarna leest hij een boek'."
       }
     ]
   }
