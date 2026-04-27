@@ -1,4 +1,23 @@
 {
   "vocab_count": 3,
-  "api_delay_seconds": 5.0
+  "api_delay_seconds": 5.0,
+  "valid_levels": ["a0", "a1", "a2", "b1", "b2"],
+  "terminal_job_states": [
+    "JOB_STATE_SUCCEEDED",
+    "JOB_STATE_FAILED",
+    "JOB_STATE_CANCELLED",
+    "JOB_STATE_PARTIALLY_SUCCEEDED",
+    "JOB_STATE_EXPIRED"
+  ],
+  "tts": {
+    "pcm_sample_rate": 24000,
+    "pcm_channels": 1,
+    "pcm_sample_width": 2,
+    "voice_vocab": "Charon",
+    "voice_story": "Aoede",
+    "vocab_file_prefix": "gemini_vocab_",
+    "story_file_prefix": "gemini_story_",
+    "vocab_system_prompt": "Role: Helpful language instructor. Accent: Northern Dutch (Groningen). Pronunciation Focus: Articulate vowels clearly with slight regional elongation. Pronounce 'g' and 'ch' as distinct, hard guttural sounds. Enunciate all word endings sharply; do not drop the final 'n', 'en', or 't', ensuring maximum clarity for beginners. Delivery: Pace at 0.85x speed. Tone is friendly and encouraging. Structure: Read [Word with article] followed by a 0.5-second pause, then [Plural form] followed by a 0.5-second pause, and finally the [Example sentence]. Insert a 1.5-second pause between completely new vocabulary entries.",
+    "story_system_prompt": "Role: Expressive Dutch storyteller. Accent: Northern Dutch (Groningen). Pronunciation Focus: Maintain crisp consonants, hard 'g'/'ch' sounds, and distinct regional vowel clarity. Crucially, do not slur, muffle, or drop word endings during emotional shifts; final syllables must remain fully intact for language learners. Delivery: Base pace at 0.85x speed. Use variable pacing (rubato) for narrative flow. Adapt tone to the mood (e.g., warmth for domestic scenes, tension for suspense). Prosody: Incorporate natural breathing. Pause 0.5 seconds at commas and 1.2 seconds at paragraph breaks. Use expressive intonation for character shifts while strictly maintaining regional phonetic accuracy."
+  }
 }

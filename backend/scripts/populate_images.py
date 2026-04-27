@@ -29,8 +29,6 @@ from app.core.config import settings
 from app.db.session import SessionLocal, engine
 from app.db import models
 
-PIXABAY_URL = "https://pixabay.com/api/"
-
 # Map Spanish theme names → English keyword hints (Pixabay returns more results in English)
 THEME_HINTS: dict[str, str] = {
     "animales": "animal",
@@ -65,9 +63,10 @@ def build_query(item: models.VocabularyItem) -> str:
 
 def fetch_image_url(client: httpx.Client, query: str, api_key: str) -> str | None:
     """Call Pixabay API and return the first webformatURL, or None if not found."""
+    pixabay_url = "https://pixabay.com/api/"
     try:
         resp = client.get(
-            PIXABAY_URL,
+            pixabay_url,
             params={
                 "key": api_key,
                 "q": query,

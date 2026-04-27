@@ -10,6 +10,7 @@ import logging
 from typing import Any
 
 from app.services import llm_service
+from app.services.llm_service import _sanitize_for_json_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -100,14 +101,17 @@ async def generate_grammar_topic(
     Returns a dict compatible with the GrammarTopic DB model.
     """
     level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
+    safe_topic_es = _sanitize_for_json_prompt(topic_name_es)
+    safe_topic_nl = _sanitize_for_json_prompt(topic_name_nl)
+    safe_slug = _sanitize_for_json_prompt(slug)
     prompt = (
         f"Create a Dutch grammar topic for Spanish-speaking learners at level {level.upper()} ({level_desc}).\n"
-        f"Topic: '{topic_name_es}' (in Dutch: '{topic_name_nl}')\n\n"
+        f"Topic: '{safe_topic_es}' (in Dutch: '{safe_topic_nl}')\n\n"
         "Return ONLY a valid JSON object with this exact schema (no additional text):\n"
         "{\n"
-        f'  "slug": "{slug}",\n'
-        f'  "name_nl": "{topic_name_nl}",\n'
-        f'  "name_es": "{topic_name_es}",\n'
+        f'  "slug": "{safe_slug}",\n'
+        f'  "name_nl": "{safe_topic_nl}",\n'
+        f'  "name_es": "{safe_topic_es}",\n'
         f'  "level": "{level.lower()}",\n'
         '  "description_es": "Detailed explanation in Spanish, 3-5 sentences...",\n'
         '  "examples_json": [\n'
@@ -135,7 +139,9 @@ async def generate_story(
     Returns a dict compatible with the Story DB model.
     """
     level_desc = LEVEL_DESCRIPTIONS.get(level.lower(), level)
-    title_hint = f"Título sugerido: '{title_nl}' / '{title_es}'." if title_nl else ""
+    safe_title_nl = _sanitize_for_json_prompt(title_nl) if title_nl else None
+    safe_title_es = _sanitize_for_json_prompt(title_es) if title_es else None
+    title_hint = f"Título sugerido: '{safe_title_nl}' / '{safe_title_es}'." if safe_title_nl else ""
     word_count = _STORY_WORD_COUNTS.get(level.lower(), "100-150")
 
     prompt = (
@@ -215,7 +221,8 @@ async def generate_game_exercise(
     game_type: fill_blank | multiple_choice | unscramble | word_match
     Returns a plain dict whose shape matches the relevant exercises API response.
     """
-    vocab_hint = f" using some of these words: {', '.join(vocabulary)}" if vocabulary else ""
+    safe_vocab = [_sanitize_for_json_prompt(w) for w in vocabulary] if vocabulary else []
+    vocab_hint = f" using some of these words: {', '.join(safe_vocab)}" if safe_vocab else ""
 
     if game_type == "fill_blank":
         prompt = (

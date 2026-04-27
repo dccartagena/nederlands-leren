@@ -34,8 +34,10 @@ import logging
 import sys
 import time
 import wave
+from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
+from typing import Any
 
 # ── bootstrap path so app.* imports work ────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -47,100 +49,69 @@ from app.db.session import SessionLocal
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 log = logging.getLogger(__name__)
 
-# ── Gemini TTS model name ────────────────────────────────────────────────────
-# Reads GEMINI_TTS_MODEL from the project .env (loaded by pydantic-settings
-# inside config.py). If missing, fall back to the known preview model name.
-# Normalize the model ID to what the google-genai client expects:
-#   "gemini-2.5-flash-preview-tts"  (bare kebab-case)
-# Handles two common mis-formats from .env:
-#   "gemini/gemini-2.5-flash-preview-tts"  → strip litellm prefix
-#   "gemini/Gemini 2.5 Flash Preview TTS"  → strip prefix + lowercase + spaces→dashes
-_raw_model: str = getattr(settings, "GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
-_bare: str = _raw_model.split("/", 1)[-1] if "/" in _raw_model else _raw_model
-TTS_MODEL: str = _bare.lower().replace(" ", "-") if " " in _bare else _bare
+@dataclass
+class TtsConfig:
+    pcm_sample_rate: int
+    pcm_channels: int
+    pcm_sample_width: int
+    voice_vocab: str
+    voice_story: str
+    vocab_file_prefix: str
+    story_file_prefix: str
+    vocab_system_prompt: str
+    story_system_prompt: str
+    terminal_job_states: frozenset
 
-# ── PCM audio parameters returned by the Gemini TTS API ─────────────────────
-PCM_SAMPLE_RATE = 24_000  # Hz
-PCM_CHANNELS = 1           # mono
-PCM_SAMPLE_WIDTH = 2       # bytes (16-bit signed)
 
-# ── TTS system instructions ───────────────────────────────────────────────────
-VOCAB_SYSTEM_PROMPT = (
-    "Role: Helpful language instructor. "
-    "Accent: Northern Dutch (Groningen). "
-    "Pronunciation Focus: Articulate vowels clearly with slight regional elongation. "
-    "Pronounce 'g' and 'ch' as distinct, hard guttural sounds. "
-    "Enunciate all word endings sharply; do not drop the final 'n', 'en', or 't', ensuring maximum clarity for beginners. "
-    "Delivery: Pace at 0.85x speed. Tone is friendly and encouraging. "
-    "Structure: Read [Word with article] followed by a 0.5-second pause, then [Plural form] "
-    "followed by a 0.5-second pause, and finally the [Example sentence]. "
-    "Insert a 1.5-second pause between completely new vocabulary entries."
-)
-
-STORY_SYSTEM_PROMPT = (
-    "Role: Expressive Dutch storyteller. "
-    "Accent: Northern Dutch (Groningen). "
-    "Pronunciation Focus: Maintain crisp consonants, hard 'g'/'ch' sounds, and distinct regional vowel clarity. "
-    "Crucially, do not slur, muffle, or drop word endings during emotional shifts; final syllables must remain fully intact for language learners. "
-    "Delivery: Base pace at 0.85x speed. Use variable pacing (rubato) for narrative flow. "
-    "Adapt tone to the mood (e.g., warmth for domestic scenes, tension for suspense). "
-    "Prosody: Incorporate natural breathing. Pause 0.5 seconds at commas and 1.2 seconds at paragraph breaks. "
-    "Use expressive intonation for character shifts while strictly maintaining regional phonetic accuracy."
-)
-
-VOICE_VOCAB = "Charon"
-VOICE_STORY = "Aoede"
-
-# ── output filename prefixes ──────────────────────────────────────────────────
-# Prefixes encode content type so files can be globbed and identified without
-# parsing the full name. Used for fast pre-scan skip sets.
-VOCAB_FILE_PREFIX = "gemini_vocab_"
-STORY_FILE_PREFIX = "gemini_story_"
-
-# ── batch API terminal states ─────────────────────────────────────────────────
-TERMINAL_JOB_STATES = {
-    "JOB_STATE_SUCCEEDED",
-    "JOB_STATE_FAILED",
-    "JOB_STATE_CANCELLED",
-    "JOB_STATE_PARTIALLY_SUCCEEDED",
-    "JOB_STATE_EXPIRED",
-}
+def _load_tts_config(config_path: Path) -> TtsConfig:
+    raw: dict[str, Any] = json.loads(config_path.read_text(encoding="utf-8"))
+    tts = raw.get("tts", {})
+    return TtsConfig(
+        pcm_sample_rate=tts.get("pcm_sample_rate", 24000),
+        pcm_channels=tts.get("pcm_channels", 1),
+        pcm_sample_width=tts.get("pcm_sample_width", 2),
+        voice_vocab=tts.get("voice_vocab", "Charon"),
+        voice_story=tts.get("voice_story", "Aoede"),
+        vocab_file_prefix=tts.get("vocab_file_prefix", "gemini_vocab_"),
+        story_file_prefix=tts.get("story_file_prefix", "gemini_story_"),
+        vocab_system_prompt=tts.get("vocab_system_prompt", ""),
+        story_system_prompt=tts.get("story_system_prompt", ""),
+        terminal_job_states=frozenset(raw.get("terminal_job_states", [])),
+    )
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
-def _build_client():
-    """Return a configured google-genai client. Fails fast if key is missing."""
+def _build_client() -> tuple:
+    """Return (client, genai_types, tts_model). Fails fast if key or model missing."""
+    raw_model: str = getattr(settings, "GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
+    bare: str = raw_model.split("/", 1)[-1] if "/" in raw_model else raw_model
+    tts_model: str = bare.lower().replace(" ", "-") if " " in bare else bare
+
     api_key = settings.GEMINI_API_KEY
     if not api_key:
-        log.error(
-            "GEMINI_API_KEY is not set. Add it to your .env file and retry."
-        )
+        log.error("GEMINI_API_KEY is not set. Add it to your .env file and retry.")
         sys.exit(1)
-    if not TTS_MODEL:
-        log.error(
-            "GEMINI_TTS_MODEL is not set. Add it to your .env file and retry."
-        )
+    if not tts_model:
+        log.error("GEMINI_TTS_MODEL is not set. Add it to your .env file and retry.")
         sys.exit(1)
     try:
         from google import genai
-        from google.genai import types as genai_types  # noqa: F401 – validate import
+        from google.genai import types as genai_types  # noqa: F401
     except ImportError:
-        log.error(
-            "google-genai is not installed. Run: pip install google-genai>=1.10.0"
-        )
+        log.error("google-genai is not installed. Run: pip install google-genai>=1.10.0")
         sys.exit(1)
 
-    return genai.Client(api_key=api_key), genai_types
+    return genai.Client(api_key=api_key), genai_types, tts_model
 
 
-def pcm_to_wav_bytes(pcm_bytes: bytes) -> bytes:
+def pcm_to_wav_bytes(pcm_bytes: bytes, cfg: TtsConfig) -> bytes:
     """Wrap raw 16-bit LE PCM bytes in a WAV container."""
     buf = BytesIO()
     with wave.open(buf, "wb") as wf:
-        wf.setnchannels(PCM_CHANNELS)
-        wf.setsampwidth(PCM_SAMPLE_WIDTH)
-        wf.setframerate(PCM_SAMPLE_RATE)
+        wf.setnchannels(cfg.pcm_channels)
+        wf.setsampwidth(cfg.pcm_sample_width)
+        wf.setframerate(cfg.pcm_sample_rate)
         wf.writeframes(pcm_bytes)
     return buf.getvalue()
 
@@ -151,6 +122,8 @@ def synthesize(
     text: str,
     voice: str,
     system_prompt: str,
+    tts_model: str,
+    cfg: TtsConfig,
 ) -> bytes:
     """
     Call Gemini TTS and return raw WAV bytes.
@@ -163,11 +136,9 @@ def synthesize(
     """
     from google.genai import types as gt
 
-    prompted_text = f"{system_prompt}\n\n{text}"
-
     response = client.models.generate_content(
-        model=TTS_MODEL,
-        contents=prompted_text,
+        model=tts_model,
+        contents=f"{system_prompt}\n\n{text}",
         config=gt.GenerateContentConfig(
             response_modalities=["AUDIO"],
             speech_config=gt.SpeechConfig(
@@ -181,30 +152,21 @@ def synthesize(
     try:
         part = response.candidates[0].content.parts[0]
         raw = part.inline_data.data
-        # The google-genai SDK may return the audio as:
-        #   - a base64-encoded str  (older SDK / REST passthrough)
-        #   - already-decoded bytes (newer SDK, most common)
-        # Calling base64.b64decode() on raw bytes silently produces
-        # a tiny garbage output, so we check the type first.
         if isinstance(raw, str):
             audio_bytes = base64.b64decode(raw)
         else:
             audio_bytes = bytes(raw)
-        # The payload may be raw PCM *or* a complete WAV file.
-        # If RIFF header is present, write as-is; otherwise wrap in WAV.
         if audio_bytes[:4] == b"RIFF":
             return audio_bytes
-        return pcm_to_wav_bytes(audio_bytes)
+        return pcm_to_wav_bytes(audio_bytes, cfg)
     except (IndexError, AttributeError) as exc:
         raise RuntimeError(
             f"Unexpected TTS response structure: {exc}. "
             f"Finish reason: {response.candidates[0].finish_reason!r}"
         ) from exc
 
-    return pcm_to_wav_bytes(pcm_bytes)
 
-
-def _extract_audio_from_response(response) -> bytes:
+def _extract_audio_from_response(response, cfg: TtsConfig) -> bytes:
     """Extract WAV bytes from a GenerateContentResponse (reusable for batch results)."""
     part = response.candidates[0].content.parts[0]
     raw = part.inline_data.data
@@ -214,7 +176,7 @@ def _extract_audio_from_response(response) -> bytes:
         audio_bytes = bytes(raw)
     if audio_bytes[:4] == b"RIFF":
         return audio_bytes
-    return pcm_to_wav_bytes(audio_bytes)
+    return pcm_to_wav_bytes(audio_bytes, cfg)
 
 
 def wav_to_mp3_bytes(wav_bytes: bytes) -> bytes:
@@ -305,7 +267,7 @@ def resolve_input_files(content_type: str, level: str | None) -> list[Path]:
 
 # ── DB skip helpers ───────────────────────────────────────────────────────────
 
-def _has_gemini_audio_vocab(db, dutch_word: str, level: str) -> bool:
+def _has_gemini_audio_vocab(db, dutch_word: str, level: str, vocab_prefix: str) -> bool:
     """Return True if this vocab item already has a gemini AudioFile in the DB."""
     item = (
         db.query(VocabularyItem)
@@ -319,13 +281,13 @@ def _has_gemini_audio_vocab(db, dutch_word: str, level: str) -> bool:
         .filter(AudioFile.vocab_item_id == item.id, AudioFile.source == "gemini")
         .first()
     )
-    return row is not None and row.file_path.startswith(VOCAB_FILE_PREFIX)
+    return row is not None and row.file_path.startswith(vocab_prefix)
 
 
-def _has_gemini_audio_story(db, slug: str) -> bool:
+def _has_gemini_audio_story(db, slug: str, story_prefix: str) -> bool:
     """Return True if this story already has a gemini audio_path set in the DB."""
     story = db.query(Story).filter(Story.slug == slug).first()
-    return bool(story and story.audio_path and story.audio_path.startswith(STORY_FILE_PREFIX))
+    return bool(story and story.audio_path and story.audio_path.startswith(story_prefix))
 
 
 # ── output filename helpers ───────────────────────────────────────────────────
@@ -335,12 +297,12 @@ def _safe(s: str) -> str:
     return "".join(c if c.isalnum() or c in "-_" else "_" for c in s)
 
 
-def vocab_filename(dutch_word: str, level: str) -> str:
-    return f"{VOCAB_FILE_PREFIX}{_safe(dutch_word)}_{_safe(level)}.mp3"
+def vocab_filename(dutch_word: str, level: str, prefix: str) -> str:
+    return f"{prefix}{_safe(dutch_word)}_{_safe(level)}.mp3"
 
 
-def story_filename(slug: str) -> str:
-    return f"{STORY_FILE_PREFIX}{_safe(slug)}.mp3"
+def story_filename(slug: str, prefix: str) -> str:
+    return f"{prefix}{_safe(slug)}.mp3"
 
 
 # ── DB upsert helpers ─────────────────────────────────────────────────────────
@@ -387,11 +349,11 @@ def upsert_story_audio(db, slug: str, filename: str) -> None:
 
 # ── main processing loops ─────────────────────────────────────────────────────
 
-def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
+def process_vocabulary(args, client, genai_types, db, cfg: TtsConfig, tts_model: str) -> tuple[int, int, int]:
     """Returns (generated, skipped, failed) counts."""
     generated = skipped = failed = 0
     output_dir = Path(args.output_dir)
-    existing_mp3s = _existing_mp3s(output_dir, VOCAB_FILE_PREFIX)
+    existing_mp3s = _existing_mp3s(output_dir, cfg.vocab_file_prefix)
 
     items: list[tuple[str, str, str, str, str]] = []
     for input_path in args.input_files:
@@ -401,16 +363,15 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
     for dutch_word, article, plural, example_nl, level in items:
         if args.max_items and generated >= args.max_items:
             break
-        # Compose text: "de kat, katten. De kat slaapt op de bank."
         word_with_article = f"{article} {dutch_word}".strip() if article else dutch_word
         word_part = f"{word_with_article}, {plural}" if plural else word_with_article
         text = f"{word_part}. {example_nl}" if example_nl else word_part
 
-        filename = vocab_filename(dutch_word, level)
+        filename = vocab_filename(dutch_word, level, cfg.vocab_file_prefix)
         output_path = output_dir / filename
 
         if not args.force:
-            if db and _has_gemini_audio_vocab(db, dutch_word, level):
+            if db and _has_gemini_audio_vocab(db, dutch_word, level, cfg.vocab_file_prefix):
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
@@ -426,11 +387,11 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
 
         try:
             log.info("GEN   %s", filename)
-            wav_bytes = synthesize(client, genai_types, text, VOICE_VOCAB, VOCAB_SYSTEM_PROMPT)
+            wav_bytes = synthesize(client, genai_types, text, cfg.voice_vocab, cfg.vocab_system_prompt, tts_model, cfg)
             save_audio(wav_to_mp3_bytes(wav_bytes), output_path)
             existing_mp3s.add(filename)
             if not args.no_db and db:
-                upsert_vocab_audio(db, dutch_word, level, filename, VOICE_VOCAB)
+                upsert_vocab_audio(db, dutch_word, level, filename, cfg.voice_vocab)
             generated += 1
         except Exception as exc:
             log.warning("FAIL  %s — %s: %s", filename, type(exc).__name__, exc)
@@ -441,11 +402,11 @@ def process_vocabulary(args, client, genai_types, db) -> tuple[int, int, int]:
     return generated, skipped, failed
 
 
-def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
+def process_stories(args, client, genai_types, db, cfg: TtsConfig, tts_model: str) -> tuple[int, int, int]:
     """Returns (generated, skipped, failed) counts."""
     generated = skipped = failed = 0
     output_dir = Path(args.output_dir)
-    existing_mp3s = _existing_mp3s(output_dir, STORY_FILE_PREFIX)
+    existing_mp3s = _existing_mp3s(output_dir, cfg.story_file_prefix)
 
     items: list[tuple[str, str, str]] = []
     for input_path in args.input_files:
@@ -455,11 +416,11 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
     for slug, content_nl, level in items:
         if args.max_items and generated >= args.max_items:
             break
-        filename = story_filename(slug)
+        filename = story_filename(slug, cfg.story_file_prefix)
         output_path = output_dir / filename
 
         if not args.force:
-            if db and _has_gemini_audio_story(db, slug):
+            if db and _has_gemini_audio_story(db, slug, cfg.story_file_prefix):
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
@@ -475,7 +436,7 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
 
         try:
             log.info("GEN   %s", filename)
-            wav_bytes = synthesize(client, genai_types, content_nl, VOICE_STORY, STORY_SYSTEM_PROMPT)
+            wav_bytes = synthesize(client, genai_types, content_nl, cfg.voice_story, cfg.story_system_prompt, tts_model, cfg)
             save_audio(wav_to_mp3_bytes(wav_bytes), output_path)
             existing_mp3s.add(filename)
             if not args.no_db and db:
@@ -492,7 +453,7 @@ def process_stories(args, client, genai_types, db) -> tuple[int, int, int]:
 
 # ── batch API helpers ─────────────────────────────────────────────────────────
 
-def _submit_batch(client, genai_types, pending: list[dict]):
+def _submit_batch(client, genai_types, pending: list[dict], tts_model: str):
     """
     Submit a list of pending TTS requests to the Gemini Batch API.
 
@@ -529,20 +490,15 @@ def _submit_batch(client, genai_types, pending: list[dict]):
         )
 
     log.info("BATCH submitting %d request(s) …", len(inlined_requests))
-    job = client.batches.create(model=TTS_MODEL, src=inlined_requests)
+    job = client.batches.create(model=tts_model, src=inlined_requests)
     log.info("BATCH job created: %s  state=%s", job.name, job.state.name)
     return job
 
 
-def _poll_batch(client, job_name: str, poll_interval: int):
-    """
-    Poll *job_name* until it reaches a terminal state, then return the final BatchJob.
-
-    Logs state on every poll so the user can see progress without watching the
-    raw API calls.
-    """
+def _poll_batch(client, job_name: str, poll_interval: int, terminal_states: frozenset):
+    """Poll *job_name* until terminal state, then return the final BatchJob."""
     job = client.batches.get(name=job_name)
-    while job.state.name not in TERMINAL_JOB_STATES:
+    while job.state.name not in terminal_states:
         log.info(
             "BATCH %s — state=%s (checking again in %ds …)",
             job_name, job.state.name, poll_interval,
@@ -553,7 +509,7 @@ def _poll_batch(client, job_name: str, poll_interval: int):
     return job
 
 
-def _ingest_batch_results(job, args, db, output_dir: Path) -> tuple[int, int]:
+def _ingest_batch_results(job, args, db, output_dir: Path, cfg: TtsConfig) -> tuple[int, int]:
     """
     Save audio files and update the DB from a completed batch job.
 
@@ -584,7 +540,7 @@ def _ingest_batch_results(job, args, db, output_dir: Path) -> tuple[int, int]:
             continue
 
         try:
-            wav_bytes = _extract_audio_from_response(ir.response)
+            wav_bytes = _extract_audio_from_response(ir.response, cfg)
             mp3_bytes = wav_to_mp3_bytes(wav_bytes)
             save_audio(mp3_bytes, output_dir / filename)
             log.info("SAVED %s", filename)
@@ -611,15 +567,10 @@ def _ingest_batch_results(job, args, db, output_dir: Path) -> tuple[int, int]:
 
 # ── batch processing loops ────────────────────────────────────────────────────
 
-def process_vocabulary_batch(args, client, genai_types, db) -> tuple[int, int, int]:
-    """
-    Batch-mode vocabulary TTS: collect pending items, submit one batch job,
-    poll until done, then ingest all results.
-
-    Returns (generated, skipped, failed).
-    """
+def process_vocabulary_batch(args, client, genai_types, db, cfg: TtsConfig, tts_model: str) -> tuple[int, int, int]:
+    """Batch-mode vocabulary TTS. Returns (generated, skipped, failed)."""
     output_dir = Path(args.output_dir)
-    existing_mp3s = _existing_mp3s(output_dir, VOCAB_FILE_PREFIX)
+    existing_mp3s = _existing_mp3s(output_dir, cfg.vocab_file_prefix)
 
     items: list[tuple] = []
     for input_path in args.input_files:
@@ -631,9 +582,9 @@ def process_vocabulary_batch(args, client, genai_types, db) -> tuple[int, int, i
     for dutch_word, article, plural, example_nl, level in items:
         if args.max_items and len(pending) >= args.max_items:
             break
-        filename = vocab_filename(dutch_word, level)
+        filename = vocab_filename(dutch_word, level, cfg.vocab_file_prefix)
         if not args.force:
-            if db and _has_gemini_audio_vocab(db, dutch_word, level):
+            if db and _has_gemini_audio_vocab(db, dutch_word, level, cfg.vocab_file_prefix):
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
@@ -646,8 +597,8 @@ def process_vocabulary_batch(args, client, genai_types, db) -> tuple[int, int, i
         word_part = f"{word_with_article}, {plural}" if plural else word_with_article
         text = f"{word_part}. {example_nl}" if example_nl else word_part
         pending.append({
-            "text": f"{VOCAB_SYSTEM_PROMPT}\n\n{text}",
-            "voice": VOICE_VOCAB,
+            "text": f"{cfg.vocab_system_prompt}\n\n{text}",
+            "voice": cfg.voice_vocab,
             "filename": filename,
             "dutch_word": dutch_word,
             "level": level,
@@ -663,21 +614,16 @@ def process_vocabulary_batch(args, client, genai_types, db) -> tuple[int, int, i
         log.info("Nothing to submit — all items already generated.")
         return 0, skipped, 0
 
-    job = _submit_batch(client, genai_types, pending)
-    job = _poll_batch(client, job.name, args.poll_interval)
-    gen, fail = _ingest_batch_results(job, args, db, output_dir)
+    job = _submit_batch(client, genai_types, pending, tts_model)
+    job = _poll_batch(client, job.name, args.poll_interval, cfg.terminal_job_states)
+    gen, fail = _ingest_batch_results(job, args, db, output_dir, cfg)
     return gen, skipped, fail
 
 
-def process_stories_batch(args, client, genai_types, db) -> tuple[int, int, int]:
-    """
-    Batch-mode story TTS: collect pending items, submit one batch job,
-    poll until done, then ingest all results.
-
-    Returns (generated, skipped, failed).
-    """
+def process_stories_batch(args, client, genai_types, db, cfg: TtsConfig, tts_model: str) -> tuple[int, int, int]:
+    """Batch-mode story TTS. Returns (generated, skipped, failed)."""
     output_dir = Path(args.output_dir)
-    existing_mp3s = _existing_mp3s(output_dir, STORY_FILE_PREFIX)
+    existing_mp3s = _existing_mp3s(output_dir, cfg.story_file_prefix)
 
     items: list[tuple] = []
     for input_path in args.input_files:
@@ -689,9 +635,9 @@ def process_stories_batch(args, client, genai_types, db) -> tuple[int, int, int]
     for slug, content_nl, level in items:
         if args.max_items and len(pending) >= args.max_items:
             break
-        filename = story_filename(slug)
+        filename = story_filename(slug, cfg.story_file_prefix)
         if not args.force:
-            if db and _has_gemini_audio_story(db, slug):
+            if db and _has_gemini_audio_story(db, slug, cfg.story_file_prefix):
                 log.info("SKIP  %s (gemini audio already in DB)", filename)
                 skipped += 1
                 continue
@@ -701,8 +647,8 @@ def process_stories_batch(args, client, genai_types, db) -> tuple[int, int, int]
                 continue
 
         pending.append({
-            "text": f"{STORY_SYSTEM_PROMPT}\n\n{content_nl}",
-            "voice": VOICE_STORY,
+            "text": f"{cfg.story_system_prompt}\n\n{content_nl}",
+            "voice": cfg.voice_story,
             "filename": filename,
             "slug": slug,
         })
@@ -717,18 +663,25 @@ def process_stories_batch(args, client, genai_types, db) -> tuple[int, int, int]
         log.info("Nothing to submit — all items already generated.")
         return 0, skipped, 0
 
-    job = _submit_batch(client, genai_types, pending)
-    job = _poll_batch(client, job.name, args.poll_interval)
-    gen, fail = _ingest_batch_results(job, args, db, output_dir)
+    job = _submit_batch(client, genai_types, pending, tts_model)
+    job = _poll_batch(client, job.name, args.poll_interval, cfg.terminal_job_states)
+    gen, fail = _ingest_batch_results(job, args, db, output_dir, cfg)
     return gen, skipped, fail
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def parse_args() -> argparse.Namespace:
+    default_config_path = Path(__file__).parent / "populate_config.json"
     parser = argparse.ArgumentParser(
         description="Generate Dutch TTS audio via Gemini and update the DB.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=default_config_path,
+        help=f"Path to populate_config.json (default: {default_config_path})",
     )
     parser.add_argument(
         "--type",
@@ -744,8 +697,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-dir",
-        default=str(settings.AUDIO_DIR),
-        help=f"Directory to write audio files (default: {settings.AUDIO_DIR})",
+        default=None,
+        help="Directory to write audio files (default: settings.AUDIO_DIR)",
     )
     parser.add_argument(
         "--max-items",
@@ -802,15 +755,21 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    cfg = _load_tts_config(args.config)
+
+    if args.output_dir is None:
+        args.output_dir = str(settings.AUDIO_DIR)
+
+    tts_model: str | None = None
 
     # --job-name: resume polling an already-submitted batch; input files not needed
     if args.job_name:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
-        client, genai_types = _build_client()
+        client, genai_types, tts_model = _build_client()
         db = None if args.no_db else SessionLocal()
         try:
-            job = _poll_batch(client, args.job_name, args.poll_interval)
-            gen, fail = _ingest_batch_results(job, args, db, Path(args.output_dir))
+            job = _poll_batch(client, args.job_name, args.poll_interval, cfg.terminal_job_states)
+            gen, fail = _ingest_batch_results(job, args, db, Path(args.output_dir), cfg)
         finally:
             if db:
                 db.close()
@@ -833,34 +792,30 @@ def main() -> None:
 
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
-    # Build API client (validates key/model, imports google-genai)
     if args.dry_run:
         client = genai_types = None
+        tts_model = ""
     else:
-        client, genai_types = _build_client()
+        client, genai_types, tts_model = _build_client()
 
-    # Open DB session once for the whole run
     db = None if args.no_db else SessionLocal()
 
     try:
         if args.batch:
             if args.content_type == "vocabulary":
-                gen, skip, fail = process_vocabulary_batch(args, client, genai_types, db)
+                gen, skip, fail = process_vocabulary_batch(args, client, genai_types, db, cfg, tts_model)
             else:
-                gen, skip, fail = process_stories_batch(args, client, genai_types, db)
+                gen, skip, fail = process_stories_batch(args, client, genai_types, db, cfg, tts_model)
         else:
             if args.content_type == "vocabulary":
-                gen, skip, fail = process_vocabulary(args, client, genai_types, db)
+                gen, skip, fail = process_vocabulary(args, client, genai_types, db, cfg, tts_model)
             else:
-                gen, skip, fail = process_stories(args, client, genai_types, db)
+                gen, skip, fail = process_stories(args, client, genai_types, db, cfg, tts_model)
     finally:
         if db:
             db.close()
 
-    log.info(
-        "Done. generated=%d  skipped=%d  failed=%d",
-        gen, skip, fail,
-    )
+    log.info("Done. generated=%d  skipped=%d  failed=%d", gen, skip, fail)
     if fail:
         sys.exit(1)
 

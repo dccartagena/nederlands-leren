@@ -1,18 +1,12 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchVocabulary, getFeedback } from '@/lib/api'
+import { fetchVocabulary } from '@/lib/api'
+import { fisherYatesShuffle } from '@/lib/utils'
 import { useAppStore } from '@/stores/appStore'
 import { RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
-
-function fisherYatesShuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+import { useGameScore } from './hooks/useGameScore'
+import { useFeedback } from './hooks/useFeedback'
 
 function buildQuestion(items: Array<{ dutch_word: string; spanish: string; article?: string }>) {
   if (items.length < 4) return null
@@ -31,10 +25,9 @@ export default function MultipleChoiceGame() {
   })
 
   const [selected, setSelected] = useState<number | null>(null)
-  const [fbLoading, setFbLoading] = useState(false)
-  const [feedback, setFeedback] = useState<string | null>(null)
-  const [score, setScore] = useState({ correct: 0, total: 0 })
   const [question, setQuestion] = useState<ReturnType<typeof buildQuestion>>(null)
+  const { score, recordAnswer } = useGameScore()
+  const { feedback, fbLoading, loadFeedback, reset: resetFeedback } = useFeedback()
 
   if (!question && vocab && vocab.length >= 4) {
     setQuestion(buildQuestion(vocab))
@@ -42,7 +35,7 @@ export default function MultipleChoiceGame() {
 
   const next = () => {
     setSelected(null)
-    setFeedback(null)
+    resetFeedback()
     if (vocab) setQuestion(buildQuestion(vocab))
   }
 
@@ -50,20 +43,13 @@ export default function MultipleChoiceGame() {
     if (selected !== null || !question) return
     setSelected(index)
     const isCorrect = question.options[index].dutch_word === question.correct.dutch_word
-    setScore((s) => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
+    recordAnswer(isCorrect)
     if (!isCorrect) {
-      setFbLoading(true)
-      try {
-        const { feedback: fb } = await getFeedback(
-          `¿Cómo se dice "${question.correct.spanish}" en neerlandés?`,
-          question.correct.dutch_word,
-          question.options[index].dutch_word
-        )
-        setFeedback(fb)
-      } catch {
-        /* ignore */
-      }
-      setFbLoading(false)
+      await loadFeedback(
+        `¿Cómo se dice "${question.correct.spanish}" en neerlandés?`,
+        question.correct.dutch_word,
+        question.options[index].dutch_word
+      )
     }
   }
 

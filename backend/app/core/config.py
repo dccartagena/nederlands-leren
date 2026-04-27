@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
@@ -28,6 +29,16 @@ class Settings(BaseSettings):
     # App
     SECRET_KEY: str = "change-me-in-production"
     DEBUG: bool = False
+
+    @field_validator("SECRET_KEY", mode="after")
+    @classmethod
+    def secret_key_must_be_strong(cls, v: str) -> str:
+        if v == "change-me-in-production" or len(v) < 32:
+            raise ValueError(
+                "SECRET_KEY must be set to a random string of at least 32 characters. "
+                'Generate one with: python -c "import secrets; print(secrets.token_hex(32))"'
+            )
+        return v
 
     class Config:
         env_file = str(REPO_ROOT / ".env")

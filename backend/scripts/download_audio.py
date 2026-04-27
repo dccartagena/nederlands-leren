@@ -21,11 +21,7 @@ from app.services.audio_service import synthesize_if_missing
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-AUDIO_DIR = settings.AUDIO_DIR
-AUDIO_DIR.mkdir(parents=True, exist_ok=True)
-
-
-def generate_gtts_for_all():
+def generate_gtts_for_all(audio_dir: Path) -> None:
     """Fallback: generate gTTS audio for every vocab item that has no audio."""
     db = SessionLocal()
     try:
@@ -41,7 +37,7 @@ def generate_gtts_for_all():
                 af = AudioFile(
                     vocab_item_id=item.id,
                     sentence_text_nl=text,
-                    file_path=str(path.relative_to(AUDIO_DIR)),
+                    file_path=str(path.relative_to(audio_dir)),
                     source="gtts",
                     license="CC0",
                 )
@@ -58,6 +54,12 @@ def generate_gtts_for_all():
         db.close()
 
 
-if __name__ == "__main__":
+def main() -> None:
+    audio_dir = settings.AUDIO_DIR
+    audio_dir.mkdir(parents=True, exist_ok=True)
     logger.info("Generating gTTS audio for vocabulary without audio…")
-    generate_gtts_for_all()
+    generate_gtts_for_all(audio_dir)
+
+
+if __name__ == "__main__":
+    main()

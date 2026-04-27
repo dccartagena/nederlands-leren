@@ -51,18 +51,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-VALID_LEVELS = ["a0", "a1", "a2", "b1", "b2"]
-
-_DEFAULT_CONFIG_PATH = Path(__file__).parent / "populate_config.json"
-
-# Gemini Batch API terminal states (same set as gemini_tts.py)
-_TERMINAL_JOB_STATES = {
-    "JOB_STATE_SUCCEEDED",
-    "JOB_STATE_FAILED",
-    "JOB_STATE_CANCELLED",
-    "JOB_STATE_PARTIALLY_SUCCEEDED",
-    "JOB_STATE_EXPIRED",
-}
 
 
 # ---------------------------------------------------------------------------
@@ -189,10 +177,10 @@ def _submit_text_batch(client, gt, model: str, requests: list[dict]):
     return job
 
 
-def _poll_batch(client, job_name: str, poll_interval: int):
+def _poll_batch(client, job_name: str, poll_interval: int, terminal_states: frozenset):
     """Poll *job_name* until terminal state, then return the final BatchJob."""
     job = client.batches.get(name=job_name)
-    while job.state.name not in _TERMINAL_JOB_STATES:
+    while job.state.name not in terminal_states:
         logger.info(
             "BATCH %s — state=%s (checking again in %ds …)",
             job_name, job.state.name, poll_interval,
@@ -387,12 +375,9 @@ def _load_grammar_topics(path: Path) -> dict[str, list[dict[str, Any]]]:
 # Required-field validators
 # ---------------------------------------------------------------------------
 
-_VOCAB_REQUIRED = {"dutch_word", "english", "spanish", "word_type", "level", "theme", "example_nl", "example_es"}
-_STORY_REQUIRED = {"slug", "title_nl", "title_es", "level", "theme", "content_nl", "content_es", "questions_json"}
-
-
 def _validate_vocabulary(item: dict[str, Any]) -> list[str]:
     """Return a list of missing required fields for a vocabulary item."""
+    _VOCAB_REQUIRED = {"dutch_word", "english", "spanish", "word_type", "level", "theme", "example_nl", "example_es"}
     return [f for f in _VOCAB_REQUIRED if not item.get(f)]
 
 
@@ -408,14 +393,13 @@ def item_has(obj: dict[str, Any], field: str) -> bool:
 
 def _validate_story(story: dict[str, Any]) -> list[str]:
     """Return a list of missing required fields for a story."""
+    _STORY_REQUIRED = {"slug", "title_nl", "title_es", "level", "theme", "content_nl", "content_es", "questions_json"}
     return [f for f in _STORY_REQUIRED if not item_has(story, f)]
-
-
-_GRAMMAR_REQUIRED = {"slug", "name_nl", "name_es", "level", "description_es", "examples_json"}
 
 
 def _validate_grammar_topic(topic: dict[str, Any]) -> list[str]:
     """Return a list of missing required fields for a grammar topic."""
+    _GRAMMAR_REQUIRED = {"slug", "name_nl", "name_es", "level", "description_es", "examples_json"}
     return [f for f in _GRAMMAR_REQUIRED if not item_has(topic, f)]
 
 
@@ -692,6 +676,7 @@ async def populate_vocabulary_batch(
     db,
     poll_interval: int = 60,
     themes: list[str] | None = None,
+    terminal_states: frozenset | None = None,
 ) -> dict[str, int]:
     """
     Batch-mode vocabulary generation: submit one Gemini Batch API job covering
@@ -726,7 +711,7 @@ async def populate_vocabulary_batch(
 
     client, gt, model = _build_gemini_client()
     job = _submit_text_batch(client, gt, model, requests)
-    job = _poll_batch(client, job.name, poll_interval)
+    job = _poll_batch(client, job.name, poll_interval, terminal_states or frozenset())
     results = _ingest_batch_results(job, dry_run, no_seed, db)
     return results.get(level, {}).get("vocab", {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0})
 
@@ -739,6 +724,7 @@ async def populate_stories_batch(
     poll_interval: int = 60,
     story_titles: dict[tuple[str, str], tuple[str, str]] | None = None,
     story_count: int = 1,
+    terminal_states: frozenset | None = None,
 ) -> dict[str, int]:
     """
     Batch-mode story generation: submit one Gemini Batch API job covering all
@@ -808,7 +794,7 @@ async def populate_stories_batch(
 
     client, gt, model = _build_gemini_client()
     job = _submit_text_batch(client, gt, model, requests)
-    job = _poll_batch(client, job.name, poll_interval)
+    job = _poll_batch(client, job.name, poll_interval, terminal_states or frozenset())
     results = _ingest_batch_results(job, dry_run, no_seed, db)
     return results.get(level, {}).get("stories", {"generated": 0, "invalid": 0, "skipped": 0, "saved": 0})
 
@@ -818,11 +804,13 @@ async def populate_stories_batch(
 # ---------------------------------------------------------------------------
 
 def _parse_args() -> argparse.Namespace:
+    default_config_path = Path(__file__).parent / "populate_config.json"
     # Two-pass: extract --config first so its values can seed argparse defaults.
     pre = argparse.ArgumentParser(add_help=False)
-    pre.add_argument("--config", type=Path, default=_DEFAULT_CONFIG_PATH)
+    pre.add_argument("--config", type=Path, default=default_config_path)
     pre_args, _ = pre.parse_known_args()
     cfg = _load_config(pre_args.config)
+    valid_levels = cfg.get("valid_levels", ["a0", "a1", "a2", "b1", "b2"])
 
     parser = argparse.ArgumentParser(
         description="Populate Dutch learning content using LLM and seed the database.",
@@ -837,17 +825,17 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=_DEFAULT_CONFIG_PATH,
+        default=default_config_path,
         metavar="PATH",
-        help=f"Path to populate_config.json (default: {_DEFAULT_CONFIG_PATH})",
+        help=f"Path to populate_config.json (default: {default_config_path})",
     )
     parser.add_argument(
         "--levels",
         required=True,
         nargs="+",
-        choices=VALID_LEVELS,
+        choices=valid_levels,
         metavar="LEVEL",
-        help=f"One or more CEFR levels to process: {VALID_LEVELS}",
+        help=f"One or more CEFR levels to process: {valid_levels}",
     )
     parser.add_argument(
         "--types",
@@ -939,6 +927,7 @@ async def main() -> None:
     args = _parse_args()
     cfg: dict[str, Any] = args._cfg
     api_delay: float = args.api_delay
+    terminal_states: frozenset = frozenset(cfg.get("terminal_job_states", []))
 
     story_titles_path: Path = args.story_titles or (settings.DATA_DIR / "story_titles.json")
     story_titles = _load_story_titles(story_titles_path)
@@ -955,7 +944,7 @@ async def main() -> None:
     if args.job_name:
         client, gt, _model = _build_gemini_client()
         try:
-            job = _poll_batch(client, args.job_name, args.poll_interval)
+            job = _poll_batch(client, args.job_name, args.poll_interval, terminal_states)
             summary = _ingest_batch_results(job, args.dry_run, args.no_seed, db)
         finally:
             db.close()
@@ -1041,6 +1030,7 @@ async def main() -> None:
                         level, args.count, args.dry_run, args.no_seed, db,
                         poll_interval=args.poll_interval,
                         themes=vocab_themes,
+                        terminal_states=terminal_states,
                     )
                 else:
                     summary[level]["vocab"] = await populate_vocabulary(
@@ -1056,6 +1046,7 @@ async def main() -> None:
                         poll_interval=args.poll_interval,
                         story_titles=story_titles,
                         story_count=args.count,
+                        terminal_states=terminal_states,
                     )
                 else:
                     summary[level]["stories"] = await populate_stories(
