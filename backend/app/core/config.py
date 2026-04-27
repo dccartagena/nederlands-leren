@@ -1,5 +1,7 @@
 from pathlib import Path
+from typing import Annotated
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
@@ -28,6 +30,18 @@ class Settings(BaseSettings):
     # App
     SECRET_KEY: str = "change-me-in-production"
     DEBUG: bool = False
+
+    # CORS — comma-separated list of allowed origins
+    # Add your Tailscale HTTPS URL here, e.g.:
+    #   CORS_ORIGINS=http://localhost:5173,https://mymachine.tail1234.ts.net
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost"]
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v: str | list[str]) -> list[str]:
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
 
     class Config:
         env_file = str(REPO_ROOT / ".env")

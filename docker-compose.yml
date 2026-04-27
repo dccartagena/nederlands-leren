@@ -1,3 +1,14 @@
+# Production stack — accessed via Tailscale for mobile PWA support.
+#
+# Quick-start (Tailscale):
+#   1. Install Tailscale on this machine and on your phone.
+#   2. Enable MagicDNS + HTTPS in the Tailscale admin console.
+#   3. On this machine: tailscale serve --bg https+insecure://localhost:80
+#      → Your app is now at  https://<machine>.<tailnet>.ts.net  with auto-HTTPS.
+#   4. Add that URL to CORS_ORIGINS in .env and rebuild:
+#      CORS_ORIGINS=http://localhost,https://<machine>.<tailnet>.ts.net
+#   5. On mobile (Chrome/Safari): open the URL → "Add to Home Screen".
+
 services:
   api:
     build:
@@ -55,8 +66,7 @@ services:
   ollama:
     image: ollama/ollama
     container_name: nl-ollama
-    ports:
-      - "11434:11434"
+    # Port not exposed externally — access via internal Docker network only.
     volumes:
       - ollama_data:/root/.ollama
     deploy:

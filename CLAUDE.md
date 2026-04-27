@@ -72,6 +72,15 @@ docker compose up --build                      # Production stack
 - `stores/appStore.ts` — Zustand global state (selected level, theme, audio toggle, language preference)
 - `lib/api.ts` — Axios client + typed helpers for all API endpoints
 - `test/` — Vitest setup; `mocks/` contains MSW handlers; `utils.tsx` exports `renderWithProviders()`
+- `public/icons/` — PWA app icons (icon.svg source, icon-192x192.png, icon-512x512.png, apple-touch-icon.png)
+
+### PWA Configuration
+`vite-plugin-pwa` is registered in `vite.config.ts` and generates a Workbox service worker on every production build:
+- **Manifest**: name, icons, `display: standalone`, `theme_color: #2563eb`
+- **Precache**: all JS/CSS/HTML/font/icon build assets
+- **Runtime cache strategies**: vocabulary + grammar → stale-while-revalidate (24 h); exercises + progress → network-first (10 s timeout); audio → cache-first (30 days)
+
+The service worker requires HTTPS in production. Use `tailscale serve` (see README) to get free HTTPS on your private Tailscale network.
 
 ### LLM Provider Configuration
 Set `LLM_PROVIDER` in `.env` to: `ollama` (default), `gemini`, `openai`, `anthropic`, or `mistral`. The service automatically falls back to the other provider if the primary fails.
@@ -82,6 +91,7 @@ Copy `.env.example` to `.env`. Required for full functionality:
 - `SECRET_KEY` — must be changed from default
 - `GEMINI_API_KEY` — for Gemini LLM or high-quality TTS
 - `PIXABAY_API_KEY` — for vocabulary images
+- `CORS_ORIGINS` — comma-separated allowed frontend origins; add your Tailscale HTTPS URL for mobile PWA access (e.g. `http://localhost,https://mymachine.tail1234.ts.net`)
 
 `DATABASE_URL` defaults to SQLite at `data/app.db`. Table creation is automatic on backend startup.
 

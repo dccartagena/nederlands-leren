@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#1e3a5f"/>
+  <!-- Dutch flag stripe top (red) -->
+  <rect x="64" y="80" width="384" height="96" rx="12" fill="#AE1C28"/>
+  <!-- Dutch flag stripe middle (white) -->
+  <rect x="64" y="208" width="384" height="96" rx="0" fill="#FFFFFF"/>
+  <!-- Dutch flag stripe bottom (blue) -->
+  <rect x="64" y="336" width="384" height="96" rx="12" fill="#21468B"/>
+  <!-- NL text overlay -->
+  <text x="256" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="88" font-weight="800" text-anchor="middle" dominant-baseline="middle" fill="#FFFFFF" opacity="0.0">NL</text>
+  <!-- Open book icon centered -->
+  <g transform="translate(160, 170)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 20 C96 20 60 8 20 16 L20 156 C60 148 96 160 96 160 C96 160 132 148 172 156 L172 16 C132 8 96 20 96 20 Z" fill="#FFFFFF" fill-opacity="0.15" stroke="#FFFFFF"/>
+    <line x1="96" y1="20" x2="96" y2="160"/>
+  </g>
+</svg>
