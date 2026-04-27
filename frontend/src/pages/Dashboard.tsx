@@ -1,8 +1,36 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchUserProgress, fetchDueCards } from '@/lib/api'
+import { fetchUserProgress, fetchDueCards, fetchXpHistory } from '@/lib/api'
 import { Link } from 'react-router-dom'
 import { BookOpen, MessageCircle, Flame, Star, Zap } from 'lucide-react'
 import { motion } from 'framer-motion'
+
+const DAILY_GOAL_XP = 50
+
+const XP_LEVELS = [
+  { level: 1, name: 'Principiante', threshold: 0 },
+  { level: 2, name: 'Básico', threshold: 100 },
+  { level: 3, name: 'Elemental', threshold: 300 },
+  { level: 4, name: 'Intermedio', threshold: 600 },
+  { level: 5, name: 'Avanzado', threshold: 1000 },
+  { level: 6, name: 'Experto', threshold: 2000 },
+  { level: 7, name: 'Maestro', threshold: 3500 },
+]
+
+function getLevelInfo(xp: number) {
+  let idx = XP_LEVELS.length - 1
+  for (let i = XP_LEVELS.length - 1; i >= 0; i--) {
+    if (xp >= XP_LEVELS[i].threshold) {
+      idx = i
+      break
+    }
+  }
+  const current = XP_LEVELS[idx]
+  const next = XP_LEVELS[idx + 1]
+  const pct = next
+    ? Math.min(1, (xp - current.threshold) / (next.threshold - current.threshold))
+    : 1
+  return { current, next, pct }
+}
 
 const games = [
   {
@@ -61,12 +89,26 @@ const games = [
     color:
       'bg-teal-50 dark:bg-teal-950 text-teal-700 dark:text-teal-300 border-teal-100 dark:border-teal-900',
   },
+  {
+    to: '/practice/dictado',
+    label: 'Dictado',
+    desc: 'Escucha y escribe la palabra',
+    icon: '🎙️',
+    color:
+      'bg-pink-50 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border-pink-100 dark:border-pink-900',
+  },
 ]
 
 export default function Dashboard() {
   const { data: progress } = useQuery({ queryKey: ['user-progress'], queryFn: fetchUserProgress })
   const { data: dueCards } = useQuery({ queryKey: ['due-cards'], queryFn: () => fetchDueCards(5) })
+  const { data: todayHistory } = useQuery({
+    queryKey: ['xp-history-today'],
+    queryFn: () => fetchXpHistory(1),
+  })
+
   const dueCount = dueCards?.length ?? 0
+  const todayXp = todayHistory?.[0]?.xp ?? 0
 
   return (
     <div className="space-y-7">
@@ -92,6 +134,11 @@ export default function Dashboard() {
             bg="bg-sky-50 dark:bg-sky-950/40"
           />
         </div>
+      )}
+
+      {/* Level + daily goal card */}
+      {progress && (
+        <LevelCard xp={progress.xp_total} todayXp={todayXp} />
       )}
 
       {/* Due cards CTA */}
@@ -166,6 +213,62 @@ export default function Dashboard() {
           </Link>
         </div>
       </section>
+    </div>
+  )
+}
+
+function LevelCard({ xp, todayXp }: { xp: number; todayXp: number }) {
+  const { current, next, pct } = getLevelInfo(xp)
+  const dailyPct = Math.min(1, todayXp / DAILY_GOAL_XP)
+  const dailyDone = todayXp >= DAILY_GOAL_XP
+
+  return (
+    <div className="space-y-4 rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+      {/* XP level */}
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <div>
+            <span className="text-xs text-gray-500 dark:text-gray-400">Nivel {current.level} · </span>
+            <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+              {current.name}
+            </span>
+          </div>
+          {next && (
+            <span className="text-xs text-gray-400 dark:text-gray-500">→ {next.name}</span>
+          )}
+        </div>
+        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+          <motion.div
+            className="h-2 rounded-full bg-brand-500"
+            initial={{ width: 0 }}
+            animate={{ width: `${pct * 100}%` }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          />
+        </div>
+        {next && (
+          <div className="mt-1 text-right text-xs text-gray-400 dark:text-gray-500">
+            {xp} / {next.threshold} XP
+          </div>
+        )}
+      </div>
+
+      {/* Daily goal */}
+      <div>
+        <div className="mb-1.5 flex items-center justify-between text-xs">
+          <span className="text-gray-500 dark:text-gray-400">Meta diaria</span>
+          <span className={dailyDone ? 'font-semibold text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}>
+            {dailyDone ? '✓ ¡Meta cumplida!' : `${todayXp} / ${DAILY_GOAL_XP} XP`}
+          </span>
+        </div>
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+          <motion.div
+            className={`h-1.5 rounded-full ${dailyDone ? 'bg-green-500' : 'bg-yellow-400'}`}
+            initial={{ width: 0 }}
+            animate={{ width: `${dailyPct * 100}%` }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          />
+        </div>
+      </div>
     </div>
   )
 }

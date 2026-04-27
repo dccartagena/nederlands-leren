@@ -6,6 +6,7 @@ import MultipleChoiceGame from '@/components/games/MultipleChoiceGame'
 import FillBlankGame from '@/components/games/FillBlankGame'
 import UnscrambleGame from '@/components/games/UnscrambleGame'
 import StoryModeGame from '@/components/games/StoryModeGame'
+import DictadoGame from '@/components/games/DictadoGame'
 
 const GAMES: Record<string, React.ComponentType> = {
   flashcard: FlashcardGame,
@@ -15,6 +16,7 @@ const GAMES: Record<string, React.ComponentType> = {
   'fill-blank': FillBlankGame,
   unscramble: UnscrambleGame,
   story: StoryModeGame,
+  dictado: DictadoGame,
 }
 
 const LABELS: Record<string, string> = {
@@ -25,6 +27,7 @@ const LABELS: Record<string, string> = {
   'fill-blank': 'Rellenar el Hueco',
   unscramble: 'Ordenar la Frase',
   story: 'Modo Historia',
+  dictado: 'Dictado',
 }
 
 export default function Practice() {

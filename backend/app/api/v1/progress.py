@@ -9,7 +9,14 @@ from sqlalchemy.orm import Session
 
 from app.db.models import LearningSession, SRCard, User, VocabularyItem
 from app.db.session import get_db
-from app.schemas import DueCardOut, ReviewRequest, ReviewResponse, UserProgressOut
+from app.schemas import (
+    DueCardOut,
+    ReviewRequest,
+    ReviewResponse,
+    StoryCompleteRequest,
+    StoryCompleteResponse,
+    UserProgressOut,
+)
 from app.services import spaced_repetition
 
 router = APIRouter()
@@ -17,13 +24,20 @@ router = APIRouter()
 DEFAULT_USER_ID = 1  # Single-user app
 
 # ── Achievement definitions ──────────────────────────────────────────────────
+# Each condition receives (user, enrolled_card_count, settings_context_dict).
+# settings_context = user.settings_json merged with any transient extra flags.
 
 ACHIEVEMENTS = [
-    {"slug": "first_word",      "condition": lambda u, n: n >= 1},
-    {"slug": "ten_words",       "condition": lambda u, n: n >= 10},
-    {"slug": "streak_3",        "condition": lambda u, n: u.streak_days >= 3},
-    {"slug": "streak_7",        "condition": lambda u, n: u.streak_days >= 7},
-    {"slug": "hundred_xp",      "condition": lambda u, n: u.xp_total >= 100},
+    {"slug": "first_word",      "condition": lambda u, n, ctx: n >= 1},
+    {"slug": "ten_words",       "condition": lambda u, n, ctx: n >= 10},
+    {"slug": "streak_3",        "condition": lambda u, n, ctx: u.streak_days >= 3},
+    {"slug": "streak_7",        "condition": lambda u, n, ctx: u.streak_days >= 7},
+    {"slug": "hundred_xp",      "condition": lambda u, n, ctx: u.xp_total >= 100},
+    # Triggered when a story quiz is answered perfectly (passed via extra context)
+    {"slug": "perfect_session", "condition": lambda u, n, ctx: ctx.get("perfect_quiz", False)},
+    # Story completion milestones (tracked in settings_json["completed_stories"])
+    {"slug": "first_story",     "condition": lambda u, n, ctx: len(ctx.get("completed_stories", [])) >= 1},
+    {"slug": "story_streak",    "condition": lambda u, n, ctx: len(ctx.get("completed_stories", [])) >= 5},
 ]
 
 
@@ -47,23 +61,29 @@ def _update_streak(user: User) -> None:
     user.last_activity_date = today
 
 
-def _check_achievements(db: Session, user: User) -> list[str]:
+def _check_achievements(db: Session, user: User, extra: dict | None = None) -> list[str]:
     settings = user.settings_json or {}
     earned: list[dict] = settings.get("achievements", [])
     earned_slugs = {a["slug"] for a in earned}
 
     enrolled_count = db.query(func.count(SRCard.id)).filter_by(user_id=user.id).scalar() or 0
-    newly_earned: list[str] = []
 
+    # Build context: persisted settings merged with any transient extra flags
+    ctx: dict[str, Any] = dict(settings)
+    if extra:
+        ctx.update(extra)
+
+    newly_earned: list[str] = []
     for achievement in ACHIEVEMENTS:
         slug = achievement["slug"]
-        if slug not in earned_slugs and achievement["condition"](user, enrolled_count):
+        if slug not in earned_slugs and achievement["condition"](user, enrolled_count, ctx):
             earned.append({"slug": slug, "earned_at": datetime.now(UTC).isoformat()})
             newly_earned.append(slug)
 
     if newly_earned:
-        settings["achievements"] = earned
-        user.settings_json = settings
+        updated = dict(user.settings_json or {})
+        updated["achievements"] = earned
+        user.settings_json = updated
 
     return newly_earned
 
@@ -97,10 +117,8 @@ def record_review(req: ReviewRequest, db: Session = Depends(get_db)):
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
-    # Update streak
     _update_streak(user)
 
-    # Record session entry
     session = LearningSession(
         user_id=DEFAULT_USER_ID,
         started_at=datetime.now(UTC),
@@ -110,7 +128,6 @@ def record_review(req: ReviewRequest, db: Session = Depends(get_db)):
     )
     db.add(session)
 
-    # Check achievements
     new_achievements = _check_achievements(db, user)
     db.commit()
 
@@ -138,6 +155,39 @@ def enroll_card(vocab_item_id: int, db: Session = Depends(get_db)):
     return {"card_id": card.id, "message": "enrolled", "new_achievements": new_achievements}
 
 
+@router.post("/story-complete", response_model=StoryCompleteResponse)
+def story_complete(req: StoryCompleteRequest, db: Session = Depends(get_db)):
+    user = _ensure_user(db)
+
+    is_perfect = req.total_questions > 0 and req.correct_count == req.total_questions
+    xp = 5 + (req.correct_count * 10) + (20 if is_perfect else 0)
+    user.xp_total = (user.xp_total or 0) + xp
+
+    _update_streak(user)
+
+    # Persist completed story slug
+    settings = dict(user.settings_json or {})
+    completed: list[str] = list(set(settings.get("completed_stories", [])) | {req.story_slug})
+    settings["completed_stories"] = completed
+    user.settings_json = settings
+
+    session = LearningSession(
+        user_id=DEFAULT_USER_ID,
+        started_at=datetime.now(UTC),
+        xp_earned=xp,
+        exercises_completed=req.total_questions,
+        game_type="story",
+    )
+    db.add(session)
+
+    new_achievements = _check_achievements(
+        db, user, extra={"perfect_quiz": is_perfect, "completed_stories": completed}
+    )
+    db.commit()
+
+    return StoryCompleteResponse(xp_earned=xp, new_achievements=new_achievements)
+
+
 @router.get("/history")
 def get_xp_history(days: int = Query(7, ge=1, le=30), db: Session = Depends(get_db)):
     _ensure_user(db)
@@ -152,7 +202,6 @@ def get_xp_history(days: int = Query(7, ge=1, le=30), db: Session = Depends(get_
         .group_by(func.date(LearningSession.started_at))
         .all()
     )
-    # Fill in missing days with 0
     result_map = {str(row.day): int(row.xp or 0) for row in rows}
     history = []
     for i in range(days - 1, -1, -1):
@@ -231,7 +280,6 @@ def export_progress(db: Session = Depends(get_db)):
 
 @router.post("/import")
 async def import_progress(db: Session = Depends(get_db)):
-    # Body parsed manually to accept raw JSON from frontend fetch
     from fastapi import Request
     raise HTTPException(status_code=405, detail="Use POST with JSON body")
 
@@ -247,7 +295,6 @@ class ProgressImport(BaseModel):
 def import_progress_json(payload: ProgressImport, db: Session = Depends(get_db)):
     user = _ensure_user(db)
 
-    # Merge user stats
     if payload.user:
         user.xp_total = (user.xp_total or 0) + (payload.user.get("xp_total") or 0)
         imported_streak = payload.user.get("streak_days") or 0
@@ -260,7 +307,6 @@ def import_progress_json(payload: ProgressImport, db: Session = Depends(get_db))
             merged.update(payload.user["settings_json"])
             user.settings_json = merged
 
-    # Upsert SR cards
     imported = 0
     for card_data in payload.sr_cards:
         vid = card_data.get("vocab_item_id")

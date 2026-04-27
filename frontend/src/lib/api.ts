@@ -36,6 +36,10 @@ export interface UserProgress {
   xp_total: number
   streak_days: number
   last_activity_date?: string
+  settings_json?: {
+    achievements?: Array<{ slug: string; earned_at: string }>
+    completed_stories?: string[]
+  }
 }
 
 export interface DueCard {
@@ -86,6 +90,19 @@ export const fetchSettings = () =>
 
 export const updateSettings = (data: Record<string, unknown>) =>
   api.put<Record<string, unknown>>('/progress/settings', data).then((r) => r.data)
+
+export const submitStoryComplete = (
+  story_slug: string,
+  correct_count: number,
+  total_questions: number
+) =>
+  api
+    .post<{ xp_earned: number; new_achievements: string[] }>('/progress/story-complete', {
+      story_slug,
+      correct_count,
+      total_questions,
+    })
+    .then((r) => r.data)
 
 export const exportProgress = () =>
   api.get('/progress/export', { responseType: 'blob' }).then((r) => r.data)
