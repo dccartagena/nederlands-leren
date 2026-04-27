@@ -15,6 +15,7 @@ The interface and all explanations are in **Spanish** — aimed at Spanish speak
 - **Progress backup**: export full progress to JSON; import it back after reinstalls or migrations
 - **Settings page**: level selector, audio toggle, LLM provider, dark/light mode
 - **Dark mode** throughout; Duolingo-inspired design (brand green `#58CC02`, Inter font)
+- **PWA / mobile webapp**: installable on iOS and Android via "Add to Home Screen"; Workbox service worker caches vocabulary, grammar, and audio for offline use
 - Single-user — no authentication; SQLite (dev) or PostgreSQL (prod)
 
 ---
@@ -75,6 +76,7 @@ All settings are read from `backend/.env` (copy from `.env.example`).
 | `OLLAMA_MODEL` | `mistral:7b-instruct-q4_K_M` | Model to use with Ollama |
 | `PIXABAY_API_KEY` | _(empty)_ | Free key for vocabulary images |
 | `AUDIO_DIR` | `…/data/audio` | Where audio files are stored/served |
+| `CORS_ORIGINS` | `http://localhost:5173,http://localhost` | Comma-separated list of allowed frontend origins; add your Tailscale HTTPS URL for mobile access |
 
 ---
 
@@ -337,6 +339,27 @@ docker compose up --build
 |---------|-----|
 | App     | http://localhost:80 |
 | API     | http://localhost:8000 |
+
+### Mobile access via Tailscale (free)
+
+The app is a PWA — installable on iOS and Android via "Add to Home Screen". Tailscale provides free private HTTPS tunnelling so the service worker (which requires HTTPS) works on mobile without exposing the server publicly.
+
+1. Install [Tailscale](https://tailscale.com) on the server and on your phone. Enable **MagicDNS** and **HTTPS** in the Tailscale admin console.
+2. On the server, start the HTTPS proxy:
+   ```bash
+   tailscale serve --bg https+insecure://localhost:80
+   # → https://<machine>.<tailnet>.ts.net
+   ```
+3. Add that URL to `.env`:
+   ```
+   CORS_ORIGINS=http://localhost,https://<machine>.<tailnet>.ts.net
+   ```
+4. Rebuild and restart:
+   ```bash
+   docker compose up --build
+   ```
+5. On **Android**: open Chrome → visit the Tailscale URL → menu → *Add to Home Screen*  
+   On **iOS**: open Safari → visit the Tailscale URL → Share → *Add to Home Screen*
 
 ---
 
@@ -610,12 +633,12 @@ flowchart TD
         F["Progress Export / Import"]:::done
         G["Gemini-first LLM"]:::done
         H["CI / CD GitHub Actions"]:::done
+        I["PWA (installable, offline cache)"]:::done
     end
 
     subgraph ux ["UX Improvements"]
-        I["Enroll-all in Lesson page\nPOST /progress/enroll bulk"]:::planned
-        J["Story Mode polish\nprogressive reveal + checkpoints"]:::planned
-        K["Mobile layout pass\nsafe-area nav + font scaling"]:::planned
+        J["Enroll-all in Lesson page\nPOST /progress/enroll bulk"]:::planned
+        K["Story Mode polish\nprogressive reveal + checkpoints"]:::planned
     end
 
     subgraph content ["Content Expansion"]
@@ -629,9 +652,8 @@ flowchart TD
         P["Multi-profile support\nper-user SRCard isolation"]:::planned
     end
 
-    A & B --> I
-    C & D --> J
-    E --> K
+    A & B --> J
+    C & D --> K
     G --> L & M
     L & M --> N
     F --> O
@@ -666,6 +688,8 @@ nederlands-leren/
 │   ├── requirements.txt
 │   └── requirements-dev.txt
 ├── frontend/
+│   ├── public/
+│   │   └── icons/            # PWA app icons (192×192, 512×512, apple-touch-icon, icon.svg)
 │   ├── src/
 │   │   ├── components/games/ # 7 game components
 │   │   ├── components/layout/
@@ -674,7 +698,7 @@ nederlands-leren/
 │   │   ├── lib/api.ts        # Axios client + all API helpers + TypeScript types
 │   │   └── test/             # MSW handlers, renderWithProviders, Vitest setup
 │   ├── tailwind.config.js
-│   └── vite.config.ts
+│   └── vite.config.ts        # VitePWA plugin (service worker + manifest)
 ├── data/
 │   ├── vocabulary/           # a0_words.json, a1_words.json
 │   ├── grammar/              # a0_grammar.json, a1_grammar.json
@@ -694,5 +718,4 @@ See the **Planned Features** diagram above for the full roadmap. Near-term prior
 - [ ] Enroll-all button on Lesson page (`POST /progress/enroll` bulk endpoint)
 - [ ] Story Mode: progressive reveal UX, checkpoints, scoring polish
 - [ ] A1 vocabulary — run `populate_content.py --levels a1 --types vocab --batch` then `seed_content.py`
-- [ ] Mobile responsive polish pass
 - [ ] PostgreSQL production setup guide
