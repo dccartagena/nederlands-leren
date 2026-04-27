@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { fetchStories, fetchStory } from '@/lib/api'
+import { useState, useMemo, useRef } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  fetchStories,
+  fetchStory,
+  fetchVocabulary,
+  fetchUserProgress,
+  submitStoryComplete,
+} from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
-import { ChevronRight, BookOpen, RefreshCw } from 'lucide-react'
+import { ChevronRight, BookOpen, RefreshCw, Volume2, CheckCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { VocabularyItem } from '@/lib/api'
 
 type Phase = 'list' | 'read' | 'quiz' | 'results'
 
 export default function StoryModeGame() {
   const level = useAppStore((s) => s.level)
+  const audioEnabled = useAppStore((s) => s.audioEnabled)
+  const queryClient = useQueryClient()
+
   const [phase, setPhase] = useState<Phase>('list')
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const [showSpanish, setShowSpanish] = useState(false)
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [currentQ, setCurrentQ] = useState(0)
+  const [sessionResult, setSessionResult] = useState<{ xp: number; achievements: string[] } | null>(null)
+  const [selectedWord, setSelectedWord] = useState<VocabularyItem | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const { data: stories, isLoading: loadingList } = useQuery({
     queryKey: ['stories', level],
@@ -27,12 +40,45 @@ export default function StoryModeGame() {
     enabled: !!selectedSlug,
   })
 
+  const { data: vocabulary } = useQuery({
+    queryKey: ['vocabulary-full', level],
+    queryFn: () => fetchVocabulary(level, undefined, 500),
+  })
+
+  const { data: userProgress } = useQuery({
+    queryKey: ['user-progress'],
+    queryFn: fetchUserProgress,
+  })
+
+  const completedSlugs = useMemo(
+    () => new Set(userProgress?.settings_json?.completed_stories ?? []),
+    [userProgress]
+  )
+
+  const vocabMap = useMemo(() => {
+    const map = new Map<string, VocabularyItem>()
+    vocabulary?.forEach((v) => map.set(v.dutch_word.toLowerCase(), v))
+    return map
+  }, [vocabulary])
+
+  const completeMutation = useMutation({
+    mutationFn: ({ slug, correct, total }: { slug: string; correct: number; total: number }) =>
+      submitStoryComplete(slug, correct, total),
+    onSuccess: (data) => {
+      setSessionResult({ xp: data.xp_earned, achievements: data.new_achievements })
+      queryClient.invalidateQueries({ queryKey: ['user-progress'] })
+      queryClient.invalidateQueries({ queryKey: ['xp-history-today'] })
+    },
+  })
+
   const startStory = (slug: string) => {
     setSelectedSlug(slug)
     setPhase('read')
     setShowSpanish(false)
     setAnswers([])
     setCurrentQ(0)
+    setSessionResult(null)
+    setSelectedWord(null)
   }
 
   const startQuiz = () => {
@@ -40,6 +86,7 @@ export default function StoryModeGame() {
     setAnswers(new Array(story.questions_json.length).fill(null))
     setCurrentQ(0)
     setPhase('quiz')
+    setSelectedWord(null)
   }
 
   const handleAnswer = (optionIndex: number) => {
@@ -47,11 +94,13 @@ export default function StoryModeGame() {
     const updated = [...answers]
     updated[currentQ] = optionIndex
     setAnswers(updated)
-    // Auto-advance after a short delay
     setTimeout(() => {
       if (currentQ + 1 < (story?.questions_json?.length ?? 0)) {
         setCurrentQ((q) => q + 1)
       } else {
+        const questions = story?.questions_json ?? []
+        const correctCount = updated.filter((a, i) => a === questions[i]?.answer_index).length
+        completeMutation.mutate({ slug: selectedSlug!, correct: correctCount, total: questions.length })
         setPhase('results')
       }
     }, 900)
@@ -62,15 +111,28 @@ export default function StoryModeGame() {
     setSelectedSlug(null)
     setAnswers([])
     setCurrentQ(0)
+    setSessionResult(null)
+    setSelectedWord(null)
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+    }
   }
 
-  // ── List phase ──────────────────────────────────────────────────────────────
+  const playStoryAudio = () => {
+    if (!story?.audio_path || !audioEnabled) return
+    if (audioRef.current) audioRef.current.pause()
+    const path = story.audio_path.startsWith('/') ? story.audio_path : `/audio/${story.audio_path}`
+    const audio = new Audio(path)
+    audioRef.current = audio
+    audio.play().catch(() => {})
+  }
+
+  // ── List phase ───────────────────────────────────────────────────────────────
   if (phase === 'list') {
     if (loadingList)
       return (
-        <div className="py-12 text-center text-gray-400 dark:text-gray-500">
-          Cargando historias…
-        </div>
+        <div className="py-12 text-center text-gray-400 dark:text-gray-500">Cargando historias…</div>
       )
     if (!stories?.length)
       return (
@@ -90,28 +152,35 @@ export default function StoryModeGame() {
           <BookOpen size={16} />
           <span>Elige una historia para leer y practicar comprensión:</span>
         </div>
-        {stories.map((s) => (
-          <motion.button
-            key={s.slug}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => startStory(s.slug)}
-            className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white p-4 text-left transition-colors hover:border-brand-400 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-brand-400"
-          >
-            <div>
-              <div className="font-semibold text-gray-800 dark:text-gray-200">{s.title_nl}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">{s.title_es}</div>
-              {s.theme && (
-                <div className="mt-0.5 text-xs text-brand-600 dark:text-brand-400">{s.theme}</div>
+        {stories.map((s) => {
+          const done = completedSlugs.has(s.slug)
+          return (
+            <motion.button
+              key={s.slug}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => startStory(s.slug)}
+              className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white p-4 text-left transition-colors hover:border-brand-400 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-brand-400"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold text-gray-800 dark:text-gray-200">{s.title_nl}</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">{s.title_es}</div>
+                {s.theme && (
+                  <div className="mt-0.5 text-xs text-brand-600 dark:text-brand-400">{s.theme}</div>
+                )}
+              </div>
+              {done ? (
+                <CheckCircle size={18} className="ml-3 shrink-0 text-green-500" />
+              ) : (
+                <ChevronRight size={18} className="ml-3 shrink-0 text-gray-400" />
               )}
-            </div>
-            <ChevronRight size={18} className="shrink-0 text-gray-400" />
-          </motion.button>
-        ))}
+            </motion.button>
+          )
+        })}
       </div>
     )
   }
 
-  // ── Read phase ──────────────────────────────────────────────────────────────
+  // ── Read phase ───────────────────────────────────────────────────────────────
   if (phase === 'read') {
     if (loadingStory || !story)
       return (
@@ -119,23 +188,42 @@ export default function StoryModeGame() {
       )
     return (
       <div className="mx-auto max-w-lg space-y-5">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={restart}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            ← Historias
-          </button>
-        </div>
-        <div className="space-y-1">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">{story.title_nl}</h2>
-          <p className="text-sm italic text-gray-500 dark:text-gray-400">{story.title_es}</p>
+        <button
+          onClick={restart}
+          className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          ← Historias
+        </button>
+
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">{story.title_nl}</h2>
+            <p className="text-sm italic text-gray-500 dark:text-gray-400">{story.title_es}</p>
+          </div>
+          {story.audio_path && audioEnabled && (
+            <button
+              onClick={playStoryAudio}
+              className="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-50 px-3 py-2 text-xs font-medium text-brand-600 transition-colors hover:bg-brand-100 dark:bg-brand-950 dark:text-brand-300 dark:hover:bg-brand-900"
+            >
+              <Volume2 size={15} />
+              Escuchar
+            </button>
+          )}
         </div>
 
         <div className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-          <p className="whitespace-pre-wrap leading-relaxed text-gray-800 dark:text-gray-200">
-            {story.content_nl}
-          </p>
+          {vocabMap.size > 0 ? (
+            <ClickableStoryText
+              text={story.content_nl ?? ''}
+              vocabMap={vocabMap}
+              onWordClick={setSelectedWord}
+            />
+          ) : (
+            <p className="whitespace-pre-wrap leading-relaxed text-gray-800 dark:text-gray-200">
+              {story.content_nl}
+            </p>
+          )}
+
           {story.content_es && (
             <>
               <button
@@ -160,6 +248,42 @@ export default function StoryModeGame() {
           )}
         </div>
 
+        {/* Word tooltip panel */}
+        <AnimatePresence>
+          {selectedWord && (
+            <motion.div
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              className="rounded-xl border border-brand-200 bg-brand-50 p-3 dark:border-brand-700 dark:bg-brand-950"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <span className="font-semibold text-brand-700 dark:text-brand-300">
+                    {selectedWord.article ? `${selectedWord.article} ` : ''}
+                    {selectedWord.dutch_word}
+                  </span>
+                  <span className="text-gray-600 dark:text-gray-300"> → {selectedWord.spanish}</span>
+                  {selectedWord.word_type && (
+                    <span className="ml-2 text-xs text-gray-400">({selectedWord.word_type})</span>
+                  )}
+                </div>
+                <button
+                  onClick={() => setSelectedWord(null)}
+                  className="shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  ×
+                </button>
+              </div>
+              {selectedWord.example_nl && (
+                <div className="mt-1 text-xs italic text-gray-500 dark:text-gray-400">
+                  {selectedWord.example_nl}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {story.questions_json?.length ? (
           <button
             onClick={startQuiz}
@@ -179,7 +303,7 @@ export default function StoryModeGame() {
     )
   }
 
-  // ── Quiz phase ──────────────────────────────────────────────────────────────
+  // ── Quiz phase ───────────────────────────────────────────────────────────────
   if (phase === 'quiz' && story?.questions_json) {
     const questions = story.questions_json
     const q = questions[currentQ]
@@ -245,11 +369,12 @@ export default function StoryModeGame() {
     )
   }
 
-  // ── Results phase ───────────────────────────────────────────────────────────
+  // ── Results phase ────────────────────────────────────────────────────────────
   if (phase === 'results' && story?.questions_json) {
     const questions = story.questions_json
     const correct = answers.filter((a, i) => a === questions[i].answer_index).length
     const pct = Math.round((correct / questions.length) * 100)
+
     return (
       <div className="space-y-4 py-8 text-center">
         <div className="text-5xl">{pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚'}</div>
@@ -263,7 +388,29 @@ export default function StoryModeGame() {
               ? '¡Buen trabajo! Sigue practicando.'
               : 'Vuelve a leer la historia e inténtalo de nuevo.'}
         </div>
-        <div className="flex flex-wrap justify-center gap-3">
+
+        {sessionResult && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 rounded-full bg-yellow-100 px-4 py-2 font-semibold text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
+          >
+            ⭐ +{sessionResult.xp} XP ganados
+          </motion.div>
+        )}
+
+        {sessionResult?.achievements.length ? (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
+          >
+            🏅{' '}
+            {sessionResult.achievements.length === 1 ? '¡Nuevo logro desbloqueado!' : '¡Nuevos logros!'}
+          </motion.div>
+        ) : null}
+
+        <div className="flex flex-wrap justify-center gap-3 pt-2">
           <button
             onClick={() => {
               setPhase('read')
@@ -286,4 +433,46 @@ export default function StoryModeGame() {
   }
 
   return null
+}
+
+// Renders story text with clickable Dutch words that have a known vocabulary entry.
+function ClickableStoryText({
+  text,
+  vocabMap,
+  onWordClick,
+}: {
+  text: string
+  vocabMap: Map<string, VocabularyItem>
+  onWordClick: (v: VocabularyItem) => void
+}) {
+  const paragraphs = text.split('\n')
+  return (
+    <div className="space-y-3 leading-relaxed text-gray-800 dark:text-gray-200">
+      {paragraphs.map((para, pi) =>
+        para.trim() ? (
+          <p key={pi}>
+            {para.split(/(\s+)/).map((token, ti) => {
+              if (/^\s+$/.test(token)) return <span key={ti}>{token}</span>
+              // Strip leading/trailing punctuation for lookup, keep original for display
+              const clean = token.replace(/^[^a-zA-ZÀ-ÿ]+|[^a-zA-ZÀ-ÿ]+$/g, '').toLowerCase()
+              const vocab = vocabMap.get(clean)
+              return vocab ? (
+                <button
+                  key={ti}
+                  className="rounded underline decoration-dotted transition-colors hover:text-brand-700 text-brand-600 dark:text-brand-400 dark:hover:text-brand-200"
+                  onClick={() => onWordClick(vocab)}
+                >
+                  {token}
+                </button>
+              ) : (
+                <span key={ti}>{token}</span>
+              )
+            })}
+          </p>
+        ) : (
+          <br key={pi} />
+        )
+      )}
+    </div>
+  )
 }

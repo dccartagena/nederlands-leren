@@ -10,11 +10,9 @@ const ACHIEVEMENT_META: Record<string, { emoji: string; title: string; subtitle:
   streak_3: { emoji: '🔥', title: 'En racha', subtitle: '3 días seguidos' },
   streak_7: { emoji: '🏆', title: 'Constante', subtitle: '7 días seguidos' },
   hundred_xp: { emoji: '⭐', title: 'Primeras 100 XP', subtitle: 'Consigue 100 XP' },
-  perfect_session: {
-    emoji: '🎯',
-    title: 'Sesión perfecta',
-    subtitle: 'Todas fáciles en una sesión',
-  },
+  perfect_session: { emoji: '🎯', title: 'Sesión perfecta', subtitle: 'Quiz perfecto en una historia' },
+  first_story: { emoji: '📖', title: 'Primer cuento', subtitle: 'Completa tu primera historia' },
+  story_streak: { emoji: '🗺️', title: 'Explorador', subtitle: 'Completa 5 historias' },
 }
 
 const ALL_SLUGS = Object.keys(ACHIEVEMENT_META)
@@ -25,8 +23,7 @@ export default function Progress() {
   const { data: history } = useQuery({ queryKey: ['xp-history'], queryFn: () => fetchXpHistory(7) })
 
   const earnedSlugs = new Set<string>(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((progress as any)?.settings_json?.achievements ?? []).map((a: { slug: string }) => a.slug)
+    (progress?.settings_json?.achievements ?? []).map((a) => a.slug)
   )
 
   return (
