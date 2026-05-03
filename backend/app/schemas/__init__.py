@@ -90,6 +90,7 @@ class UserProgressOut(BaseModel):
     xp_total: int
     streak_days: int
     last_activity_date: str | None = None
+    settings_json: dict[str, Any] | None = None
 
 
 # ── LLM ──────────────────────────────────────────────────────────────────────
@@ -121,3 +122,14 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     messages: list[ChatMessage] = Field(..., max_length=50)
     provider: str | None = Field(None, pattern=r"^(ollama|gemini)$")
+
+
+class StoryCompleteRequest(BaseModel):
+    story_slug: str = Field(..., max_length=100)
+    correct_count: int = Field(..., ge=0)
+    total_questions: int = Field(..., ge=0)
+
+
+class StoryCompleteResponse(BaseModel):
+    xp_earned: int
+    new_achievements: list[str] = []
