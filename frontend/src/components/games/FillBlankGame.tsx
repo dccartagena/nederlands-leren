@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchFillBlank, getFeedback } from '@/lib/api'
+import { fetchFillBlank } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useGameScore } from './hooks/useGameScore'
+import { useFeedback } from './hooks/useFeedback'
 
 export default function FillBlankGame() {
   const level = useAppStore((s) => s.level)
   const [selected, setSelected] = useState<number | null>(null)
-  const [feedback, setFeedback] = useState<string | null>(null)
-  const [fbLoading, setFbLoading] = useState(false)
-  const [score, setScore] = useState({ correct: 0, total: 0 })
   const [fetchKey, setFetchKey] = useState(0)
+  const { score, recordAnswer } = useGameScore()
+  const { feedback, fbLoading, loadFeedback, reset: resetFeedback } = useFeedback()
 
   const {
     data: exercise,
@@ -24,7 +25,7 @@ export default function FillBlankGame() {
 
   const next = () => {
     setSelected(null)
-    setFeedback(null)
+    resetFeedback()
     setFetchKey((k) => k + 1)
   }
 
@@ -33,20 +34,13 @@ export default function FillBlankGame() {
     setSelected(optionIndex)
     const chosenWord = exercise.options[optionIndex].dutch_word
     const isCorrect = chosenWord === exercise.correct_word
-    setScore((s) => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
+    recordAnswer(isCorrect)
     if (!isCorrect) {
-      setFbLoading(true)
-      try {
-        const { feedback: fb } = await getFeedback(
-          `Completa: "${exercise.sentence_with_blank}"`,
-          exercise.correct_word,
-          chosenWord
-        )
-        setFeedback(fb)
-      } catch {
-        /* ignore */
-      }
-      setFbLoading(false)
+      await loadFeedback(
+        `Completa: "${exercise.sentence_with_blank}"`,
+        exercise.correct_word,
+        chosenWord
+      )
     }
   }
 

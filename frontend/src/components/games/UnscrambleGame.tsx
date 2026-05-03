@@ -4,6 +4,7 @@ import { fetchUnscramble } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { RefreshCw, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useGameScore } from './hooks/useGameScore'
 
 export default function UnscrambleGame() {
   const level = useAppStore((s) => s.level)
@@ -11,7 +12,7 @@ export default function UnscrambleGame() {
   const [chosen, setChosen] = useState<Array<{ word: string; srcIdx: number }>>([])
   const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set())
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null)
-  const [score, setScore] = useState({ correct: 0, total: 0 })
+  const { score, recordAnswer } = useGameScore()
 
   const {
     data: exercise,
@@ -55,7 +56,7 @@ export default function UnscrambleGame() {
     const attempt = chosen.map((c) => c.word).join(' ') + exercise.trailing_punct
     const isCorrect = attempt === exercise.correct_sentence
     setResult(isCorrect ? 'correct' : 'wrong')
-    setScore((s) => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }))
+    recordAnswer(isCorrect)
   }
 
   if (isLoading)

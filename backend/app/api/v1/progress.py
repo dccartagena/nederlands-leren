@@ -278,12 +278,6 @@ def export_progress(db: Session = Depends(get_db)):
     )
 
 
-@router.post("/import")
-async def import_progress(db: Session = Depends(get_db)):
-    from fastapi import Request
-    raise HTTPException(status_code=405, detail="Use POST with JSON body")
-
-
 class ProgressImport(BaseModel):
     exported_at: str | None = None
     user: dict[str, Any] | None = None

@@ -1,7 +1,7 @@
-
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
+from app.core.validators import apply_content_filters
 from app.db.models import Story
 from app.db.session import get_db
 from app.schemas import StoryOut
@@ -14,15 +14,11 @@ def list_stories(
     level: str | None = Query(None),
     db: Session = Depends(get_db),
 ):
-    q = db.query(Story)
-    if level:
-        q = q.filter(Story.level == level.lower())
-    return q.all()
+    return apply_content_filters(db.query(Story), Story, level).all()
 
 
 @router.get("/{slug}", response_model=StoryOut)
 def get_story(slug: str, db: Session = Depends(get_db)):
-    from fastapi import HTTPException
     story = db.query(Story).filter_by(slug=slug).first()
     if not story:
         raise HTTPException(status_code=404, detail="Story not found")

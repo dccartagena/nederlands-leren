@@ -74,6 +74,7 @@ class User(Base):
 class SRCard(Base):
     """FSRS spaced-repetition card for a single vocabulary item."""
     __tablename__ = "sr_cards"
+    __table_args__ = (UniqueConstraint("user_id", "vocab_item_id", name="uq_srcard_user_vocab"),)
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)

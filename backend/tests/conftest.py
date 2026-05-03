@@ -7,7 +7,7 @@ The SECRET_KEY env-var is set before any app code is imported.
 import os
 
 # Must be set before importing app modules (bypasses SECRET_KEY validator)
-os.environ.setdefault("SECRET_KEY", "test-secret-key-for-pytest-only")
+os.environ.setdefault("SECRET_KEY", "test-secret-key-for-pytest-only-xx")
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 
 import pytest

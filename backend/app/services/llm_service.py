@@ -20,6 +20,17 @@ SYSTEM_PROMPT = (
 )
 
 
+def _safe_embed(value: str) -> str:
+    """Wrap a user-supplied string in structural delimiters to prevent prompt injection."""
+    sanitized = value.replace("`", "'").replace("\n", " ").strip()
+    return f"[USER_INPUT]{sanitized}[/USER_INPUT]"
+
+
+def _sanitize_for_json_prompt(value: str) -> str:
+    """Strip characters that could escape a JSON string literal inside an LLM prompt template."""
+    return value.replace('"', "'").replace("\\", "").replace("\n", " ").strip()
+
+
 async def _call_ollama(messages: list[dict[str, str]], model: str) -> str:
     url = f"{settings.OLLAMA_BASE_URL}/api/chat"
     payload = {
@@ -93,24 +104,25 @@ async def chat_completion(
 
 
 async def explain(word_or_phrase: str, context_sentence: str | None = None) -> str:
-    ctx = f' in the sentence: "{context_sentence}"' if context_sentence else ""
-    prompt = f'Explain the Dutch word or phrase "{word_or_phrase}"{ctx}. Include: meaning, grammatical usage, and an additional example with its Spanish translation.'
+    safe_word = _safe_embed(word_or_phrase)
+    ctx = f" in the sentence: {_safe_embed(context_sentence)}" if context_sentence else ""
+    prompt = f"Explain the Dutch word or phrase {safe_word}{ctx}. Include: meaning, grammatical usage, and an additional example with its Spanish translation."
     return await chat_completion([{"role": "user", "content": prompt}])
 
 
 async def feedback(question: str, correct_answer: str, user_answer: str) -> str:
     prompt = (
         f"The student answered incorrectly.\n"
-        f"Question: {question}\n"
-        f"Correct answer: {correct_answer}\n"
-        f"Student's answer: {user_answer}\n\n"
+        f"Question: {_safe_embed(question)}\n"
+        f"Correct answer: {_safe_embed(correct_answer)}\n"
+        f"Student's answer: {_safe_embed(user_answer)}\n\n"
         "Explain in Spanish why the correct answer is right and give a memory tip."
     )
     return await chat_completion([{"role": "user", "content": prompt}])
 
 
 async def generate_exercise(theme: str, level: str, exercise_type: str, word: str | None = None) -> str:
-    word_hint = f" using the word '{word}'" if word else ""
+    word_hint = f" using the word {_safe_embed(word)}" if word else ""
     prompt = (
         f"Create a '{exercise_type}' exercise in Dutch for level {level.upper()}, "
         f"theme '{theme}'{word_hint}. "

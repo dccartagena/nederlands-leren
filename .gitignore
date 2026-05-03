@@ -22,6 +22,8 @@ htmlcov/
 .pytest_cache/
 backend/tests/__pycache__/
 backend/test_ci.db
+backend/test.db
+test.db
 
 # Ruff / Mypy caches
 .ruff_cache/

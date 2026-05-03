@@ -1,25 +1,15 @@
 import random
 import re
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
+from app.core.validators import validate_level
 from app.db.models import VocabularyItem
 from app.db.session import get_db
 from app.services.audio_service import synthesize_if_missing
 
 router = APIRouter()
-
-_VALID_LEVELS = {"a0", "a1", "a2", "b1", "b2", "c1"}
-
-
-def _validate_level(level: str) -> str:
-    if level.lower() not in _VALID_LEVELS:
-        raise HTTPException(
-            status_code=422,
-            detail=f"Invalid level '{level}'. Must be one of: {sorted(_VALID_LEVELS)}",
-        )
-    return level.lower()
 
 
 def _get_audio_filename(item: VocabularyItem, db: Session) -> str | None:
@@ -39,7 +29,7 @@ def listen_choose_exercise(
     db: Session = Depends(get_db),
 ):
     """Return a listen-and-choose exercise: one correct item + 3 distractors."""
-    level = _validate_level(level)
+    level = validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -73,7 +63,7 @@ def word_match_exercise(
     db: Session = Depends(get_db),
 ):
     """Return Dutch/Spanish word pairs for word-match game."""
-    level = _validate_level(level)
+    level = validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -101,7 +91,7 @@ def fill_blank_exercise(
     The target word is replaced by ___ in the Dutch sentence. Three distractor
     words (same level) are included to form a 4-option multiple-choice question.
     """
-    level = _validate_level(level)
+    level = validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)
@@ -151,7 +141,7 @@ def unscramble_exercise(
     Words from a Dutch example sentence are shuffled; the learner must put them
     back in the correct order.
     """
-    level = _validate_level(level)
+    level = validate_level(level)
     q = db.query(VocabularyItem).filter(VocabularyItem.level == level)
     if theme:
         q = q.filter(VocabularyItem.theme == theme)

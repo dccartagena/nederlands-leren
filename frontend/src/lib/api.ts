@@ -107,16 +107,6 @@ export const submitStoryComplete = (
 export const exportProgress = () =>
   api.get('/progress/export', { responseType: 'blob' }).then((r) => r.data)
 
-export const importProgress = (file: File) => {
-  const form = new FormData()
-  form.append('file', file)
-  return api
-    .post<{ imported_cards: number }>('/progress/import', form, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-    .then((r) => r.data)
-}
-
 // ── Grammar ──────────────────────────────────────────────────────────────────
 export interface GrammarTopic {
   id: number
