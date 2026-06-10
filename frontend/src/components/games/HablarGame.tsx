@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchVocabulary, submitSessionComplete } from '@/lib/api'
+import { fetchVocabulary, submitSessionComplete, vocabAudioUrl } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { motion } from 'framer-motion'
 import { Mic, MicOff, Volume2 } from 'lucide-react'
@@ -78,7 +78,7 @@ export default function HablarGame() {
 
   const playModel = () => {
     if (!audioEnabled || !item) return
-    const audio = new Audio(`/audio/gtts_${item.dutch_word}_${item.level}.wav`)
+    const audio = new Audio(vocabAudioUrl(item.id))
     audio.play().catch(() => {})
   }
 

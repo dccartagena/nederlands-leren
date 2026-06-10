@@ -9,6 +9,8 @@ import os
 # Must be set before importing app modules (bypasses SECRET_KEY validator)
 os.environ.setdefault("SECRET_KEY", "test-secret-key-for-pytest-only")
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
+# Tests drive jobs explicitly — never start the background loop
+os.environ.setdefault("SCHEDULER_ENABLED", "false")
 
 import pytest
 from fastapi.testclient import TestClient

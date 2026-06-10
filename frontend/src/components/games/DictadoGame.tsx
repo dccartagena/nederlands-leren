@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchVocabulary } from '@/lib/api'
+import { fetchVocabulary, vocabAudioUrl } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { Volume2, RefreshCw } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -31,8 +31,7 @@ export default function DictadoGame() {
 
   const playAudio = () => {
     if (!currentWord || !audioEnabled) return
-    const path = `/audio/gtts_${currentWord.dutch_word}_${currentWord.level}.wav`
-    const audio = new Audio(path)
+    const audio = new Audio(vocabAudioUrl(currentWord.id))
     audio.play().catch(() => {})
   }
 

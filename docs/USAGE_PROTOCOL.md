@@ -17,28 +17,39 @@ strands and the spaced-repetition literature — see the masterplan handoff.
 The **strands meter** on the Progress page shows this week's balance; aim for
 roughly equal activity across the four strands.
 
-## Weekly
+## Operations: automated
 
-- Sunday: export your progress (`Ajustes → Exportar progreso`) as a backup,
-  and glance at the strands meter and the activity heatmap.
+The backend runs an in-process scheduler — there is no routine maintenance to
+remember. Status and manual triggers live in **Ajustes → Mantenimiento
+automático**.
 
-## Monthly content refresh
+| Job | Cadence | What it does | Flag (`.env`) |
+|---|---|---|---|
+| Seed content | startup + daily | loads `data/` JSON into the DB, regenerates `ATTRIBUTIONS.md` | `AUTO_SEED` |
+| Backup | daily | progress export → `data/backups/` (keeps `BACKUP_RETENTION`, default 14) | `AUTO_BACKUP` |
+| Audio gap-fill | daily | synthesizes audio for vocabulary that has none (batch-capped) | `AUTO_AUDIO_GAPFILL` |
+| FSRS optimizer | weekly | recomputes scheduler parameters once ≥1,000 review logs exist (needs `pip install "fsrs[optimizer]"`) | `AUTO_FSRS_OPTIMIZE` |
+| Content refresh | weekly | full ETL (fetch → lexicon → sentences → validate → reseed → coverage) | `AUTO_CONTENT_REFRESH` (off by default: large downloads) |
+
+Vocabulary audio is also resolved/synthesized **on demand** by
+`GET /api/v1/vocabulary/{id}/audio`, so a missing file never blocks a game.
+
+Weekly habit that remains yours: glance at the strands meter and heatmap on
+the Progress page.
+
+### Manual fallback
+
+Every job can be run by hand (`Ajustes → Mantenimiento` or
+`POST /api/v1/admin/jobs/{name}/run`), and the underlying scripts still work
+from `backend/`:
 
 ```bash
-cd backend
 python scripts/etl/fetch_sources.py --refresh
-python scripts/etl/build_lexicon.py
-python scripts/etl/build_sentences.py
-python scripts/populate_content.py            # LLM gap-fill only where coverage shows holes
+python scripts/etl/build_lexicon.py && python scripts/etl/build_sentences.py
 python scripts/etl/validate.py --stamp
-python scripts/seed_content.py                # also regenerates ATTRIBUTIONS.md
+python scripts/seed_content.py
 python scripts/etl/coverage_report.py
 ```
-
-Regenerate stories against your updated known-word profile (keeps input at
-i+1 as your vocabulary grows). Run the FSRS optimizer once ~1,000 review logs
-exist (they're recorded automatically and included in every export); re-run
-quarterly.
 
 ## Milestones
 

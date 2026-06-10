@@ -128,6 +128,34 @@ export interface Strand {
 export const fetchStrands = (days = 7) =>
   api.get<Strand[]>('/progress/strands', { params: { days } }).then((r) => r.data)
 
+/** Audio for a vocab item — resolved/synthesized server-side, no filename guessing. */
+export const vocabAudioUrl = (vocabId: number) => `/api/v1/vocabulary/${vocabId}/audio`
+
+// ── Maintenance jobs ─────────────────────────────────────────────────────────
+export interface JobInfo {
+  name: string
+  description: string
+  enabled: boolean
+  interval_hours: number
+  last_run_at?: string | null
+  last_status?: 'ok' | 'error' | 'skipped' | null
+  detail?: string | null
+  duration_ms?: number | null
+}
+
+export const fetchJobs = () => api.get<JobInfo[]>('/admin/jobs').then((r) => r.data)
+
+export const runJob = (name: string) =>
+  api
+    .post<{
+      name: string
+      started: boolean
+      background: boolean
+      status?: string
+      detail?: string
+    }>(`/admin/jobs/${name}/run`)
+    .then((r) => r.data)
+
 export const fetchSettings = () =>
   api.get<Record<string, unknown>>('/progress/settings').then((r) => r.data)
 

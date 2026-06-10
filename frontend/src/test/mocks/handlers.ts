@@ -60,6 +60,29 @@ export const mockStrands = [
   { strand: 'fluency', sessions: 0, exercises: 0, xp: 0 },
 ]
 
+export const mockJobs = [
+  {
+    name: 'seed_content',
+    description: 'Carga el contenido de data/ en la base de datos (idempotente)',
+    enabled: true,
+    interval_hours: 24,
+    last_run_at: '2026-04-10T08:00:00Z',
+    last_status: 'ok',
+    detail: '0 vocab, 0 grammar, 0 stories seeded; 0 attribution entries',
+    duration_ms: 120,
+  },
+  {
+    name: 'backup_progress',
+    description: 'Copia de seguridad diaria del progreso en data/backups/',
+    enabled: true,
+    interval_hours: 24,
+    last_run_at: null,
+    last_status: null,
+    detail: null,
+    duration_ms: null,
+  },
+]
+
 export const mockReviewResponse = {
   card_id: 1,
   next_due: '2026-04-11T10:00:00Z',
@@ -147,6 +170,18 @@ export const handlers = [
   http.get(`${BASE}/progress/stats`, () => HttpResponse.json(mockMasteryStats)),
   http.get(`${BASE}/progress/quests`, () => HttpResponse.json(mockQuests)),
   http.get(`${BASE}/progress/strands`, () => HttpResponse.json(mockStrands)),
+
+  // Admin / maintenance
+  http.get(`${BASE}/admin/jobs`, () => HttpResponse.json(mockJobs)),
+  http.post(`${BASE}/admin/jobs/:name/run`, ({ params }) =>
+    HttpResponse.json({
+      name: params.name,
+      started: true,
+      background: false,
+      status: 'ok',
+      detail: 'done',
+    })
+  ),
   http.post(`${BASE}/progress/session-complete`, () =>
     HttpResponse.json({ xp_earned: 25, new_achievements: [] })
   ),

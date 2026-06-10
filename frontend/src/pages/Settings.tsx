@@ -1,7 +1,19 @@
 import { useRef, useState } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAppStore } from '@/stores/appStore'
-import { exportProgress } from '@/lib/api'
-import { Download, Upload, Sun, Moon, Volume2, VolumeX, Leaf } from 'lucide-react'
+import { exportProgress, fetchJobs, runJob, type JobInfo } from '@/lib/api'
+import {
+  Download,
+  Upload,
+  Sun,
+  Moon,
+  Volume2,
+  VolumeX,
+  Leaf,
+  Play,
+  Wrench,
+  Loader2,
+} from 'lucide-react'
 
 export default function Settings() {
   const {
@@ -201,6 +213,105 @@ export default function Settings() {
           )}
         </div>
       </Section>
+
+      {/* Background maintenance */}
+      <Section title="Mantenimiento automático">
+        <MaintenancePanel />
+      </Section>
+    </div>
+  )
+}
+
+const STATUS_STYLES: Record<string, string> = {
+  ok: 'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  error: 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300',
+  skipped: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
+}
+
+function formatLastRun(iso?: string | null): string {
+  if (!iso) return 'nunca'
+  return new Date(iso).toLocaleString('es', { dateStyle: 'short', timeStyle: 'short' })
+}
+
+function MaintenancePanel() {
+  const queryClient = useQueryClient()
+  const { data: jobs } = useQuery({ queryKey: ['admin-jobs'], queryFn: fetchJobs })
+  const [runningJob, setRunningJob] = useState<string | null>(null)
+
+  const runMutation = useMutation({
+    mutationFn: (name: string) => runJob(name),
+    onMutate: (name) => setRunningJob(name),
+    onSettled: () => {
+      setRunningJob(null)
+      queryClient.invalidateQueries({ queryKey: ['admin-jobs'] })
+    },
+  })
+
+  if (!jobs) return <p className="text-sm text-gray-400">Cargando tareas…</p>
+
+  return (
+    <div className="space-y-2">
+      <p className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+        <Wrench size={12} />
+        Estas tareas se ejecutan solas en segundo plano; aquí puedes ver su estado o lanzarlas a
+        mano.
+      </p>
+      {jobs.map((job) => (
+        <JobRow
+          key={job.name}
+          job={job}
+          running={runningJob === job.name}
+          onRun={() => runMutation.mutate(job.name)}
+        />
+      ))}
+    </div>
+  )
+}
+
+function JobRow({ job, running, onRun }: { job: JobInfo; running: boolean; onRun: () => void }) {
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-medium">{job.description}</span>
+            {!job.enabled && (
+              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+                desactivada
+              </span>
+            )}
+            {job.last_status && (
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_STYLES[job.last_status] ?? ''}`}
+              >
+                {job.last_status}
+              </span>
+            )}
+          </div>
+          <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+            Última ejecución: {formatLastRun(job.last_run_at)} · cada{' '}
+            {job.interval_hours >= 24
+              ? `${job.interval_hours / 24} días`
+              : `${job.interval_hours} h`}
+          </div>
+          {job.detail && (
+            <div
+              className="mt-1 truncate text-xs text-gray-400 dark:text-gray-500"
+              title={job.detail}
+            >
+              {job.detail}
+            </div>
+          )}
+        </div>
+        <button
+          onClick={onRun}
+          disabled={running}
+          aria-label={`Ejecutar ${job.description}`}
+          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition-colors hover:bg-brand-100 hover:text-brand-700 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-brand-900 dark:hover:text-brand-300"
+        >
+          {running ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
+        </button>
+      </div>
     </div>
   )
 }

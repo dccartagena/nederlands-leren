@@ -17,6 +17,32 @@ NEW_CARDS_PER_DAY = 15
 
 _scheduler = Scheduler(desired_retention=DESIRED_RETENTION)
 
+
+def set_parameters(parameters: list[float] | None) -> None:
+    """Apply FSRS parameters (e.g. from the optimizer job)."""
+    global _scheduler
+    if parameters:
+        _scheduler = Scheduler(parameters=parameters, desired_retention=DESIRED_RETENTION)
+    else:
+        _scheduler = Scheduler(desired_retention=DESIRED_RETENTION)
+
+
+def _load_persisted_parameters() -> None:
+    """Pick up optimizer output from a previous run, if any."""
+    import json
+
+    from app.core.config import settings
+
+    params_file = settings.DATA_DIR / "fsrs_params.json"
+    try:
+        if params_file.exists():
+            set_parameters(json.loads(params_file.read_text()).get("parameters"))
+    except Exception:  # noqa: BLE001 — bad file must never break scheduling
+        pass
+
+
+_load_persisted_parameters()
+
 _RATING_MAP = {1: Rating.Again, 2: Rating.Hard, 3: Rating.Good, 4: Rating.Easy}
 _XP_MAP = {1: 2, 2: 5, 3: 10, 4: 15}
 

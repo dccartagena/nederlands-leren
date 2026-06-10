@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.db.models import LearningSession, ReviewLog, SRCard, User, VocabularyItem
+from app.db.models import LearningSession, SRCard, User, VocabularyItem
 from app.db.session import get_db
 from app.schemas import (
     DueCardOut,
@@ -453,59 +453,10 @@ def update_settings(req: SettingsUpdate, db: Session = Depends(get_db)) -> Any:
 
 @router.get("/export")
 def export_progress(db: Session = Depends(get_db)):
+    from app.services.jobs import build_export_payload
+
     user = _ensure_user(db)
-    cards = db.query(SRCard).filter_by(user_id=DEFAULT_USER_ID).all()
-    sessions = db.query(LearningSession).filter_by(user_id=DEFAULT_USER_ID).all()
-    review_logs = db.query(ReviewLog).filter_by(user_id=DEFAULT_USER_ID).all()
-
-    payload: dict[str, Any] = {
-        "exported_at": datetime.now(UTC).isoformat(),
-        "user": {
-            "xp_total": user.xp_total,
-            "streak_days": user.streak_days,
-            "last_activity_date": user.last_activity_date,
-            "settings_json": user.settings_json or {},
-        },
-        "sr_cards": [
-            {
-                "vocab_item_id": c.vocab_item_id,
-                "stability": c.stability,
-                "difficulty": c.difficulty,
-                "elapsed_days": c.elapsed_days,
-                "scheduled_days": c.scheduled_days,
-                "reps": c.reps,
-                "lapses": c.lapses,
-                "state": c.state,
-                "due_date": c.due_date.isoformat() if c.due_date else None,
-                "last_review": c.last_review.isoformat() if c.last_review else None,
-            }
-            for c in cards
-        ],
-        "sessions": [
-            {
-                "started_at": s.started_at.isoformat() if s.started_at else None,
-                "xp_earned": s.xp_earned,
-                "game_type": s.game_type,
-            }
-            for s in sessions
-        ],
-        # Raw FSRS review history — the optimizer's training data
-        "review_logs": [
-            {
-                "vocab_item_id": r.vocab_item_id,
-                "rating": r.rating,
-                "state_before": r.state_before,
-                "state_after": r.state_after,
-                "stability_before": r.stability_before,
-                "stability_after": r.stability_after,
-                "difficulty_after": r.difficulty_after,
-                "elapsed_days": r.elapsed_days,
-                "reviewed_at": r.reviewed_at.isoformat() if r.reviewed_at else None,
-            }
-            for r in review_logs
-        ],
-    }
-
+    payload = build_export_payload(db, user)
     today = date.today().isoformat()
     return JSONResponse(
         content=payload,

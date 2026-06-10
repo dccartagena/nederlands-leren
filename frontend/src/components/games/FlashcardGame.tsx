@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { fetchDueCards, submitReview } from '@/lib/api'
+import { fetchDueCards, submitReview, vocabAudioUrl } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Volume2, Snail } from 'lucide-react'
@@ -71,9 +71,9 @@ export default function FlashcardGame() {
     setIndex((i) => i + 1)
   }
 
-  const playAudio = (filename: string, rate = 1) => {
+  const playAudio = (url: string, rate = 1) => {
     if (!audioEnabled) return
-    const audio = new Audio(`/audio/${filename}`)
+    const audio = new Audio(url)
     audio.playbackRate = rate
     audioRef.current = audio
     audio.play().catch(() => {})
@@ -128,7 +128,7 @@ export default function FlashcardGame() {
     )
 
   const item = card.vocab_item
-  const audioFile = `gtts_${item.dutch_word}_${item.level}.wav`
+  const audioFile = vocabAudioUrl(item.id)
 
   return (
     <div className="flex flex-col items-center gap-6">

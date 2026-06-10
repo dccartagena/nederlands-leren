@@ -124,6 +124,18 @@ class SRCard(Base):
     vocab_item = relationship("VocabularyItem", back_populates="sr_cards")
 
 
+class JobRun(Base):
+    """Latest run of each background maintenance job (one row per job)."""
+    __tablename__ = "job_runs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    job_name = Column(String(50), unique=True, nullable=False, index=True)
+    last_run_at = Column(DateTime)
+    last_status = Column(String(10))   # ok | error | skipped
+    detail = Column(Text)
+    duration_ms = Column(Integer)
+
+
 class ReviewLog(Base):
     """One row per FSRS review — the raw data the FSRS optimizer trains on.
 
