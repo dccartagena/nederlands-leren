@@ -45,3 +45,7 @@ frontend/coverage/
 data/sources/
 data/review_queue/
 data/coverage_report.json
+data/backups/
+data/lexicon/
+data/sentences/
+data/fsrs_params.json
