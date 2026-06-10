@@ -74,8 +74,8 @@ export const fetchUserProgress = () => api.get<UserProgress>('/progress/user').t
 export const fetchDueCards = (limit = 20) =>
   api.get<DueCard[]>('/progress/due', { params: { limit } }).then((r) => r.data)
 
-export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4) =>
-  api.post<ReviewResponse>('/progress/review', { card_id, rating }).then((r) => r.data)
+export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4, combo = false) =>
+  api.post<ReviewResponse>('/progress/review', { card_id, rating, combo }).then((r) => r.data)
 
 export const enrollCard = (vocab_item_id: number) =>
   api.post(`/progress/enroll/${vocab_item_id}`).then((r) => r.data)
@@ -84,6 +84,26 @@ export const enrollAll = (ids: number[]) => Promise.all(ids.map((id) => enrollCa
 
 export const fetchXpHistory = (days = 7) =>
   api.get<XpHistoryEntry[]>('/progress/history', { params: { days } }).then((r) => r.data)
+
+export interface MasteryStats {
+  mastered_words: number
+  enrolled_words: number
+  review_words: number
+  stories_completed: number
+  streak_freezes: number
+}
+
+export const fetchMasteryStats = () => api.get<MasteryStats>('/progress/stats').then((r) => r.data)
+
+export interface Quest {
+  id: string
+  title_es: string
+  target: number
+  progress: number
+  done: boolean
+}
+
+export const fetchQuests = () => api.get<Quest[]>('/progress/quests').then((r) => r.data)
 
 export const fetchSettings = () =>
   api.get<Record<string, unknown>>('/progress/settings').then((r) => r.data)

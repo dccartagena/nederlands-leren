@@ -39,7 +39,7 @@ def _card_to_orm(card: Card, sr: SRCard) -> SRCard:
     return sr
 
 
-def review_card(db: Session, card_id: int, rating_int: int, user_id: int):
+def review_card(db: Session, card_id: int, rating_int: int, user_id: int, xp_multiplier: float = 1.0):
     sr = db.query(SRCard).filter_by(id=card_id, user_id=user_id).first()
     if not sr:
         raise ValueError(f"Card {card_id} not found for user {user_id}")
@@ -49,7 +49,7 @@ def review_card(db: Session, card_id: int, rating_int: int, user_id: int):
     updated_card, _ = _scheduler.review_card(card, rating)
     _card_to_orm(updated_card, sr)
 
-    xp = _XP_MAP.get(rating_int, 10)
+    xp = round(_XP_MAP.get(rating_int, 10) * xp_multiplier)
     user = db.query(User).filter_by(id=user_id).first()
     if user:
         user.xp_total = (user.xp_total or 0) + xp

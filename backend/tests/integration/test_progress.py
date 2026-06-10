@@ -4,7 +4,7 @@ import os
 os.environ.setdefault("SECRET_KEY", "test-secret-key-for-pytest-only")
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 import pytest
 from app.db.models import VocabularyItem, SRCard, User
 
@@ -115,3 +115,104 @@ class TestReview:
         client.get("/api/v1/progress/user")
         resp = client.post("/api/v1/progress/review", json={"card_id": 99999, "rating": 3})
         assert resp.status_code in (400, 404, 422, 500)
+
+    def test_combo_multiplies_xp(self, client, db):
+        item = _seed_vocab(db)
+        client.get("/api/v1/progress/user")
+        card_id = client.post(f"/api/v1/progress/enroll/{item.id}").json()["card_id"]
+        resp = client.post(
+            "/api/v1/progress/review", json={"card_id": card_id, "rating": 3, "combo": True}
+        )
+        assert resp.status_code == 200
+        # Base XP for "Good" is 10; combo applies ×1.5
+        assert resp.json()["xp_earned"] == 15
+
+
+class TestMasteryStats:
+    def test_stats_empty_user(self, client, db):
+        resp = client.get("/api/v1/progress/stats")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["mastered_words"] == 0
+        assert data["enrolled_words"] == 0
+        assert data["stories_completed"] == 0
+
+    def test_stats_counts_mastered_cards(self, client, db):
+        item = _seed_vocab(db)
+        client.get("/api/v1/progress/user")
+        user = db.query(User).filter_by(id=1).first()
+        db.add(
+            SRCard(
+                user_id=user.id,
+                vocab_item_id=item.id,
+                stability=30.0,  # above the 21-day mastery threshold
+                difficulty=5.0,
+                state=2,
+                due_date=datetime.now(timezone.utc),
+            )
+        )
+        db.commit()
+        data = client.get("/api/v1/progress/stats").json()
+        assert data["mastered_words"] == 1
+        assert data["enrolled_words"] == 1
+        assert data["review_words"] == 1
+
+
+class TestDailyQuests:
+    def test_returns_three_quests(self, client, db):
+        resp = client.get("/api/v1/progress/quests")
+        assert resp.status_code == 200
+        quests = resp.json()
+        assert len(quests) == 3
+        assert all(q["progress"] == 0 and q["done"] is False for q in quests)
+
+    def test_review_advances_review_quest(self, client, db):
+        item = _seed_vocab(db)
+        client.get("/api/v1/progress/user")
+        card_id = client.post(f"/api/v1/progress/enroll/{item.id}").json()["card_id"]
+        client.post("/api/v1/progress/review", json={"card_id": card_id, "rating": 3})
+        quests = client.get("/api/v1/progress/quests").json()
+        review_quest = next(q for q in quests if q["id"].startswith("review_"))
+        assert review_quest["progress"] == 1
+
+
+class TestStreakFreeze:
+    def _review(self, client, db):
+        item = _seed_vocab(db)
+        client.get("/api/v1/progress/user")
+        card_id = client.post(f"/api/v1/progress/enroll/{item.id}").json()["card_id"]
+        client.post("/api/v1/progress/review", json={"card_id": card_id, "rating": 3})
+
+    def test_freeze_bridges_one_missed_day(self, client, db):
+        client.get("/api/v1/progress/user")
+        user = db.query(User).filter_by(id=1).first()
+        user.streak_days = 7
+        user.last_activity_date = (date.today() - timedelta(days=2)).isoformat()
+        user.settings_json = {"streak_freezes": 1}
+        db.commit()
+        self._review(client, db)
+        data = client.get("/api/v1/progress/user").json()
+        assert data["streak_days"] == 8
+        assert data["settings_json"]["streak_freezes"] == 0
+
+    def test_streak_resets_without_freeze(self, client, db):
+        client.get("/api/v1/progress/user")
+        user = db.query(User).filter_by(id=1).first()
+        user.streak_days = 7
+        user.last_activity_date = (date.today() - timedelta(days=2)).isoformat()
+        user.settings_json = {"streak_freezes": 0}
+        db.commit()
+        self._review(client, db)
+        data = client.get("/api/v1/progress/user").json()
+        assert data["streak_days"] == 1
+
+    def test_freeze_earned_at_streak_of_seven(self, client, db):
+        client.get("/api/v1/progress/user")
+        user = db.query(User).filter_by(id=1).first()
+        user.streak_days = 6
+        user.last_activity_date = (date.today() - timedelta(days=1)).isoformat()
+        db.commit()
+        self._review(client, db)
+        data = client.get("/api/v1/progress/user").json()
+        assert data["streak_days"] == 7
+        assert data["settings_json"]["streak_freezes"] == 1

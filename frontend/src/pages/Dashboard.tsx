@@ -1,8 +1,17 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchUserProgress, fetchDueCards, fetchXpHistory } from '@/lib/api'
+import {
+  fetchUserProgress,
+  fetchDueCards,
+  fetchXpHistory,
+  fetchMasteryStats,
+  fetchQuests,
+  type Quest,
+} from '@/lib/api'
 import { Link } from 'react-router-dom'
-import { BookOpen, MessageCircle, Flame, Star, Zap } from 'lucide-react'
+import { BookOpen, MessageCircle, Flame, Star, Zap, Brain, X } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useAppStore } from '@/stores/appStore'
 
 const DAILY_GOAL_XP = 50
 
@@ -100,8 +109,11 @@ const games = [
 ]
 
 export default function Dashboard() {
+  const sereneMode = useAppStore((s) => s.sereneMode)
   const { data: progress } = useQuery({ queryKey: ['user-progress'], queryFn: fetchUserProgress })
   const { data: dueCards } = useQuery({ queryKey: ['due-cards'], queryFn: () => fetchDueCards(5) })
+  const { data: stats } = useQuery({ queryKey: ['mastery-stats'], queryFn: fetchMasteryStats })
+  const { data: quests } = useQuery({ queryKey: ['quests'], queryFn: fetchQuests })
   const { data: todayHistory } = useQuery({
     queryKey: ['xp-history-today'],
     queryFn: () => fetchXpHistory(1),
@@ -112,20 +124,48 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-7">
+      {/* Mastery headline: real ability first, XP secondary */}
+      {stats && (
+        <div className="flex items-center gap-4 rounded-2xl border border-brand-200 bg-brand-50 p-4 dark:border-brand-800 dark:bg-brand-950/40">
+          <div className="rounded-xl bg-white p-2.5 dark:bg-gray-800">
+            <Brain size={24} className="text-brand-700 dark:text-brand-400" />
+          </div>
+          <div>
+            <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Dominas {stats.mastered_words} {stats.mastered_words === 1 ? 'palabra' : 'palabras'}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">
+              {stats.enrolled_words} en tu mazo · {stats.stories_completed} historias completadas
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats row */}
       {progress && (
         <div className="grid grid-cols-3 gap-3">
-          <StatCard
-            icon={<Star size={18} className="text-yellow-500" />}
-            value={progress.xp_total}
-            label="XP"
-            bg="bg-yellow-50 dark:bg-yellow-950/40"
-          />
+          {!sereneMode ? (
+            <StatCard
+              icon={<Star size={18} className="text-yellow-500" />}
+              value={progress.xp_total}
+              label="XP"
+              bg="bg-yellow-50 dark:bg-yellow-950/40"
+            />
+          ) : (
+            <StatCard
+              icon={<Brain size={18} className="text-brand-700 dark:text-brand-400" />}
+              value={stats?.mastered_words ?? 0}
+              label="dominadas"
+              bg="bg-brand-50 dark:bg-brand-950/40"
+            />
+          )}
           <StatCard
             icon={<Flame size={18} className="text-orange-500" />}
             value={progress.streak_days}
             label="días"
             bg="bg-orange-50 dark:bg-orange-950/40"
+            badge={stats && stats.streak_freezes > 0 ? '🧊' : undefined}
+            badgeTitle="Protector de racha disponible"
           />
           <StatCard
             icon={<BookOpen size={18} className="text-sky-500" />}
@@ -136,10 +176,11 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Level + daily goal card */}
-      {progress && (
-        <LevelCard xp={progress.xp_total} todayXp={todayXp} />
-      )}
+      {/* Level + daily goal card (XP-based — hidden in modo sereno) */}
+      {progress && !sereneMode && <LevelCard xp={progress.xp_total} todayXp={todayXp} />}
+
+      {/* Optional daily quests */}
+      {quests && quests.length > 0 && <QuestsCard quests={quests} />}
 
       {/* Due cards CTA */}
       {dueCount > 0 && (
@@ -228,14 +269,14 @@ function LevelCard({ xp, todayXp }: { xp: number; todayXp: number }) {
       <div>
         <div className="mb-1.5 flex items-center justify-between">
           <div>
-            <span className="text-xs text-gray-500 dark:text-gray-400">Nivel {current.level} · </span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              Nivel {current.level} ·{' '}
+            </span>
             <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
               {current.name}
             </span>
           </div>
-          {next && (
-            <span className="text-xs text-gray-400 dark:text-gray-500">→ {next.name}</span>
-          )}
+          {next && <span className="text-xs text-gray-400 dark:text-gray-500">→ {next.name}</span>}
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
           <motion.div
@@ -256,7 +297,13 @@ function LevelCard({ xp, todayXp }: { xp: number; todayXp: number }) {
       <div>
         <div className="mb-1.5 flex items-center justify-between text-xs">
           <span className="text-gray-500 dark:text-gray-400">Meta diaria</span>
-          <span className={dailyDone ? 'font-semibold text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}>
+          <span
+            className={
+              dailyDone
+                ? 'font-semibold text-green-600 dark:text-green-400'
+                : 'text-gray-500 dark:text-gray-400'
+            }
+          >
             {dailyDone ? '✓ ¡Meta cumplida!' : `${todayXp} / ${DAILY_GOAL_XP} XP`}
           </span>
         </div>
@@ -278,17 +325,95 @@ function StatCard({
   value,
   label,
   bg,
+  badge,
+  badgeTitle,
 }: {
   icon: React.ReactNode
   value: number
   label: string
   bg: string
+  badge?: string
+  badgeTitle?: string
 }) {
   return (
-    <div className={`flex flex-col items-center rounded-2xl py-4 ${bg}`}>
+    <div className={`relative flex flex-col items-center rounded-2xl py-4 ${bg}`}>
+      {badge && (
+        <span className="absolute right-2 top-2 text-sm" title={badgeTitle} aria-label={badgeTitle}>
+          {badge}
+        </span>
+      )}
       {icon}
       <div className="mt-1 text-2xl font-bold tabular-nums">{value}</div>
       <div className="text-xs text-gray-500 dark:text-gray-400">{label}</div>
     </div>
+  )
+}
+
+const questsSkipKey = () => `nl-quests-skipped:${new Date().toISOString().slice(0, 10)}`
+
+function loadSkippedQuests(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(questsSkipKey()) ?? '[]')
+  } catch {
+    return []
+  }
+}
+
+function QuestsCard({ quests }: { quests: Quest[] }) {
+  const [skipped, setSkipped] = useState<string[]>(loadSkippedQuests)
+
+  const skip = (id: string) => {
+    const next = [...skipped, id]
+    setSkipped(next)
+    localStorage.setItem(questsSkipKey(), JSON.stringify(next))
+  }
+
+  const visible = quests.filter((q) => !skipped.includes(q.id))
+  if (visible.length === 0) return null
+
+  return (
+    <section>
+      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+        Misiones de hoy <span className="normal-case">(opcionales)</span>
+      </h2>
+      <div className="space-y-2">
+        {visible.map((q) => (
+          <div
+            key={q.id}
+            className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800"
+          >
+            <span className="text-lg" aria-hidden>
+              {q.done ? '✅' : '🎯'}
+            </span>
+            <div className="min-w-0 flex-1">
+              <div
+                className={`text-sm font-medium ${q.done ? 'text-gray-400 line-through dark:text-gray-500' : ''}`}
+              >
+                {q.title_es}
+              </div>
+              <div className="mt-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700">
+                <div
+                  className={`h-1.5 rounded-full transition-all ${q.done ? 'bg-brand-500' : 'bg-yellow-400'}`}
+                  style={{ width: `${Math.min(100, (q.progress / q.target) * 100)}%` }}
+                />
+              </div>
+            </div>
+            <span className="text-xs tabular-nums text-gray-500 dark:text-gray-400">
+              {q.progress}/{q.target}
+            </span>
+            {!q.done && (
+              <button
+                onClick={() => skip(q.id)}
+                aria-label={`Saltar misión: ${q.title_es}`}
+                title="Saltar (sin penalización)"
+                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus-visible:ring-2 focus-visible:ring-brand-700 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }

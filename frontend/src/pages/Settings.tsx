@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useAppStore } from '@/stores/appStore'
 import { exportProgress } from '@/lib/api'
-import { Download, Upload, Sun, Moon, Volume2, VolumeX } from 'lucide-react'
+import { Download, Upload, Sun, Moon, Volume2, VolumeX, Leaf } from 'lucide-react'
 
 export default function Settings() {
   const {
@@ -13,6 +13,8 @@ export default function Settings() {
     setAudioEnabled,
     llmProvider,
     setLlmProvider,
+    sereneMode,
+    setSereneMode,
   } = useAppStore()
   const [importing, setImporting] = useState(false)
   const [importMsg, setImportMsg] = useState<string | null>(null)
@@ -95,6 +97,32 @@ export default function Settings() {
             </span>
           </div>
           <Toggle on={audioEnabled} />
+        </button>
+      </Section>
+
+      {/* Serene mode */}
+      <Section title="Modo sereno">
+        <button
+          onClick={() => setSereneMode(!sereneMode)}
+          className={`flex w-full items-center justify-between rounded-xl border p-4 transition-all ${
+            sereneMode
+              ? 'border-teal-200 bg-teal-50 dark:border-teal-800 dark:bg-teal-950/50'
+              : 'border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800'
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <Leaf
+              size={18}
+              className={sereneMode ? 'text-teal-600 dark:text-teal-400' : 'text-gray-400'}
+            />
+            <span className="text-left text-sm font-medium">
+              {sereneMode ? 'Modo sereno activado' : 'Modo sereno desactivado'}
+              <span className="mt-0.5 block text-xs font-normal text-gray-500 dark:text-gray-400">
+                Oculta XP y combos para estudiar sin puntuaciones
+              </span>
+            </span>
+          </div>
+          <Toggle on={sereneMode} />
         </button>
       </Section>
 

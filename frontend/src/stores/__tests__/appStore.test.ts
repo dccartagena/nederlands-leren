@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { useAppStore } from '@/stores/appStore'
 
 function resetStore() {
-  useAppStore.setState({ level: 'a0', theme: 'dark', audioEnabled: true })
+  useAppStore.setState({ level: 'a0', theme: 'dark', audioEnabled: true, sereneMode: false })
   localStorage.clear()
 }
 
@@ -48,6 +48,18 @@ describe('appStore', () => {
     useAppStore.getState().setLevel('a1')
     const stored = JSON.parse(localStorage.getItem('nl-app-settings') || '{}')
     expect(stored?.state?.level).toBe('a1')
+  })
+
+  it('sereneMode defaults to false and toggles', () => {
+    expect(useAppStore.getState().sereneMode).toBe(false)
+    useAppStore.getState().setSereneMode(true)
+    expect(useAppStore.getState().sereneMode).toBe(true)
+  })
+
+  it('persists sereneMode to localStorage', () => {
+    useAppStore.getState().setSereneMode(true)
+    const stored = JSON.parse(localStorage.getItem('nl-app-settings') || '{}')
+    expect(stored?.state?.sereneMode).toBe(true)
   })
 
   it('persists theme to localStorage', () => {

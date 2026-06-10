@@ -38,6 +38,20 @@ export const mockDueCards = [
   },
 ]
 
+export const mockMasteryStats = {
+  mastered_words: 12,
+  enrolled_words: 40,
+  review_words: 20,
+  stories_completed: 2,
+  streak_freezes: 1,
+}
+
+export const mockQuests = [
+  { id: 'review_10', title_es: 'Repasa 10 tarjetas', target: 10, progress: 3, done: false },
+  { id: 'story_1', title_es: 'Completa 1 historia', target: 1, progress: 0, done: false },
+  { id: 'xp_40', title_es: 'Gana 40 XP', target: 40, progress: 40, done: true },
+]
+
 export const mockReviewResponse = {
   card_id: 1,
   next_due: '2026-04-11T10:00:00Z',
@@ -122,6 +136,8 @@ export const handlers = [
   http.get(`${BASE}/progress/user`, () => HttpResponse.json(mockUserProgress)),
   http.get(`${BASE}/progress/due`, () => HttpResponse.json(mockDueCards)),
   http.get(`${BASE}/progress/history`, () => HttpResponse.json([])),
+  http.get(`${BASE}/progress/stats`, () => HttpResponse.json(mockMasteryStats)),
+  http.get(`${BASE}/progress/quests`, () => HttpResponse.json(mockQuests)),
   http.post(`${BASE}/progress/review`, () => HttpResponse.json(mockReviewResponse)),
   http.post(`${BASE}/progress/enroll/:id`, () => HttpResponse.json({ id: 1, vocab_item_id: 1 })),
 

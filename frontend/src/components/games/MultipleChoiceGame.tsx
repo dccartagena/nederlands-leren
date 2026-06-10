@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchVocabulary, getFeedback } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
+import SessionSummary from '@/components/SessionSummary'
+
+const ROUND_LENGTH = 10
 
 function fisherYatesShuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -36,14 +39,14 @@ export default function MultipleChoiceGame() {
   const [score, setScore] = useState({ correct: 0, total: 0 })
   const [question, setQuestion] = useState<ReturnType<typeof buildQuestion>>(null)
 
-  if (!question && vocab && vocab.length >= 4) {
+  if (!question && vocab && vocab.length >= 4 && score.total < ROUND_LENGTH) {
     setQuestion(buildQuestion(vocab))
   }
 
   const next = () => {
     setSelected(null)
     setFeedback(null)
-    if (vocab) setQuestion(buildQuestion(vocab))
+    setQuestion(score.total < ROUND_LENGTH && vocab ? buildQuestion(vocab) : null)
   }
 
   const handleSelect = async (index: number) => {
@@ -67,8 +70,40 @@ export default function MultipleChoiceGame() {
     }
   }
 
+  // Keyboard: 1–4 select an option, Enter advances
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
+      if (selected === null && ['1', '2', '3', '4'].includes(e.key)) {
+        e.preventDefault()
+        handleSelect(Number(e.key) - 1)
+      } else if (selected !== null && e.key === 'Enter') {
+        e.preventDefault()
+        next()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [selected, question, score.total])
+
   if (!vocab || vocab.length < 4)
     return <div className="py-12 text-center text-gray-400">Cargando vocabulario…</div>
+
+  if (score.total >= ROUND_LENGTH)
+    return (
+      <SessionSummary
+        correct={score.correct}
+        total={score.total}
+        onRestart={() => {
+          setScore({ correct: 0, total: 0 })
+          setSelected(null)
+          setFeedback(null)
+          setQuestion(buildQuestion(vocab))
+        }}
+      />
+    )
+
   if (!question) return null
 
   return (
@@ -77,6 +112,15 @@ export default function MultipleChoiceGame() {
         <span>
           Aciertos: {score.correct}/{score.total}
         </span>
+        <span>
+          Pregunta {score.total + 1} / {ROUND_LENGTH}
+        </span>
+      </div>
+      <div className="h-1.5 rounded-full bg-gray-200 dark:bg-gray-700">
+        <div
+          className="h-1.5 rounded-full bg-brand-600 transition-all"
+          style={{ width: `${(score.total / ROUND_LENGTH) * 100}%` }}
+        />
       </div>
 
       <div className="rounded-2xl border-2 border-brand-200 bg-white p-5 text-center dark:border-brand-600 dark:bg-gray-800">
@@ -92,7 +136,8 @@ export default function MultipleChoiceGame() {
         {question.options.map((opt, i) => {
           const isCorrect = opt.dutch_word === question.correct.dutch_word
           const isSelected = selected === i
-          let cls = 'p-3 rounded-xl border-2 text-sm font-medium transition-colors '
+          let cls =
+            'min-h-[44px] p-3 rounded-xl border-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 '
           if (selected !== null) {
             cls += isCorrect
               ? 'border-green-500 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300'
@@ -122,15 +167,16 @@ export default function MultipleChoiceGame() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           className="space-y-3"
+          aria-live="polite"
         >
-          {feedback && (
+          {(feedback || fbLoading) && (
             <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
               {fbLoading ? 'Cargando retroalimentación…' : feedback}
             </div>
           )}
           <button
             onClick={next}
-            className="mx-auto flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2 text-sm text-white transition-colors hover:bg-brand-600"
+            className="mx-auto flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-500 px-5 py-2 text-sm text-white transition-colors hover:bg-brand-600 focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2"
           >
             <RefreshCw size={16} /> Siguiente
           </button>

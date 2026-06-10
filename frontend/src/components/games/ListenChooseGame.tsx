@@ -38,7 +38,7 @@ export default function ListenChooseGame() {
 
       <button
         onClick={playAudio}
-        className="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-full bg-brand-100 text-sm font-medium text-brand-500 transition-colors hover:bg-brand-200 dark:bg-brand-900 dark:text-brand-300 dark:hover:bg-brand-600"
+        className="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-full bg-brand-100 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-200 dark:bg-brand-900 dark:text-brand-300 dark:hover:bg-brand-600"
       >
         <Volume2 size={32} />
         Escuchar
