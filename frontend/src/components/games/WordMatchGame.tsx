@@ -67,7 +67,7 @@ export default function WordMatchGame() {
       )
     if (selected)
       return (
-        base + 'border-brand-400 bg-brand-100 dark:bg-brand-900 text-brand-500 dark:text-brand-300'
+        base + 'border-brand-400 bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300'
       )
     return (
       base +

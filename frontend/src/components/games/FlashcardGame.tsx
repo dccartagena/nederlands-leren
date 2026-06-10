@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { fetchDueCards, submitReview } from '@/lib/api'
+import { fetchDueCards, submitReview, vocabAudioUrl } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Volume2 } from 'lucide-react'
+import { Volume2, Snail } from 'lucide-react'
+import SessionSummary from '@/components/SessionSummary'
+
+const COMBO_THRESHOLD = 5
 
 const RATING_LABELS: Record<number, string> = {
   1: 'Otra vez',
@@ -20,22 +23,45 @@ const RATING_COLORS: Record<number, string> = {
 
 export default function FlashcardGame() {
   const audioEnabled = useAppStore((s) => s.audioEnabled)
+  const sereneMode = useAppStore((s) => s.sereneMode)
   const queryClient = useQueryClient()
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [xpGained, setXpGained] = useState(0)
+  const [correctCount, setCorrectCount] = useState(0)
+  const [ratedCount, setRatedCount] = useState(0)
+  const [combo, setCombo] = useState(0)
+  const [maxCombo, setMaxCombo] = useState(0)
+  const [promotions, setPromotions] = useState(0)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const { data: cards, isLoading } = useQuery({
     queryKey: ['due-cards-game'],
     queryFn: () => fetchDueCards(20),
   })
 
+  const card = cards?.[index]
+  const comboActive = combo >= COMBO_THRESHOLD
+
   const reviewMutation = useMutation({
     mutationFn: ({ cardId, rating }: { cardId: number; rating: 1 | 2 | 3 | 4 }) =>
-      submitReview(cardId, rating),
-    onSuccess: (data) => {
+      submitReview(cardId, rating, comboActive),
+    onSuccess: (data, { rating }) => {
       setXpGained((x) => x + data.xp_earned)
+      setRatedCount((n) => n + 1)
+      if (card && data.state > card.state) setPromotions((n) => n + 1)
+      if (rating >= 3) {
+        setCorrectCount((n) => n + 1)
+        setCombo((c) => {
+          const next = c + 1
+          setMaxCombo((m) => Math.max(m, next))
+          return next
+        })
+      } else {
+        setCombo(0)
+      }
       queryClient.invalidateQueries({ queryKey: ['due-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['quests'] })
       nextCard()
     },
   })
@@ -45,29 +71,64 @@ export default function FlashcardGame() {
     setIndex((i) => i + 1)
   }
 
-  const playAudio = (path: string) => {
+  const playAudio = (url: string, rate = 1) => {
     if (!audioEnabled) return
-    const url = path.startsWith('audio/') ? `/${path}` : `/audio/${path}`
     const audio = new Audio(url)
+    audio.playbackRate = rate
+    audioRef.current = audio
     audio.play().catch(() => {})
   }
+
+  const rate = (r: 1 | 2 | 3 | 4) => {
+    if (!card || reviewMutation.isPending) return
+    reviewMutation.mutate({ cardId: card.id, rating: r })
+  }
+
+  // Keyboard shortcuts: Space = flip, 1–4 = FSRS rating
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
+      if (!card) return
+      if (e.code === 'Space') {
+        e.preventDefault()
+        setFlipped((f) => !f)
+      } else if (flipped && ['1', '2', '3', '4'].includes(e.key)) {
+        e.preventDefault()
+        rate(Number(e.key) as 1 | 2 | 3 | 4)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [card?.id, flipped, comboActive, reviewMutation.isPending])
 
   if (isLoading) return <LoadingPlaceholder />
   if (!cards || cards.length === 0) return <EmptyState />
 
-  const card = cards[index]
   if (!card)
     return (
-      <FinishedState
+      <SessionSummary
+        correct={correctCount}
+        total={ratedCount}
         xpGained={xpGained}
+        promotions={promotions}
+        maxCombo={maxCombo}
         onRestart={() => {
           setIndex(0)
+          setFlipped(false)
           setXpGained(0)
+          setCorrectCount(0)
+          setRatedCount(0)
+          setCombo(0)
+          setMaxCombo(0)
+          setPromotions(0)
+          queryClient.invalidateQueries({ queryKey: ['due-cards-game'] })
         }}
       />
     )
 
   const item = card.vocab_item
+  const audioFile = vocabAudioUrl(item.id)
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -77,7 +138,17 @@ export default function FlashcardGame() {
           <span>
             {index + 1} / {cards.length}
           </span>
-          <span className="text-yellow-600">+{xpGained} XP</span>
+          <span className="flex items-center gap-2">
+            {!sereneMode && comboActive && (
+              <span
+                className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-700 dark:bg-orange-950 dark:text-orange-300"
+                aria-live="polite"
+              >
+                🔥 Combo ×1.5
+              </span>
+            )}
+            {!sereneMode && <span className="text-yellow-600">+{xpGained} XP</span>}
+          </span>
         </div>
         <div className="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
           <div
@@ -104,25 +175,40 @@ export default function FlashcardGame() {
           >
             {!flipped ? (
               <>
-                <div className="text-4xl font-bold text-brand-500 dark:text-brand-300">
+                <div className="text-4xl font-bold text-brand-700 dark:text-brand-300">
                   {item.article ? `${item.article} ` : ''}
                   {item.dutch_word}
                 </div>
                 {item.example_nl && (
-                  <div className="mt-3 text-center text-sm italic text-gray-400">
+                  <div className="mt-3 text-center text-sm italic text-gray-500 dark:text-gray-400">
                     {item.example_nl}
                   </div>
                 )}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    playAudio(`/audio/gtts_${item.dutch_word}_${item.level}.wav`)
-                  }}
-                  className="mt-4 rounded-full bg-brand-50 p-2 text-brand-500 transition-colors hover:bg-brand-100 dark:bg-brand-900 dark:text-brand-300 dark:hover:bg-brand-600"
-                >
-                  <Volume2 size={20} />
-                </button>
-                <div className="mt-4 text-xs text-gray-400">Toca para ver la respuesta</div>
+                <div className="mt-4 flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      playAudio(audioFile)
+                    }}
+                    aria-label="Escuchar pronunciación"
+                    className="min-h-[44px] min-w-[44px] rounded-full bg-brand-50 p-2 text-brand-700 transition-colors hover:bg-brand-100 focus-visible:ring-2 focus-visible:ring-brand-700 dark:bg-brand-900 dark:text-brand-300 dark:hover:bg-brand-600"
+                  >
+                    <Volume2 size={20} className="mx-auto" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      playAudio(audioFile, 0.7)
+                    }}
+                    aria-label="Escuchar despacio"
+                    className="min-h-[44px] min-w-[44px] rounded-full bg-gray-100 p-2 text-gray-600 transition-colors hover:bg-gray-200 focus-visible:ring-2 focus-visible:ring-brand-700 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                  >
+                    <Snail size={20} className="mx-auto" />
+                  </button>
+                </div>
+                <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                  Toca o pulsa Espacio para ver la respuesta
+                </div>
               </>
             ) : (
               <>
@@ -130,7 +216,7 @@ export default function FlashcardGame() {
                   {item.spanish}
                 </div>
                 {item.example_es && (
-                  <div className="mt-3 text-center text-sm italic text-gray-400">
+                  <div className="mt-3 text-center text-sm italic text-gray-500 dark:text-gray-400">
                     {item.example_es}
                   </div>
                 )}
@@ -150,11 +236,12 @@ export default function FlashcardGame() {
           {([1, 2, 3, 4] as const).map((r) => (
             <button
               key={r}
-              onClick={() => reviewMutation.mutate({ cardId: card.id, rating: r })}
+              onClick={() => rate(r)}
               disabled={reviewMutation.isPending}
-              className={`rounded-xl py-2 text-sm font-medium transition-colors ${RATING_COLORS[r]}`}
+              className={`min-h-[44px] rounded-xl py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 ${RATING_COLORS[r]}`}
             >
               {RATING_LABELS[r]}
+              <span className="ml-1 hidden text-xs opacity-50 sm:inline">{r}</span>
             </button>
           ))}
         </motion.div>
@@ -177,22 +264,6 @@ function EmptyState() {
       <div className="text-sm text-gray-500 dark:text-gray-400">
         Añade vocabulario desde las lecciones para empezar.
       </div>
-    </div>
-  )
-}
-
-function FinishedState({ xpGained, onRestart }: { xpGained: number; onRestart: () => void }) {
-  return (
-    <div className="space-y-3 py-12 text-center">
-      <div className="text-5xl">✅</div>
-      <div className="text-xl font-bold">¡Sesión completada!</div>
-      <div className="font-semibold text-yellow-600">+{xpGained} XP ganados</div>
-      <button
-        onClick={onRestart}
-        className="mt-4 rounded-xl bg-brand-500 px-6 py-2 text-white transition-colors hover:bg-brand-600"
-      >
-        Repetir
-      </button>
     </div>
   )
 }

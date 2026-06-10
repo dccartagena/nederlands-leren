@@ -16,3 +16,10 @@
     @apply bg-gray-50 font-sans text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100;
   }
 }
+
+@layer base {
+  /* WCAG 2.1: visible keyboard focus everywhere; brand-700 passes AA on white */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-700 ring-offset-2 ring-offset-white dark:ring-brand-400 dark:ring-offset-gray-900;
+  }
+}

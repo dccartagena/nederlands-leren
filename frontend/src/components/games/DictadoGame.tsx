@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchVocabulary } from '@/lib/api'
+import { fetchVocabulary, vocabAudioUrl } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { Volume2, RefreshCw } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -31,8 +31,7 @@ export default function DictadoGame() {
 
   const playAudio = () => {
     if (!currentWord || !audioEnabled) return
-    const path = `/audio/gtts_${currentWord.dutch_word}_${currentWord.level}.wav`
-    const audio = new Audio(path)
+    const audio = new Audio(vocabAudioUrl(currentWord.id))
     audio.play().catch(() => {})
   }
 
@@ -41,7 +40,6 @@ export default function DictadoGame() {
     if (!currentWord) return
     const t = setTimeout(playAudio, 200)
     return () => clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWord?.dutch_word])
 
   const handleSubmit = () => {
@@ -65,10 +63,18 @@ export default function DictadoGame() {
   }
 
   if (isLoading || !shuffled?.length)
-    return <div className="py-12 text-center text-gray-400 dark:text-gray-500">Cargando vocabulario…</div>
+    return (
+      <div className="py-12 text-center text-gray-400 dark:text-gray-500">
+        Cargando vocabulario…
+      </div>
+    )
 
   if (!currentWord)
-    return <div className="py-12 text-center text-gray-400 dark:text-gray-500">No hay palabras disponibles.</div>
+    return (
+      <div className="py-12 text-center text-gray-400 dark:text-gray-500">
+        No hay palabras disponibles.
+      </div>
+    )
 
   return (
     <div className="mx-auto flex max-w-sm flex-col items-center gap-6">

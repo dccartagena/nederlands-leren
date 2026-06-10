@@ -24,7 +24,9 @@ export default function StoryModeGame() {
   const [showSpanish, setShowSpanish] = useState(false)
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [currentQ, setCurrentQ] = useState(0)
-  const [sessionResult, setSessionResult] = useState<{ xp: number; achievements: string[] } | null>(null)
+  const [sessionResult, setSessionResult] = useState<{ xp: number; achievements: string[] } | null>(
+    null
+  )
   const [selectedWord, setSelectedWord] = useState<VocabularyItem | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -100,7 +102,11 @@ export default function StoryModeGame() {
       } else {
         const questions = story?.questions_json ?? []
         const correctCount = updated.filter((a, i) => a === questions[i]?.answer_index).length
-        completeMutation.mutate({ slug: selectedSlug!, correct: correctCount, total: questions.length })
+        completeMutation.mutate({
+          slug: selectedSlug!,
+          correct: correctCount,
+          total: questions.length,
+        })
         setPhase('results')
       }
     }, 900)
@@ -132,7 +138,9 @@ export default function StoryModeGame() {
   if (phase === 'list') {
     if (loadingList)
       return (
-        <div className="py-12 text-center text-gray-400 dark:text-gray-500">Cargando historias…</div>
+        <div className="py-12 text-center text-gray-400 dark:text-gray-500">
+          Cargando historias…
+        </div>
       )
     if (!stories?.length)
       return (
@@ -263,7 +271,10 @@ export default function StoryModeGame() {
                     {selectedWord.article ? `${selectedWord.article} ` : ''}
                     {selectedWord.dutch_word}
                   </span>
-                  <span className="text-gray-600 dark:text-gray-300"> → {selectedWord.spanish}</span>
+                  <span className="text-gray-600 dark:text-gray-300">
+                    {' '}
+                    → {selectedWord.spanish}
+                  </span>
                   {selectedWord.word_type && (
                     <span className="ml-2 text-xs text-gray-400">({selectedWord.word_type})</span>
                   )}
@@ -406,7 +417,9 @@ export default function StoryModeGame() {
             className="rounded-xl border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
           >
             🏅{' '}
-            {sessionResult.achievements.length === 1 ? '¡Nuevo logro desbloqueado!' : '¡Nuevos logros!'}
+            {sessionResult.achievements.length === 1
+              ? '¡Nuevo logro desbloqueado!'
+              : '¡Nuevos logros!'}
           </motion.div>
         ) : null}
 
@@ -417,7 +430,7 @@ export default function StoryModeGame() {
               setAnswers([])
               setCurrentQ(0)
             }}
-            className="flex items-center gap-2 rounded-xl border border-brand-400 px-5 py-2 text-sm text-brand-500 transition-colors hover:bg-brand-50 dark:text-brand-300 dark:hover:bg-brand-950"
+            className="flex items-center gap-2 rounded-xl border border-brand-400 px-5 py-2 text-sm text-brand-700 transition-colors hover:bg-brand-50 dark:text-brand-300 dark:hover:bg-brand-950"
           >
             <BookOpen size={16} /> Releer historia
           </button>
@@ -459,7 +472,7 @@ function ClickableStoryText({
               return vocab ? (
                 <button
                   key={ti}
-                  className="rounded underline decoration-dotted transition-colors hover:text-brand-700 text-brand-600 dark:text-brand-400 dark:hover:text-brand-200"
+                  className="rounded text-brand-600 underline decoration-dotted transition-colors hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-200"
                   onClick={() => onWordClick(vocab)}
                 >
                   {token}

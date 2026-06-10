@@ -1,21 +1,47 @@
 # Nederlands Leren 🇳🇱
 
-A web-based Dutch ↔ Spanish language learning app targeting CEFR levels A0 and A1.  
+A web-based Dutch ↔ Spanish language learning app targeting CEFR levels A0–A2.
 The interface and all explanations are in **Spanish** — aimed at Spanish speakers learning Dutch.
+
+Pedagogy, gamification, and UI follow a research-grounded design: retrieval practice and FSRS spacing, Nation's four strands, Self-Determination Theory for the game layer, and Mayer's multimedia principles for the UI. The day-to-day routine is described in [`docs/USAGE_PROTOCOL.md`](docs/USAGE_PROTOCOL.md).
 
 ---
 
 ## Features
 
-- **7 game types**: Flashcards (FSRS spaced repetition), Listen & Choose, Word Match, Multiple Choice, Fill in Blank, Sentence Unscramble, Story Mode
-- **Spaced repetition** with the [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki) — cards schedule themselves; streak tracking and XP per review
-- **LLM integration**: grammar explanations, wrong-answer feedback, dynamic exercise generation, Dutch conversation chat — Gemini primary, Ollama fallback
-- **Audio**: Gemini 2.5 Flash TTS for high-quality Dutch audio (Northern Dutch accent); gTTS as fallback
-- **Progress tracking**: daily XP bar chart, achievement badges (6 built-in), due-card CTA on dashboard
-- **Progress backup**: export full progress to JSON; import it back after reinstalls or migrations
-- **Settings page**: level selector, audio toggle, LLM provider, dark/light mode
-- **Dark mode** throughout; Duolingo-inspired design (brand green `#58CC02`, Inter font)
-- Single-user — no authentication; SQLite (dev) or PostgreSQL (prod)
+### Learning
+
+- **10 game types**: Flashcards (FSRS), Listen & Choose, Word Match, Multiple Choice, Fill in Blank, Sentence Unscramble, Story Mode, Dictado, **Escribir** (typed ES→NL production with article-aware grading) and **Hablar** (Web Speech API pronunciation practice, Chromium)
+- **Spaced repetition** with the [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki): desired retention 0.90, daily new-card cap (15), per-review `ReviewLog` history, and automatic parameter optimization once ≥1,000 reviews accrue
+- **Elaborative feedback**: wrong answers get an LLM explanation in Spanish, rendered next to the answer; wrong *de/het* articles get a targeted contrast note
+- **"Trampas del neerlandés"**: curated contrastive lessons for Spanish speakers (V2 word order, separable verbs, de/het, *er*, false friends)
+- **LLM integration**: grammar explanations, wrong-answer feedback, vocabulary-constrained i+1 story generation, Dutch conversation chat — Gemini primary, Ollama fallback
+
+### Gamification (SDT-designed)
+
+- **Mastery first**: the headline metric is "Dominas N palabras" (cards with FSRS stability >21 days), not XP
+- **Tiered, visible achievement map** (17 badges) with progress bars toward every tier
+- **Optional daily quests** (4 categories, rotating, skippable without penalty)
+- **Streak with earnable freeze**: one freeze banked per 7-day streak; bridges a single missed day automatically
+- **In-session combo** (×1.5 XP after 5 correct) and end-of-session summaries (accuracy, XP, promoted cards)
+- **Modo sereno**: hides XP/combos entirely for score-free study
+- **Progress page**: 365-day activity heatmap, weekly XP chart, four-strands balance meter (input / output / study / fluency)
+
+### Operations (automated)
+
+- **Background scheduler** inside the backend process — no manual maintenance:
+  auto-seed on startup, daily progress backups, daily audio gap-fill, weekly FSRS optimization, opt-in weekly content refresh (ETL)
+- **Maintenance panel** in Settings: job status, last run, run-now buttons
+- **On-demand audio**: `GET /api/v1/vocabulary/{id}/audio` resolves/synthesizes audio server-side — games never depend on files existing
+- **Curate-first content pipeline** (`backend/scripts/etl/`): open data (NT2Lex, Wiktionary, Tatoeba, wordfreq) provides the facts; the LLM only enriches and gap-fills; a validation gate enforces article/plural correctness and ≥95% i+1 story coverage
+- **License hygiene**: per-item `source`/`license`/`attribution` columns; `ATTRIBUTIONS.md` regenerated on every seed
+
+### Platform
+
+- Keyboard-first play (Space = flip, 1–4 = rate, Enter = continue), 0.7× slow audio replay, WCAG AA color contrast and focus rings
+- Dark mode throughout; Duolingo-inspired design (Inter font, brand green fills with AA-compliant text greens)
+- Progress export/import (includes the full FSRS review history)
+- Single-user, local-first — no authentication; SQLite (dev) or PostgreSQL (prod)
 
 ---
 
@@ -37,10 +63,7 @@ source .venv/bin/activate
 
 uv pip install -r requirements.txt
 
-# Seed the database from data/ JSON files (idempotent — safe to re-run)
-python scripts/seed_content.py
-
-# Start the API
+# Start the API — the database is created and seeded automatically on startup
 uvicorn app.main:app --reload
 # → http://localhost:8000
 # → http://localhost:8000/docs  (Swagger UI)
@@ -76,63 +99,73 @@ All settings are read from `backend/.env` (copy from `.env.example`).
 | `PIXABAY_API_KEY` | _(empty)_ | Free key for vocabulary images |
 | `AUDIO_DIR` | `…/data/audio` | Where audio files are stored/served |
 
+### Automation flags
+
+| Variable | Default | Description |
+|---|---|---|
+| `SCHEDULER_ENABLED` | `true` | Master switch for the background job loop |
+| `AUTO_SEED` | `true` | Seed `data/` JSON into the DB on startup + daily (idempotent) |
+| `AUTO_BACKUP` | `true` | Daily progress export to `data/backups/` |
+| `AUTO_AUDIO_GAPFILL` | `true` | Daily gTTS synthesis for vocabulary without audio |
+| `AUTO_FSRS_OPTIMIZE` | `true` | Weekly FSRS parameter optimization (needs `pip install "fsrs[optimizer]"`) |
+| `AUTO_CONTENT_REFRESH` | `false` | Weekly full ETL refresh — **large downloads**, enable deliberately |
+| `BACKUP_RETENTION` | `14` | Number of daily backups to keep |
+| `AUDIO_GAPFILL_BATCH` | `50` | Max audio syntheses per job run |
+| `SCHEDULER_TICK_SECONDS` | `1800` | Scheduler wake-up interval |
+
 ---
 
-## Seeding Content
+## Background Jobs & Maintenance
 
-### From JSON files (no API key required)
-
-The `data/` directory contains JSON files for vocabulary, grammar, and stories. Seeding is idempotent.
+The backend runs an in-process scheduler (asyncio — no Celery/Redis needed for a local deployment). Job status and manual triggers are in **Ajustes → Mantenimiento automático**, or via the API:
 
 ```bash
-cd backend && source .venv/bin/activate
-
-# Load all JSON files into the database
-python scripts/seed_content.py
+curl http://localhost:8000/api/v1/admin/jobs                       # status of all jobs
+curl -X POST http://localhost:8000/api/v1/admin/jobs/backup_progress/run   # run one now
 ```
 
-### Generate audio
+| Job | Cadence | What it does |
+|---|---|---|
+| `seed_content` | startup + daily | `data/` JSON → DB, regenerates `ATTRIBUTIONS.md` |
+| `backup_progress` | daily | dated export to `data/backups/`, prunes by retention |
+| `audio_gapfill` | daily | synthesizes audio for vocabulary that has none |
+| `fsrs_optimize` | weekly | recomputes FSRS parameters from your review history (≥1,000 logs) |
+| `content_refresh` | weekly (opt-in) | full ETL pipeline + reseed |
+
+---
+
+## Content Pipeline (curate-first)
+
+Authoritative facts come from open data — never from the LLM:
+
+| Source | Provides | License |
+|---|---|---|
+| [NT2Lex](https://github.com/anaistack/NT2Lex) | CEFR level per lemma | CC BY-NC-SA 4.0 |
+| [Wiktionary (kaikki.org)](https://kaikki.org/dictionary/Dutch) | de/het article, plural, IPA, ES glosses | CC BY-SA 3.0 |
+| [Tatoeba](https://tatoeba.org) | NL↔ES example sentences + cloze material | CC BY 2.0 FR |
+| [`wordfreq`](https://pypi.org/project/wordfreq/) | Zipf frequency (SUBTLEX substitute) | MIT |
 
 ```bash
-# High-quality Dutch audio via Gemini TTS (requires GEMINI_API_KEY)
-python scripts/gemini_tts.py --type vocabulary          # all levels
-python scripts/gemini_tts.py --type stories --level a0  # A0 stories only
-python scripts/gemini_tts.py --type vocabulary --level a0 --max-items 5  # smoke test
-python scripts/gemini_tts.py --type vocabulary --dry-run  # preview without writing
-
-# gTTS fallback (no API key, lower quality)
-python scripts/download_audio.py
+cd backend
+python scripts/etl/fetch_sources.py            # download sources (large!) → data/sources/
+python scripts/etl/build_lexicon.py            # → data/lexicon/nl_canonical.jsonl (+ conflicts)
+python scripts/etl/build_sentences.py          # → graded NL↔ES sentences + per-lemma examples
+python scripts/etl/validate.py --stamp         # the gate: schema, article/plural, ≥95% i+1 coverage
+python scripts/etl/coverage_report.py          # level × theme completeness matrix
 ```
 
-Output: `gemini_<word>_<level>.wav` / `gemini_<slug>.wav` in `data/audio/`.
+The validation gate sends failures to `data/review_queue/` instead of letting them reach the app. LanguageTool (`pip install language_tool_python`, needs Java) is used automatically when installed.
 
-### Generate vocabulary images
+The LLM is used only for: choosing the best Spanish gloss, contrast notes, vocabulary-constrained i+1 stories (`generate_story_constrained` — known words + ≤5 new, regenerated until the coverage gate passes), and adapting grammar explanations.
+
+### Manual content scripts (still available)
 
 ```bash
-# Requires PIXABAY_API_KEY in .env
-python scripts/populate_images.py --level a0
-python scripts/populate_images.py --level a1
+python scripts/seed_content.py                                   # manual seed (auto on startup)
+python scripts/gemini_tts.py --type vocabulary --level a0        # high-quality TTS (GEMINI_API_KEY)
+python scripts/populate_images.py --level a0                     # Pixabay images (PIXABAY_API_KEY)
+python scripts/populate_content.py --levels a1 --types vocab --batch   # LLM batch generation
 ```
-
-### LLM content generation (A1/A2 expansion)
-
-Requires `GEMINI_API_KEY` and `GEMINI_MODEL` in `.env`.
-
-```bash
-# Dry-run preview
-python scripts/populate_content.py --levels a1 --types vocab --dry-run
-
-# Generate A1 vocabulary and stories (batch API — cheaper, async)
-python scripts/populate_content.py --levels a1 --types vocab stories --batch
-
-# Generate A2 stories
-python scripts/populate_content.py --levels a2 --types stories --batch
-
-# Re-seed after generation
-python scripts/seed_content.py
-```
-
-Themes and word counts are configured in `scripts/populate_config.json`.
 
 ---
 
@@ -142,18 +175,11 @@ Themes and word counts are configured in `scripts/populate_config.json`.
 
 ```bash
 cd backend && source .venv/bin/activate
+uv pip install -r requirements-dev.txt   # first time
 
-# Install dev dependencies (first time)
-uv pip install -r requirements-dev.txt
-
-# Run all tests
-pytest
-
-# With coverage report
+pytest                                   # all tests (scheduler disabled in tests)
 pytest --cov=app --cov-report=term-missing
-
-# Single test
-pytest tests/unit/test_spaced_repetition.py::test_new_card_state
+pytest tests/unit/test_spaced_repetition.py::test_new_card_state   # single test
 ```
 
 Coverage threshold: ≥70% (enforced in CI).
@@ -162,7 +188,6 @@ Coverage threshold: ≥70% (enforced in CI).
 
 ```bash
 cd frontend
-
 npm run test            # single run
 npm run test:watch      # watch mode
 npm run test:coverage   # v8 coverage report
@@ -174,7 +199,6 @@ npm run test:coverage   # v8 coverage report
 # Backend
 cd backend && source .venv/bin/activate
 ruff check app/           # lint
-ruff check app/ --fix     # lint + auto-fix
 mypy app/                 # type check
 bandit -r app/ -c pyproject.toml  # security scan
 
@@ -189,7 +213,7 @@ npm run format            # Prettier
 
 ## Adding Content
 
-All content is plain JSON in `data/` — no code changes needed.
+All content is plain JSON in `data/` — no code changes needed, and the seed job picks it up automatically (startup/daily, or run it from Settings).
 
 **Add vocabulary** — append to `data/vocabulary/a0_words.json` (or `a1_words.json`):
 
@@ -208,7 +232,9 @@ All content is plain JSON in `data/` — no code changes needed.
 }
 ```
 
-**Add grammar topics** — append to `data/grammar/a0_grammar.json`:
+Optional curated/pipeline fields: `frequency_zipf`, `cefr_level`, `ipa`, `contrast_note_es`, `cloze_sentences_json`, `source`, `source_license`, `attribution`, `validated`.
+
+**Add grammar topics** — append to `data/grammar/a0_grammar.json` (see `data/grammar/trampas_grammar.json` for contrastive examples):
 
 ```json
 {
@@ -245,28 +271,22 @@ All content is plain JSON in `data/` — no code changes needed.
 }
 ```
 
-Re-seed after any changes:
-
-```bash
-cd backend && python scripts/seed_content.py
-```
+Run `python scripts/etl/validate.py` to check new content against the gate before it ships.
 
 ---
 
 ## Progress Backup
 
-From the **Settings** page in the app:
+Backups happen **automatically every day** to `data/backups/` (retention configurable). Manual options from the **Settings** page:
 
-- **Exportar progreso** — downloads a `progress-YYYY-MM-DD.json` file with all SR cards, sessions, and user stats
-- **Importar progreso** — uploads that file to restore after a reinstall or Docker rebuild; merges cards by vocab ID
+- **Exportar progreso** — downloads a `progress-YYYY-MM-DD.json` with all SR cards, sessions, review logs, and user stats
+- **Importar progreso** — restores after a reinstall or Docker rebuild; merges cards by vocab ID
 
 Via the API directly:
 
 ```bash
-# Export
 curl http://localhost:8000/api/v1/progress/export -o progress-backup.json
 
-# Import
 curl -X POST http://localhost:8000/api/v1/progress/import/json \
   -H "Content-Type: application/json" \
   -d @progress-backup.json
@@ -281,19 +301,27 @@ curl -X POST http://localhost:8000/api/v1/progress/import/json \
 | GET | `/api/v1/health` | Health check |
 | GET | `/api/v1/vocabulary/` | List vocabulary (`?level=a0&theme=animales`) |
 | GET | `/api/v1/vocabulary/{id}` | Single item |
+| GET | `/api/v1/vocabulary/{id}/audio` | Audio for an item (resolved/synthesized on demand) |
 | GET | `/api/v1/grammar/` | Grammar topics (`?level=a0`) |
 | GET | `/api/v1/grammar/{slug}` | Single topic |
 | GET | `/api/v1/stories/` | Story list (`?level=a0`) |
 | GET | `/api/v1/stories/{slug}` | Story detail |
 | GET | `/api/v1/progress/user` | User stats (XP, streak, achievements) |
-| GET | `/api/v1/progress/due` | Due FSRS cards (`?limit`, default 20, max 50) |
-| POST | `/api/v1/progress/review` | Submit review rating (1–4); returns XP + new achievements |
+| GET | `/api/v1/progress/stats` | Mastery metrics (mastered words, stories, freezes) |
+| GET | `/api/v1/progress/due` | Due FSRS cards (new cards capped at 15/day) |
+| POST | `/api/v1/progress/review` | Submit review rating 1–4 (`combo` applies ×1.5 XP); writes a ReviewLog |
 | POST | `/api/v1/progress/enroll/{id}` | Add vocab item to SR deck |
-| GET | `/api/v1/progress/history` | Daily XP for last N days (`?days=7`) |
+| POST | `/api/v1/progress/session-complete` | Report a non-FSRS game round (XP, quests, strands) |
+| POST | `/api/v1/progress/story-complete` | Report a story quiz result |
+| GET | `/api/v1/progress/quests` | Today's optional quests (rotating, with progress) |
+| GET | `/api/v1/progress/strands` | Weekly activity per learning strand |
+| GET | `/api/v1/progress/history` | Daily XP for last N days (`?days=365` for the heatmap) |
 | GET | `/api/v1/progress/settings` | User settings JSON |
 | PUT | `/api/v1/progress/settings` | Update user settings |
-| GET | `/api/v1/progress/export` | Full progress export (JSON file download) |
+| GET | `/api/v1/progress/export` | Full progress export (incl. review logs) |
 | POST | `/api/v1/progress/import/json` | Restore from export file |
+| GET | `/api/v1/admin/jobs` | Background job status |
+| POST | `/api/v1/admin/jobs/{name}/run` | Trigger a job now |
 | GET | `/api/v1/exercises/listen-choose` | Listen & choose exercise |
 | GET | `/api/v1/exercises/word-match` | Word match pairs (`?count`, default 6, max 10) |
 | GET | `/api/v1/exercises/fill-blank` | Fill-in-blank exercise |
@@ -338,6 +366,8 @@ docker compose up --build
 | App     | http://localhost:80 |
 | API     | http://localhost:8000 |
 
+The scheduler runs inside the backend container — no extra services needed.
+
 ---
 
 ## CI
@@ -362,24 +392,27 @@ flowchart LR
     subgraph FE ["Frontend — React/Vite :5173"]
         direction TB
         Pages["Pages\nDashboard · Lesson · Practice\nProgress · Chat · Settings"]
-        Games["Games ×7\nFlashcard · Listen · Match\nMC · Fill · Unscramble · Story"]
-        Store[("Zustand\nlevel · theme · audio")]
+        Games["Games ×10\nFlashcard · Listen · Match · MC\nFill · Unscramble · Story\nDictado · Escribir · Hablar"]
+        Store[("Zustand\nlevel · theme · audio · sereno")]
         APIClient["lib/api.ts\nAxios + TanStack Query"]
     end
 
     subgraph BE ["Backend — FastAPI :8000"]
         direction TB
         Router["/api/v1 Router"]
+        Scheduler["Background scheduler\nseed · backup · audio\nFSRS optimize · ETL refresh"]
         subgraph Services
-            FSRS["FSRS Service"]
+            FSRS["FSRS Service\n+ ReviewLog"]
             LLMSvc["LLM Service"]
-            AudioSvc["Audio Service"]
+            AudioSvc["Audio Service\non-demand synthesis"]
+            Seeder["Content Seeder"]
         end
     end
 
     subgraph Storage
         DB[("SQLite\nPostgreSQL")]
-        AudioFiles["data/audio\n*.wav / *.mp3"]
+        AudioFiles["data/audio"]
+        Backups["data/backups"]
     end
 
     subgraph LLMProviders ["LLM Providers"]
@@ -389,9 +422,10 @@ flowchart LR
 
     User <-->|browser| FE
     FE <-->|"HTTP /api/v1"| BE
-    FE <-->|"/audio static"| AudioFiles
     BE <--> DB
     BE --- AudioFiles
+    Scheduler --> Seeder & AudioSvc & FSRS
+    Scheduler --> Backups
     Router --> FSRS & LLMSvc & AudioSvc
     LLMSvc -->|GEMINI_API_KEY| Gemini
     LLMSvc -.->|"no key / error"| Ollama
@@ -410,8 +444,12 @@ erDiagram
         string article
         string level
         string theme
-        text example_nl
-        text example_es
+        float frequency_zipf
+        string cefr_level
+        string ipa
+        text contrast_note_es
+        string source
+        bool validated
     }
 
     GrammarTopic {
@@ -419,6 +457,7 @@ erDiagram
         string slug UK
         string level
         json examples_json
+        string source
     }
 
     Story {
@@ -427,6 +466,8 @@ erDiagram
         string level
         string theme
         json questions_json
+        json new_words_json
+        string source
     }
 
     User {
@@ -449,6 +490,16 @@ erDiagram
         datetime due_date
     }
 
+    ReviewLog {
+        int id PK
+        int user_id FK
+        int card_id FK
+        int rating
+        float stability_before
+        float stability_after
+        datetime reviewed_at
+    }
+
     LearningSession {
         int id PK
         int user_id FK
@@ -457,16 +508,26 @@ erDiagram
         datetime started_at
     }
 
+    JobRun {
+        int id PK
+        string job_name UK
+        datetime last_run_at
+        string last_status
+        text detail
+    }
+
     User ||--o{ SRCard : owns
     User ||--o{ LearningSession : records
+    User ||--o{ ReviewLog : "review history"
     VocabularyItem ||--o{ SRCard : "scheduled by"
+    SRCard ||--o{ ReviewLog : "logged per review"
 ```
 
 ---
 
 ### Flashcard Review Flow
 
-Every card rating triggers streak tracking, XP, a session record, and achievement checks in a single request.
+Every card rating triggers a ReviewLog row, streak tracking (with freeze logic), XP (with combo multiplier), a session record, and achievement checks in a single request.
 
 ```mermaid
 sequenceDiagram
@@ -476,36 +537,76 @@ sequenceDiagram
     participant FSRS as spaced_repetition.py
     participant DB as SQLite
 
-    User->>FE: flip card → see answer
-    User->>FE: rate 1–4 (Again / Hard / Good / Easy)
-    FE->>API: { card_id, rating }
+    User->>FE: flip card (Space) → see answer
+    User->>FE: rate 1–4 (keys or buttons)
+    FE->>API: { card_id, rating, combo }
 
-    API->>DB: fetch SRCard + User
-    API->>FSRS: review_card(card_id, rating)
+    API->>FSRS: review_card(card_id, rating, xp_multiplier)
     FSRS->>FSRS: compute next due date,\nupdate stability + difficulty
-    FSRS->>DB: save updated SRCard
+    FSRS->>DB: save SRCard + INSERT ReviewLog
     FSRS-->>API: (updated_card, xp_earned)
 
-    API->>API: _update_streak(user)
+    API->>API: _update_streak(user) — may consume a freeze
     API->>DB: INSERT LearningSession(xp_earned)
-    API->>API: _check_achievements(user)
-    API->>DB: UPDATE User (xp_total, streak_days, settings_json)
+    API->>API: _check_achievements(user) — incl. mastery tiers
+    API->>DB: UPDATE User
 
     API-->>FE: { next_due, xp_earned, new_achievements }
-    FE->>User: XP toast + advance to next card
+    FE->>User: advance; session summary at the end
+```
+
+---
+
+### Content Pipeline (curate-first)
+
+```mermaid
+flowchart LR
+    subgraph Sources ["1 · Open data\ndata/sources/ (gitignored)"]
+        NT2["NT2Lex\nCEFR levels"]
+        Wikt["Wiktionary\nde/het · plural · IPA"]
+        Tato["Tatoeba\nNL↔ES sentences"]
+        WF["wordfreq\nZipf frequency"]
+    end
+
+    subgraph ETL ["2 · ETL — scripts/etl/"]
+        Lex["build_lexicon.py\nnl_canonical.jsonl"]
+        Sent["build_sentences.py\ngraded examples + cloze"]
+    end
+
+    subgraph LLM ["3 · LLM (enrichment only)"]
+        Gen["content_generator.py\nglosses · contrast notes\ni+1 constrained stories"]
+    end
+
+    subgraph Gate ["4 · Validation gate\nvalidate.py"]
+        V{"schema ✓\narticle/plural ✓\n≥95% coverage ✓"}
+    end
+
+    subgraph Serve ["5 · Seed & serve (automatic)"]
+        JSONF["data/ JSON"]
+        Seed["seed job\n(startup + daily)"]
+        DB[("DB")]
+    end
+
+    NT2 & Wikt & WF --> Lex
+    Tato --> Sent
+    Lex --> Sent
+    Lex & Sent --> Gen
+    Gen --> V
+    V -->|pass| JSONF
+    V -->|fail ×2| RQ["data/review_queue/"]
+    JSONF --> Seed --> DB
 ```
 
 ---
 
 ### FSRS Card States
 
-Cards move through four states driven by review ratings. A lapse (rating 1 in Review) sends the card back to Relearning.
+Cards move through states driven by review ratings (fsrs 6.x: fresh cards start in Learning; "new" = never reviewed). A lapse (rating 1 in Review) sends the card back to Relearning. Cards with stability >21 days count as **mastered**.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> New : enroll vocab item
+    [*] --> Learning : enroll vocab item\n(≤15 introduced per day)
 
-    New --> Learning : any rating
     Learning --> Review : Good (3) or Easy (4)
     Learning --> Learning : Again (1) or Hard (2)
     Review --> Review : Good (3) or Easy (4)\nstability grows, interval extends
@@ -520,7 +621,7 @@ stateDiagram-v2
 
 ```mermaid
 flowchart TD
-    App["App.tsx\nMemoryRouter"]
+    App["App.tsx\nBrowserRouter"]
 
     App --> Dashboard
     App --> Lesson
@@ -536,107 +637,39 @@ flowchart TD
     Practice --> FB["FillBlankGame"]
     Practice --> US["UnscrambleGame"]
     Practice --> SM["StoryModeGame"]
+    Practice --> DG["DictadoGame"]
+    Practice --> EG["EscribirGame"]
+    Practice --> HG["HablarGame"]
 
-    Dashboard -->|"due-card CTA"| FC
+    Dashboard -->|"due-card CTA · quests"| FC
     Lesson -->|"enroll → SR deck"| FC
+    Progress -->|"heatmap · strands · logros"| Dashboard
+    Settings -->|"mantenimiento: jobs"| Settings
 
     subgraph Global["Global State (Zustand)"]
-        Store["level · theme · audio · llmProvider"]
+        Store["level · theme · audio\nllmProvider · sereneMode"]
     end
 
-    FC & LC & WM & MC & FB & US & SM -.->|reads| Store
+    FC & MC & EG & HG -.->|reads| Store
     Settings -.->|writes| Store
 ```
 
 ---
 
-### Content Pipeline
+## Roadmap
 
-How content moves from LLM generation to being served in the app.
+Done across the recent iterations: 10 games (incl. typed/spoken production), SDT gamification layer (mastery metrics, tiered badges, quests, streak freeze, combo, modo sereno), ReviewLog + FSRS tuning, four-strands meter, heatmap, ETL pipeline with validation gate, background automation, on-demand audio, Trampas lessons, WCAG/keyboard pass.
 
-```mermaid
-flowchart LR
-    subgraph Generate ["1 · Generate (optional)"]
-        LLM["Gemini 2.5 Flash\npopulate_content.py"]
-    end
+Next up (handoff Waves 3/5 remainder):
 
-    subgraph Files ["2 · JSON Files\ndata/"]
-        VocabJSON["vocabulary/\na0_words.json\na1_words.json"]
-        GrammarJSON["grammar/\na0_grammar.json"]
-        StoryJSON["stories/\na0_stories.json\na1_stories.json"]
-    end
-
-    subgraph Seed ["3 · Seed DB\nseed_content.py"]
-        DB[("SQLite")]
-    end
-
-    subgraph Audio ["4 · Audio (optional)"]
-        TTS["gemini_tts.py\nGemini TTS"]
-        GTTS["download_audio.py\ngTTS fallback"]
-        WAV["data/audio/*.wav"]
-    end
-
-    subgraph Serve ["5 · Serve"]
-        API["FastAPI\n/api/v1"]
-        Static["/audio static files"]
-    end
-
-    LLM -->|"writes JSON"| Files
-    Files -->|"idempotent upsert"| Seed
-    Seed --> DB
-    DB -->|"dutch_word + level"| TTS
-    DB -->|"fallback"| GTTS
-    TTS --> WAV
-    GTTS --> WAV
-    DB --> API
-    WAV --> Static
-```
-
----
-
-## Planned Features
-
-```mermaid
-flowchart TD
-    classDef done fill:#dcfce7,stroke:#16a34a,color:#166534
-    classDef planned fill:#f3f4f6,stroke:#9ca3af,color:#374151
-
-    subgraph done_group ["Completed"]
-        A["7 Game Types"]:::done
-        B["FSRS Spaced Repetition"]:::done
-        C["Streak + XP + Achievements"]:::done
-        D["Weekly XP Chart"]:::done
-        E["Settings Page"]:::done
-        F["Progress Export / Import"]:::done
-        G["Gemini-first LLM"]:::done
-        H["CI / CD GitHub Actions"]:::done
-    end
-
-    subgraph ux ["UX Improvements"]
-        I["Enroll-all in Lesson page\nPOST /progress/enroll bulk"]:::planned
-        J["Story Mode polish\nprogressive reveal + checkpoints"]:::planned
-        K["Mobile layout pass\nsafe-area nav + font scaling"]:::planned
-    end
-
-    subgraph content ["Content Expansion"]
-        L["A1 vocabulary\n~200 words via populate_content.py"]:::planned
-        M["A1 / A2 stories\nvia populate_content.py --batch"]:::planned
-        N["B1 content\nvocabulary + grammar + stories"]:::planned
-    end
-
-    subgraph infra ["Infrastructure"]
-        O["PostgreSQL setup guide\ndocker compose production"]:::planned
-        P["Multi-profile support\nper-user SRCard isolation"]:::planned
-    end
-
-    A & B --> I
-    C & D --> J
-    E --> K
-    G --> L & M
-    L & M --> N
-    F --> O
-    B --> P
-```
+- [ ] **Unit/lesson path**: ordered units with ≥80% checkpoint quizzes; placement quiz on first launch
+- [ ] **Card progression per item**: recognition → typed production → cloze (Escribir wired into FSRS ratings)
+- [ ] **Oído real**: Common Voice transcription exercises (real native audio, CC0)
+- [ ] **Run the ETL with real data**: download NT2Lex/kaikki/Tatoeba locally, build the lexicon, regenerate the 25 A0 stories that currently fail the coverage gate (`data/review_queue/`)
+- [ ] **Minimal-pair listening drills** from Wiktionary IPA (man/maan, bot/boot)
+- [ ] **PWA**: offline reviews with a sync queue; cached audio
+- [ ] **Images in flashcards** + Listen & Choose (Pixabay, sense-disambiguated)
+- [ ] **Piper TTS** as the local bulk-audio default (no API quota)
 
 ---
 
@@ -647,28 +680,29 @@ nederlands-leren/
 ├── .github/workflows/        # backend-ci.yml + frontend-ci.yml
 ├── backend/
 │   ├── app/
-│   │   ├── api/v1/           # Route handlers (vocabulary, grammar, stories, progress, exercises, llm, content)
-│   │   ├── core/config.py    # Pydantic settings — all env vars
-│   │   ├── db/models.py      # SQLAlchemy ORM models
+│   │   ├── api/v1/           # Route handlers (vocabulary, grammar, stories, progress, exercises, llm, content, admin)
+│   │   ├── core/config.py    # Pydantic settings — all env vars incl. automation flags
+│   │   ├── db/models.py      # SQLAlchemy ORM models (incl. ReviewLog, JobRun)
 │   │   ├── schemas/          # Pydantic request/response schemas
 │   │   └── services/
-│   │       ├── spaced_repetition.py   # FSRS Scheduler wrapper
+│   │       ├── spaced_repetition.py   # FSRS wrapper: retention 0.90, new-card cap, ReviewLog
+│   │       ├── scheduler.py           # in-process background job loop
+│   │       ├── jobs.py                # backup, audio gap-fill, FSRS optimize, content refresh
+│   │       ├── content_seeder.py      # idempotent seeding + ATTRIBUTIONS.md
 │   │       ├── llm_service.py         # Gemini + Ollama fallback
-│   │       ├── audio_service.py       # gTTS synthesis
-│   │       └── content_generator.py   # LLM vocab/story/grammar generation
-│   ├── tests/
-│   │   ├── conftest.py       # In-memory SQLite fixtures, TestClient, rollback-per-test
-│   │   ├── unit/
-│   │   └── integration/
+│   │       ├── audio_service.py       # on-demand resolution + gTTS synthesis
+│   │       └── content_generator.py   # LLM enrichment + constrained i+1 stories
+│   ├── scripts/
+│   │   ├── etl/              # fetch_sources, build_lexicon, build_sentences, validate, coverage_report
+│   │   └── …                 # seed_content, gemini_tts, populate_content, populate_images
+│   ├── tests/                # unit/ + integration/ (in-memory SQLite, scheduler disabled)
 │   ├── alembic/              # Database migrations
-│   ├── scripts/              # seed_content, gemini_tts, populate_content, populate_images, download_audio
 │   ├── pyproject.toml        # ruff, mypy, bandit config
-│   ├── requirements.txt
-│   └── requirements-dev.txt
+│   └── requirements*.txt
 ├── frontend/
 │   ├── src/
-│   │   ├── components/games/ # 7 game components
-│   │   ├── components/layout/
+│   │   ├── components/games/ # 10 game components
+│   │   ├── components/SessionSummary.tsx
 │   │   ├── pages/            # Dashboard, Lesson, Practice, Progress, Chat, Settings
 │   │   ├── stores/appStore.ts
 │   │   ├── lib/api.ts        # Axios client + all API helpers + TypeScript types
@@ -676,23 +710,16 @@ nederlands-leren/
 │   ├── tailwind.config.js
 │   └── vite.config.ts
 ├── data/
-│   ├── vocabulary/           # a0_words.json, a1_words.json
-│   ├── grammar/              # a0_grammar.json, a1_grammar.json
-│   ├── stories/              # a0_stories.json, a1_stories.json, a2_stories.json
-│   └── audio/                # generated audio files (gitignored)
+│   ├── vocabulary/           # per-level word JSON
+│   ├── grammar/              # per-level grammar + trampas_grammar.json
+│   ├── stories/              # per-level stories
+│   ├── audio/                # generated audio (gitignored)
+│   ├── backups/              # automatic daily progress backups (gitignored)
+│   ├── sources/ · lexicon/ · sentences/ · review_queue/   # ETL artifacts (gitignored)
+│   └── …
+├── docs/USAGE_PROTOCOL.md    # daily/weekly routine + automated operations
+├── ATTRIBUTIONS.md           # generated license attributions
 ├── docker-compose.yml
 ├── docker-compose.dev.yml
 └── .env.example
 ```
-
----
-
-## TODO
-
-See the **Planned Features** diagram above for the full roadmap. Near-term priorities:
-
-- [ ] Enroll-all button on Lesson page (`POST /progress/enroll` bulk endpoint)
-- [ ] Story Mode: progressive reveal UX, checkpoints, scoring polish
-- [ ] A1 vocabulary — run `populate_content.py --levels a1 --types vocab --batch` then `seed_content.py`
-- [ ] Mobile responsive polish pass
-- [ ] PostgreSQL production setup guide

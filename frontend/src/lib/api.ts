@@ -74,8 +74,8 @@ export const fetchUserProgress = () => api.get<UserProgress>('/progress/user').t
 export const fetchDueCards = (limit = 20) =>
   api.get<DueCard[]>('/progress/due', { params: { limit } }).then((r) => r.data)
 
-export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4) =>
-  api.post<ReviewResponse>('/progress/review', { card_id, rating }).then((r) => r.data)
+export const submitReview = (card_id: number, rating: 1 | 2 | 3 | 4, combo = false) =>
+  api.post<ReviewResponse>('/progress/review', { card_id, rating, combo }).then((r) => r.data)
 
 export const enrollCard = (vocab_item_id: number) =>
   api.post(`/progress/enroll/${vocab_item_id}`).then((r) => r.data)
@@ -84,6 +84,77 @@ export const enrollAll = (ids: number[]) => Promise.all(ids.map((id) => enrollCa
 
 export const fetchXpHistory = (days = 7) =>
   api.get<XpHistoryEntry[]>('/progress/history', { params: { days } }).then((r) => r.data)
+
+export interface MasteryStats {
+  mastered_words: number
+  enrolled_words: number
+  review_words: number
+  stories_completed: number
+  streak_freezes: number
+}
+
+export const fetchMasteryStats = () => api.get<MasteryStats>('/progress/stats').then((r) => r.data)
+
+export interface Quest {
+  id: string
+  title_es: string
+  target: number
+  progress: number
+  done: boolean
+}
+
+export const fetchQuests = () => api.get<Quest[]>('/progress/quests').then((r) => r.data)
+
+export const submitSessionComplete = (
+  game_type: string,
+  correct_count: number,
+  total_count: number
+) =>
+  api
+    .post<{ xp_earned: number; new_achievements: string[] }>('/progress/session-complete', {
+      game_type,
+      correct_count,
+      total_count,
+    })
+    .then((r) => r.data)
+
+export interface Strand {
+  strand: 'input' | 'output' | 'study' | 'fluency'
+  sessions: number
+  exercises: number
+  xp: number
+}
+
+export const fetchStrands = (days = 7) =>
+  api.get<Strand[]>('/progress/strands', { params: { days } }).then((r) => r.data)
+
+/** Audio for a vocab item — resolved/synthesized server-side, no filename guessing. */
+export const vocabAudioUrl = (vocabId: number) => `/api/v1/vocabulary/${vocabId}/audio`
+
+// ── Maintenance jobs ─────────────────────────────────────────────────────────
+export interface JobInfo {
+  name: string
+  description: string
+  enabled: boolean
+  interval_hours: number
+  last_run_at?: string | null
+  last_status?: 'ok' | 'error' | 'skipped' | null
+  detail?: string | null
+  duration_ms?: number | null
+}
+
+export const fetchJobs = () => api.get<JobInfo[]>('/admin/jobs').then((r) => r.data)
+
+export const runJob = (name: string) =>
+  api
+    .post<{
+      name: string
+      started: boolean
+      background: boolean
+      status?: string
+      detail?: string
+    }>(`/admin/jobs/${name}/run`)
+    .then((r) => r.data)
 
 export const fetchSettings = () =>
   api.get<Record<string, unknown>>('/progress/settings').then((r) => r.data)

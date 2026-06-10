@@ -1,10 +1,12 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.db.models import VocabularyItem
 from app.db.session import get_db
 from app.schemas import VocabularyItemOut
+from app.services import audio_service
 
 router = APIRouter()
 
@@ -36,3 +38,18 @@ def get_vocabulary_item(item_id: int, db: Session = Depends(get_db)):
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     return item
+
+
+@router.get("/{item_id}/audio")
+def get_vocabulary_audio(item_id: int, db: Session = Depends(get_db)):
+    """Audio for a vocab item, resolved across naming conventions and
+    synthesized on demand when missing — no manual audio runs needed."""
+    item = db.query(VocabularyItem).filter_by(id=item_id).first()
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    try:
+        path = audio_service.ensure_vocab_audio(item.dutch_word, item.level, item.article)
+    except Exception as exc:  # gTTS needs network; report cleanly when offline
+        raise HTTPException(status_code=503, detail="Audio synthesis unavailable") from exc
+    media_type = "audio/wav" if path.suffix == ".wav" else "audio/mpeg"
+    return FileResponse(path, media_type=media_type)

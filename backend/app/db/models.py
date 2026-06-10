@@ -1,6 +1,17 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
@@ -25,6 +36,17 @@ class VocabularyItem(Base):
     notes = Column(Text)
     example_nl = Column(Text)
     example_es = Column(Text)
+    # Curate-first pipeline fields (handoff Part A/C): authoritative facts come
+    # from open data, never from the LLM; every row carries its provenance.
+    frequency_zipf = Column(Float)            # SUBTLEX-NL / wordfreq Zipf scale
+    cefr_level = Column(String(5))            # NT2Lex-assigned CEFR band
+    ipa = Column(String(100))                 # Wiktionary IPA transcription
+    contrast_note_es = Column(Text)           # ES→NL transfer trap note (or null)
+    cloze_sentences_json = Column(JSON)       # list of {nl_blanked, nl, es, source}
+    source = Column(String(100))              # e.g. tatoeba#123, wiktionary, llm:gemini-2.5-flash
+    source_license = Column(String(50))
+    attribution = Column(Text)
+    validated = Column(Boolean, default=False)
 
     sr_cards = relationship("SRCard", back_populates="vocab_item")
 
@@ -39,6 +61,10 @@ class GrammarTopic(Base):
     level = Column(String(5), index=True)
     description_es = Column(Text)
     examples_json = Column(JSON)   # list of {nl, es, notes}
+    source = Column(String(100))
+    source_license = Column(String(50))
+    attribution = Column(Text)
+    validated = Column(Boolean, default=False)
 
 
 class Story(Base):
@@ -54,6 +80,11 @@ class Story(Base):
     audio_path = Column(String(500))
     questions_json = Column(JSON)  # list of {question_es, options, answer_index, explanation_es}
     theme = Column(String(50))
+    new_words_json = Column(JSON)  # i+1 budget: the ≤5 new lemmas this story introduces
+    source = Column(String(100))
+    source_license = Column(String(50))
+    attribution = Column(Text)
+    validated = Column(Boolean, default=False)
 
 
 class User(Base):
@@ -91,6 +122,40 @@ class SRCard(Base):
 
     user = relationship("User", back_populates="sr_cards")
     vocab_item = relationship("VocabularyItem", back_populates="sr_cards")
+
+
+class JobRun(Base):
+    """Latest run of each background maintenance job (one row per job)."""
+    __tablename__ = "job_runs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    job_name = Column(String(50), unique=True, nullable=False, index=True)
+    last_run_at = Column(DateTime)
+    last_status = Column(String(10))   # ok | error | skipped
+    detail = Column(Text)
+    duration_ms = Column(Integer)
+
+
+class ReviewLog(Base):
+    """One row per FSRS review — the raw data the FSRS optimizer trains on.
+
+    Created on every review from day one (handoff Part E: every day without
+    this table is unrecoverable optimizer data).
+    """
+    __tablename__ = "review_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    card_id = Column(Integer, ForeignKey("sr_cards.id"), nullable=False, index=True)
+    vocab_item_id = Column(Integer, ForeignKey("vocabulary_items.id"), nullable=False)
+    rating = Column(Integer, nullable=False)        # 1=Again, 2=Hard, 3=Good, 4=Easy
+    state_before = Column(Integer, nullable=False)  # FSRS state at review time
+    state_after = Column(Integer, nullable=False)
+    stability_before = Column(Float)
+    stability_after = Column(Float)
+    difficulty_after = Column(Float)
+    elapsed_days = Column(Integer, default=0)       # days since previous review
+    reviewed_at = Column(DateTime, default=lambda: datetime.now(UTC), index=True)
 
 
 class LearningSession(Base):

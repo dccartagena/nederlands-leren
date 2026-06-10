@@ -61,6 +61,9 @@ class StoryOut(BaseModel):
 class ReviewRequest(BaseModel):
     card_id: int
     rating: int = Field(..., ge=1, le=4, description="1=Again, 2=Hard, 3=Good, 4=Easy")
+    # True when the in-session combo is active (≥5 consecutive correct answers);
+    # the server applies a ×1.5 XP bonus so xp_total stays authoritative.
+    combo: bool = False
 
 
 class ReviewResponse(BaseModel):
@@ -79,6 +82,24 @@ class DueCardOut(BaseModel):
     state: int
     reps: int
     lapses: int
+
+
+class MasteryStatsOut(BaseModel):
+    """Competence metrics anchored in real ability (not points)."""
+    mastered_words: int      # cards with FSRS stability > 21 days
+    enrolled_words: int      # total cards in the SRS deck
+    review_words: int        # cards that reached the Review state
+    stories_completed: int
+    streak_freezes: int
+
+
+class QuestOut(BaseModel):
+    """One optional daily quest with server-computed progress."""
+    id: str
+    title_es: str
+    target: int
+    progress: int
+    done: bool
 
 
 # ── User ─────────────────────────────────────────────────────────────────────
@@ -133,3 +154,23 @@ class StoryCompleteRequest(BaseModel):
 class StoryCompleteResponse(BaseModel):
     xp_earned: int
     new_achievements: list[str] = []
+
+
+class SessionCompleteRequest(BaseModel):
+    """Generic end-of-round report for games that don't go through FSRS review."""
+    game_type: str = Field(..., max_length=50)
+    correct_count: int = Field(..., ge=0, le=100)
+    total_count: int = Field(..., ge=0, le=100)
+
+
+class SessionCompleteResponse(BaseModel):
+    xp_earned: int
+    new_achievements: list[str] = []
+
+
+class StrandOut(BaseModel):
+    """Weekly activity for one of Nation's four strands."""
+    strand: str  # input | output | study | fluency
+    sessions: int
+    exercises: int
+    xp: int
