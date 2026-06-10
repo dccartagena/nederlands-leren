@@ -18,6 +18,7 @@ export const mockVocabList = [
   { ...mockVocabItem, id: 2, dutch_word: 'kat', spanish: 'gato' },
   { ...mockVocabItem, id: 3, dutch_word: 'vis', spanish: 'pez' },
   { ...mockVocabItem, id: 4, dutch_word: 'vogel', spanish: 'pájaro' },
+  { ...mockVocabItem, id: 5, dutch_word: 'paard', spanish: 'caballo', article: 'het' },
 ]
 
 export const mockUserProgress = {
@@ -50,6 +51,13 @@ export const mockQuests = [
   { id: 'review_10', title_es: 'Repasa 10 tarjetas', target: 10, progress: 3, done: false },
   { id: 'story_1', title_es: 'Completa 1 historia', target: 1, progress: 0, done: false },
   { id: 'xp_40', title_es: 'Gana 40 XP', target: 40, progress: 40, done: true },
+]
+
+export const mockStrands = [
+  { strand: 'input', sessions: 2, exercises: 6, xp: 60 },
+  { strand: 'output', sessions: 1, exercises: 5, xp: 25 },
+  { strand: 'study', sessions: 4, exercises: 4, xp: 40 },
+  { strand: 'fluency', sessions: 0, exercises: 0, xp: 0 },
 ]
 
 export const mockReviewResponse = {
@@ -138,6 +146,10 @@ export const handlers = [
   http.get(`${BASE}/progress/history`, () => HttpResponse.json([])),
   http.get(`${BASE}/progress/stats`, () => HttpResponse.json(mockMasteryStats)),
   http.get(`${BASE}/progress/quests`, () => HttpResponse.json(mockQuests)),
+  http.get(`${BASE}/progress/strands`, () => HttpResponse.json(mockStrands)),
+  http.post(`${BASE}/progress/session-complete`, () =>
+    HttpResponse.json({ xp_earned: 25, new_achievements: [] })
+  ),
   http.post(`${BASE}/progress/review`, () => HttpResponse.json(mockReviewResponse)),
   http.post(`${BASE}/progress/enroll/:id`, () => HttpResponse.json({ id: 1, vocab_item_id: 1 })),
 

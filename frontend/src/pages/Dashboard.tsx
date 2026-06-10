@@ -106,6 +106,22 @@ const games = [
     color:
       'bg-pink-50 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border-pink-100 dark:border-pink-900',
   },
+  {
+    to: '/practice/escribir',
+    label: 'Escribir',
+    desc: 'Traduce escribiendo en neerlandés',
+    icon: '✍️',
+    color:
+      'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border-indigo-100 dark:border-indigo-900',
+  },
+  {
+    to: '/practice/hablar',
+    label: 'Hablar',
+    desc: 'Pronuncia y comprueba tu voz',
+    icon: '🗣️',
+    color:
+      'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-900',
+  },
 ]
 
 export default function Dashboard() {

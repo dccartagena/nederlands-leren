@@ -105,6 +105,29 @@ export interface Quest {
 
 export const fetchQuests = () => api.get<Quest[]>('/progress/quests').then((r) => r.data)
 
+export const submitSessionComplete = (
+  game_type: string,
+  correct_count: number,
+  total_count: number
+) =>
+  api
+    .post<{ xp_earned: number; new_achievements: string[] }>('/progress/session-complete', {
+      game_type,
+      correct_count,
+      total_count,
+    })
+    .then((r) => r.data)
+
+export interface Strand {
+  strand: 'input' | 'output' | 'study' | 'fluency'
+  sessions: number
+  exercises: number
+  xp: number
+}
+
+export const fetchStrands = (days = 7) =>
+  api.get<Strand[]>('/progress/strands', { params: { days } }).then((r) => r.data)
+
 export const fetchSettings = () =>
   api.get<Record<string, unknown>>('/progress/settings').then((r) => r.data)
 

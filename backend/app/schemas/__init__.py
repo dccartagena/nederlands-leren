@@ -154,3 +154,23 @@ class StoryCompleteRequest(BaseModel):
 class StoryCompleteResponse(BaseModel):
     xp_earned: int
     new_achievements: list[str] = []
+
+
+class SessionCompleteRequest(BaseModel):
+    """Generic end-of-round report for games that don't go through FSRS review."""
+    game_type: str = Field(..., max_length=50)
+    correct_count: int = Field(..., ge=0, le=100)
+    total_count: int = Field(..., ge=0, le=100)
+
+
+class SessionCompleteResponse(BaseModel):
+    xp_earned: int
+    new_achievements: list[str] = []
+
+
+class StrandOut(BaseModel):
+    """Weekly activity for one of Nation's four strands."""
+    strand: str  # input | output | study | fluency
+    sessions: int
+    exercises: int
+    xp: int

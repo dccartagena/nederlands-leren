@@ -1,0 +1,88 @@
+[
+  {
+    "slug": "trampa-v2-woordvolgorde",
+    "name_nl": "V2-woordvolgorde",
+    "name_es": "Trampa 1: el verbo siempre va segundo (orden V2)",
+    "level": "a1",
+    "description_es": "En español el orden de las palabras es flexible: 'Mañana voy al mercado' y 'Voy al mercado mañana' suenan igual de bien. En neerlandés NO: el verbo conjugado ocupa SIEMPRE la segunda posición de la frase. Si empiezas con 'morgen' (mañana), el verbo va inmediatamente después y el sujeto se mueve detrás del verbo. Este es el error número uno de los hispanohablantes. Regla práctica: cuenta las posiciones — lo que sea que pongas primero (sujeto, tiempo, lugar), el verbo va segundo.",
+    "examples_json": [
+      {"nl": "Ik ga morgen naar de markt.", "es": "Voy mañana al mercado. (sujeto primero → verbo segundo)"},
+      {"nl": "Morgen ga ik naar de markt.", "es": "Mañana voy al mercado. (¡'ga' antes que 'ik'! El verbo sigue segundo)"},
+      {"nl": "❌ Morgen ik ga naar de markt.", "es": "Error típico: calcar el orden español 'Mañana yo voy…'"},
+      {"nl": "In Nederland eten we vroeg.", "es": "En Holanda comemos temprano. ('eten' segundo, 'we' tercero)"},
+      {"nl": "Vandaag regent het.", "es": "Hoy llueve. (también con verbos impersonales)"}
+    ],
+    "source": "curated:contrastive-es-nl",
+    "source_license": "CC BY-SA 4.0",
+    "validated": true
+  },
+  {
+    "slug": "trampa-scheidbare-werkwoorden",
+    "name_nl": "Scheidbare werkwoorden",
+    "name_es": "Trampa 2: verbos separables (el verbo se parte en dos)",
+    "level": "a1",
+    "description_es": "El español no tiene nada parecido: muchos verbos neerlandeses llevan un prefijo (op-, aan-, uit-, mee-…) que se SEPARA del verbo y se va al FINAL de la frase cuando el verbo está conjugado. 'Opbellen' (llamar por teléfono) se convierte en 'Ik bel je morgen op' — el 'op' queda al final, lejísimos del verbo. Si no esperas este patrón, la última palabra de la frase parece sobrar. Truco: cuando oigas una preposición suelta al final de una frase, búscale su verbo.",
+    "examples_json": [
+      {"nl": "opstaan → Ik sta om zeven uur op.", "es": "levantarse → Me levanto a las siete. ('op' al final)"},
+      {"nl": "aankomen → De trein komt om drie uur aan.", "es": "llegar → El tren llega a las tres."},
+      {"nl": "meenemen → Neem je een paraplu mee?", "es": "llevar (consigo) → ¿Te llevas un paraguas?"},
+      {"nl": "uitnodigen → Zij nodigt ons uit voor het feest.", "es": "invitar → Ella nos invita a la fiesta."},
+      {"nl": "Ik wil je morgen opbellen.", "es": "Quiero llamarte mañana. (con infinitivo NO se separa)"}
+    ],
+    "source": "curated:contrastive-es-nl",
+    "source_license": "CC BY-SA 4.0",
+    "validated": true
+  },
+  {
+    "slug": "trampa-de-het",
+    "name_nl": "De of het?",
+    "name_es": "Trampa 3: de/het no es el/la (no hay transferencia)",
+    "level": "a1",
+    "description_es": "El género español NO te ayuda con de/het: 'la casa' es 'het huis' (neutro) y 'el perro' es 'de hond' (común). No intentes traducir el género — apréndelo como parte de la palabra, igual que su ortografía. Datos que sí ayudan: (1) ~75% de los sustantivos llevan 'de', así que en la duda, 'de' es la mejor apuesta; (2) TODOS los diminutivos (-je) llevan 'het': het huisje, het hondje; (3) TODOS los plurales llevan 'de': de huizen; (4) infinitivos usados como sustantivo llevan 'het': het eten. Estudia cada palabra nueva CON su artículo desde el primer día.",
+    "examples_json": [
+      {"nl": "de hond, de kat, de man, de vrouw", "es": "la mayoría (~75%) son 'de'"},
+      {"nl": "het huis, het boek, het kind, het water", "es": "neutros: hay que memorizarlos — 'la casa' ≠ género de 'huis'"},
+      {"nl": "het meisje (¡la chica!)", "es": "todos los diminutivos en -je son 'het', incluso personas"},
+      {"nl": "de boeken, de kinderen", "es": "todos los plurales llevan 'de', siempre"},
+      {"nl": "het eten, het zwemmen", "es": "infinitivo como sustantivo → 'het' (el comer, el nadar)"}
+    ],
+    "source": "curated:contrastive-es-nl",
+    "source_license": "CC BY-SA 4.0",
+    "validated": true
+  },
+  {
+    "slug": "trampa-er",
+    "name_nl": "Het woordje 'er'",
+    "name_es": "Trampa 4: la palabrita 'er' (no existe en español)",
+    "level": "a1",
+    "description_es": "'Er' es la palabra más escurridiza del neerlandés porque el español no tiene equivalente directo. Sus dos usos más frecuentes a tu nivel: (1) como 'hay' — 'Er is een probleem' = 'Hay un problema'; el neerlandés exige ese 'er' cuando el sujeto es indefinido; (2) como sustituto de 'eso/ello' tras preposición — en vez de 'over het' se dice 'erover' (sobre ello). Si una frase con sujeto indefinido te suena rara, casi seguro le falta 'er'.",
+    "examples_json": [
+      {"nl": "Er is een probleem.", "es": "Hay un problema. ('er is/er zijn' = hay)"},
+      {"nl": "Er zijn veel mensen op straat.", "es": "Hay mucha gente en la calle."},
+      {"nl": "❌ Is een probleem.", "es": "Error típico: omitir 'er' calcando 'Hay…' sin sujeto"},
+      {"nl": "Ik woon er al twee jaar.", "es": "Vivo allí desde hace dos años. ('er' = allí, lugar ya mencionado)"},
+      {"nl": "Wij praten erover.", "es": "Hablamos de ello. (er + over = de eso)"}
+    ],
+    "source": "curated:contrastive-es-nl",
+    "source_license": "CC BY-SA 4.0",
+    "validated": true
+  },
+  {
+    "slug": "trampa-valse-vrienden",
+    "name_nl": "Valse vrienden",
+    "name_es": "Trampa 5: falsos amigos neerlandés-español",
+    "level": "a1",
+    "description_es": "Algunas palabras neerlandesas se parecen a palabras españolas (o inglesas que conoces) pero significan otra cosa. Las más traicioneras a nivel principiante vienen de la pronunciación y de raíces germánicas compartidas con el inglés. También cuidado con los pares internos del neerlandés que difieren solo en una vocal larga o corta: 'man' (hombre) vs 'maan' (luna). Para un hispanohablante las vocales largas/cortas no cambian el significado — en neerlandés sí, siempre.",
+    "examples_json": [
+      {"nl": "winkel = tienda", "es": "no es 'winkle' ni nada con guiño; 'tienda' se dice winkel"},
+      {"nl": "groot = grande", "es": "se parece a 'grotesco' pero solo significa 'grande'"},
+      {"nl": "rok = falda", "es": "no es 'rock' (música); una 'rok' es una falda"},
+      {"nl": "man (hombre) ≠ maan (luna)", "es": "vocal corta vs larga: cambia el significado por completo"},
+      {"nl": "bot (hueso) ≠ boot (barco)", "es": "otro par mínimo de vocal corta/larga"},
+      {"nl": "huren = alquilar", "es": "se pronuncia con /y/ larga; cuidado con confundirla con 'hoer' (vulgar)"}
+    ],
+    "source": "curated:contrastive-es-nl",
+    "source_license": "CC BY-SA 4.0",
+    "validated": true
+  }
+]

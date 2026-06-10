@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.db.models import LearningSession, SRCard, User, VocabularyItem
+from app.db.models import LearningSession, ReviewLog, SRCard, User, VocabularyItem
 from app.db.session import get_db
 from app.schemas import (
     DueCardOut,
@@ -15,8 +15,11 @@ from app.schemas import (
     QuestOut,
     ReviewRequest,
     ReviewResponse,
+    SessionCompleteRequest,
+    SessionCompleteResponse,
     StoryCompleteRequest,
     StoryCompleteResponse,
+    StrandOut,
     UserProgressOut,
 )
 from app.services import spaced_repetition
@@ -241,6 +244,78 @@ def story_complete(req: StoryCompleteRequest, db: Session = Depends(get_db)):
     return StoryCompleteResponse(xp_earned=xp, new_achievements=new_achievements)
 
 
+@router.post("/session-complete", response_model=SessionCompleteResponse)
+def session_complete(req: SessionCompleteRequest, db: Session = Depends(get_db)):
+    """Record an end-of-round result for games outside the FSRS review flow.
+
+    Feeds XP, the streak, daily quests, and the four-strands meter.
+    """
+    user = _ensure_user(db)
+
+    is_perfect = req.total_count > 0 and req.correct_count == req.total_count
+    xp = (req.correct_count * 5) + (10 if is_perfect else 0)
+    user.xp_total = (user.xp_total or 0) + xp
+
+    _update_streak(user)
+
+    db.add(
+        LearningSession(
+            user_id=DEFAULT_USER_ID,
+            started_at=datetime.now(UTC),
+            xp_earned=xp,
+            exercises_completed=req.total_count,
+            game_type=req.game_type,
+        )
+    )
+
+    new_achievements = _check_achievements(db, user)
+    db.commit()
+
+    return SessionCompleteResponse(xp_earned=xp, new_achievements=new_achievements)
+
+
+# Nation's four strands (handoff B1): each game type contributes to one strand.
+STRAND_BY_GAME = {
+    # meaning-focused input
+    "story": "input",
+    "listen-choose": "input",
+    "dictado": "input",
+    "oido": "input",
+    # meaning-focused output
+    "escribir": "output",
+    "hablar": "output",
+    "chat": "output",
+    # language-focused learning (deliberate study)
+    "review": "study",
+    "flashcard": "study",
+    "multiple-choice": "study",
+    "fill-blank": "study",
+    "word-match": "study",
+    "unscramble": "study",
+    # fluency development (easy material done fast)
+    "fluency": "fluency",
+}
+
+
+@router.get("/strands", response_model=list[StrandOut])
+def get_strand_balance(days: int = Query(7, ge=1, le=90), db: Session = Depends(get_db)):
+    """Activity per strand over the last N days, for the balance meter."""
+    _ensure_user(db)
+    since = datetime.now(UTC) - timedelta(days=days)
+    sessions = (
+        db.query(LearningSession)
+        .filter(LearningSession.user_id == DEFAULT_USER_ID, LearningSession.started_at >= since)
+        .all()
+    )
+    totals = {s: {"sessions": 0, "exercises": 0, "xp": 0} for s in ("input", "output", "study", "fluency")}
+    for sess in sessions:
+        strand = STRAND_BY_GAME.get(sess.game_type or "", "study")
+        totals[strand]["sessions"] += 1
+        totals[strand]["exercises"] += sess.exercises_completed or 0
+        totals[strand]["xp"] += sess.xp_earned or 0
+    return [StrandOut(strand=k, **v) for k, v in totals.items()]
+
+
 @router.get("/history")
 def get_xp_history(days: int = Query(7, ge=1, le=365), db: Session = Depends(get_db)):
     _ensure_user(db)
@@ -285,8 +360,8 @@ def get_mastery_stats(db: Session = Depends(get_db)):
 
 
 # ── Daily quests ─────────────────────────────────────────────────────────────
-# Three optional quests per day: one review quest, one input quest, one XP
-# quest. Variants rotate deterministically with the date; progress is computed
+# Four optional quests per day: review, input, output, and XP — one variant
+# per category, rotating deterministically with the date; progress is computed
 # from today's LearningSession rows. Quests are offered, never forced — there
 # is no penalty for skipping (the client can hide them).
 
@@ -298,6 +373,10 @@ QUEST_VARIANTS = {
     "input": [
         {"id": "story_1", "title_es": "Completa 1 historia", "target": 1},
         {"id": "story_2", "title_es": "Completa 2 historias", "target": 2},
+    ],
+    "output": [
+        {"id": "output_5", "title_es": "Escribe o di 5 frases en neerlandés", "target": 5},
+        {"id": "output_8", "title_es": "Escribe o di 8 frases en neerlandés", "target": 8},
     ],
     "xp": [
         {"id": "xp_40", "title_es": "Gana 40 XP", "target": 40},
@@ -320,13 +399,23 @@ def get_daily_quests(db: Session = Depends(get_db)):
     )
     reviews_today = sum(1 for s in sessions if s.game_type == "review")
     stories_today = sum(1 for s in sessions if s.game_type == "story")
+    output_today = sum(
+        s.exercises_completed or 0
+        for s in sessions
+        if STRAND_BY_GAME.get(s.game_type or "") == "output"
+    )
     xp_today = sum(s.xp_earned or 0 for s in sessions)
 
     seed = date.today().toordinal()
     quests = []
     for i, (category, variants) in enumerate(QUEST_VARIANTS.items()):
         variant = variants[(seed + i) % len(variants)]
-        progress = {"review": reviews_today, "input": stories_today, "xp": xp_today}[category]
+        progress = {
+            "review": reviews_today,
+            "input": stories_today,
+            "output": output_today,
+            "xp": xp_today,
+        }[category]
         progress = min(progress, variant["target"])
         quests.append(
             QuestOut(
@@ -367,6 +456,7 @@ def export_progress(db: Session = Depends(get_db)):
     user = _ensure_user(db)
     cards = db.query(SRCard).filter_by(user_id=DEFAULT_USER_ID).all()
     sessions = db.query(LearningSession).filter_by(user_id=DEFAULT_USER_ID).all()
+    review_logs = db.query(ReviewLog).filter_by(user_id=DEFAULT_USER_ID).all()
 
     payload: dict[str, Any] = {
         "exported_at": datetime.now(UTC).isoformat(),
@@ -398,6 +488,21 @@ def export_progress(db: Session = Depends(get_db)):
                 "game_type": s.game_type,
             }
             for s in sessions
+        ],
+        # Raw FSRS review history — the optimizer's training data
+        "review_logs": [
+            {
+                "vocab_item_id": r.vocab_item_id,
+                "rating": r.rating,
+                "state_before": r.state_before,
+                "state_after": r.state_after,
+                "stability_before": r.stability_before,
+                "stability_after": r.stability_after,
+                "difficulty_after": r.difficulty_after,
+                "elapsed_days": r.elapsed_days,
+                "reviewed_at": r.reviewed_at.isoformat() if r.reviewed_at else None,
+            }
+            for r in review_logs
         ],
     }
 

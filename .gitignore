@@ -40,3 +40,8 @@ frontend/coverage/
 
 # Docker
 *.override.yml
+
+# ETL pipeline: re-downloadable sources and derived files
+data/sources/
+data/review_queue/
+data/coverage_report.json

@@ -5,11 +5,13 @@ import {
   fetchDueCards,
   fetchXpHistory,
   fetchMasteryStats,
+  fetchStrands,
   type XpHistoryEntry,
   type MasteryStats,
   type UserProgress,
+  type Strand,
 } from '@/lib/api'
-import { Flame, Star, BookOpen, Trophy, Brain, CalendarDays } from 'lucide-react'
+import { Flame, Star, BookOpen, Trophy, Brain, CalendarDays, Scale } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { Link } from 'react-router-dom'
 import { useAppStore } from '@/stores/appStore'
@@ -139,6 +141,7 @@ export default function Progress() {
     queryKey: ['xp-history-year'],
     queryFn: () => fetchXpHistory(365),
   })
+  const { data: strands } = useQuery({ queryKey: ['strands'], queryFn: () => fetchStrands(7) })
 
   const earnedSlugs = new Set<string>(
     (progress?.settings_json?.achievements ?? []).map((a) => a.slug)
@@ -179,6 +182,9 @@ export default function Progress() {
           )}
         </div>
       )}
+
+      {/* Four-strands balance (Nation 2007: roughly equal time per strand) */}
+      {strands && <StrandMeter strands={strands} />}
 
       {/* Activity heatmap (last 12 months) */}
       <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
@@ -298,6 +304,81 @@ export default function Progress() {
         </div>
       </section>
     </div>
+  )
+}
+
+const STRAND_META: Record<string, { label: string; hint: string; emoji: string; bar: string }> = {
+  input: {
+    label: 'Entrada',
+    hint: 'historias, escuchar, dictado',
+    emoji: '🎧',
+    bar: 'bg-sky-500',
+  },
+  output: {
+    label: 'Producción',
+    hint: 'escribir, hablar, chat',
+    emoji: '🗣️',
+    bar: 'bg-rose-500',
+  },
+  study: {
+    label: 'Estudio',
+    hint: 'tarjetas, tests, ejercicios',
+    emoji: '📚',
+    bar: 'bg-brand-500',
+  },
+  fluency: {
+    label: 'Fluidez',
+    hint: 'rondas rápidas con material conocido',
+    emoji: '⚡',
+    bar: 'bg-yellow-500',
+  },
+}
+
+function StrandMeter({ strands }: { strands: Strand[] }) {
+  const total = strands.reduce((sum, s) => sum + s.sessions, 0)
+  return (
+    <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+      <h2 className="mb-1 flex items-center gap-2 text-sm font-semibold">
+        <Scale size={15} className="text-brand-700 dark:text-brand-400" />
+        Equilibrio de actividades (esta semana)
+      </h2>
+      <p className="mb-4 text-xs text-gray-500 dark:text-gray-400">
+        Un aprendizaje sano reparte el tiempo entre las cuatro: entrada, producción, estudio y
+        fluidez.
+      </p>
+      <div className="space-y-3">
+        {strands.map((s) => {
+          const meta = STRAND_META[s.strand]
+          const pct = total > 0 ? (s.sessions / total) * 100 : 0
+          return (
+            <div key={s.strand}>
+              <div className="mb-1 flex items-baseline justify-between text-xs">
+                <span className="font-medium text-gray-700 dark:text-gray-300">
+                  {meta.emoji} {meta.label}
+                  <span className="ml-1.5 font-normal text-gray-400 dark:text-gray-500">
+                    {meta.hint}
+                  </span>
+                </span>
+                <span className="tabular-nums text-gray-500 dark:text-gray-400">
+                  {s.sessions} {s.sessions === 1 ? 'sesión' : 'sesiones'}
+                </span>
+              </div>
+              <div className="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                <div
+                  className={`h-2 rounded-full transition-all ${meta.bar}`}
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      {total === 0 && (
+        <p className="mt-3 text-center text-xs text-gray-400 dark:text-gray-500">
+          Aún no hay sesiones esta semana
+        </p>
+      )}
+    </section>
   )
 }
 

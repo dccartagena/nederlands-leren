@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { fetchVocabulary, getFeedback } from '@/lib/api'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { fetchVocabulary, getFeedback, submitSessionComplete } from '@/lib/api'
 import { useAppStore } from '@/stores/appStore'
 import { RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -28,6 +28,7 @@ function buildQuestion(items: Array<{ dutch_word: string; spanish: string; artic
 
 export default function MultipleChoiceGame() {
   const level = useAppStore((s) => s.level)
+  const queryClient = useQueryClient()
   const { data: vocab } = useQuery({
     queryKey: ['vocabulary', level],
     queryFn: () => fetchVocabulary(level),
@@ -37,6 +38,7 @@ export default function MultipleChoiceGame() {
   const [fbLoading, setFbLoading] = useState(false)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [logged, setLogged] = useState(false)
   const [question, setQuestion] = useState<ReturnType<typeof buildQuestion>>(null)
 
   if (!question && vocab && vocab.length >= 4 && score.total < ROUND_LENGTH) {
@@ -47,6 +49,15 @@ export default function MultipleChoiceGame() {
     setSelected(null)
     setFeedback(null)
     setQuestion(score.total < ROUND_LENGTH && vocab ? buildQuestion(vocab) : null)
+    if (score.total >= ROUND_LENGTH && !logged) {
+      setLogged(true)
+      submitSessionComplete('multiple-choice', score.correct, score.total)
+        .then(() => {
+          queryClient.invalidateQueries({ queryKey: ['quests'] })
+          queryClient.invalidateQueries({ queryKey: ['user-progress'] })
+        })
+        .catch(() => {})
+    }
   }
 
   const handleSelect = async (index: number) => {
@@ -90,7 +101,8 @@ export default function MultipleChoiceGame() {
   if (!vocab || vocab.length < 4)
     return <div className="py-12 text-center text-gray-400">Cargando vocabulario…</div>
 
-  if (score.total >= ROUND_LENGTH)
+  // Summary only after the last question's feedback was dismissed via next()
+  if (score.total >= ROUND_LENGTH && selected === null)
     return (
       <SessionSummary
         correct={score.correct}
@@ -99,6 +111,7 @@ export default function MultipleChoiceGame() {
           setScore({ correct: 0, total: 0 })
           setSelected(null)
           setFeedback(null)
+          setLogged(false)
           setQuestion(buildQuestion(vocab))
         }}
       />

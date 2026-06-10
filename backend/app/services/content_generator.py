@@ -173,6 +173,91 @@ async def generate_story(
     return result
 
 
+def story_coverage(content_nl: str, known_words: set[str]) -> tuple[float, list[str]]:
+    """(coverage, unknown_words) over content tokens of a Dutch text.
+
+    Comprehensible input needs ~95–98% known tokens (Hu & Nation); the
+    generator retries until generated stories pass this gate.
+    """
+    import re
+
+    stop = {
+        "de", "het", "een", "en", "of", "maar", "ik", "je", "jij", "u", "hij",
+        "zij", "ze", "we", "wij", "jullie", "dit", "dat", "deze", "die", "er",
+        "hier", "daar", "niet", "geen", "wel", "ook", "al", "nog", "naar",
+        "van", "in", "op", "aan", "met", "voor", "bij", "uit", "om", "te",
+        "is", "zijn", "was", "waren", "heb", "hebt", "heeft", "hebben",
+    }
+    tokens = [t.lower() for t in re.findall(r"[a-zA-Z'\-]+", content_nl) if t.lower() not in stop]
+    if not tokens:
+        return 0.0, []
+    unknown = sorted({t for t in tokens if t not in known_words})
+    coverage = 1 - sum(1 for t in tokens if t not in known_words) / len(tokens)
+    return coverage, unknown
+
+
+async def generate_story_constrained(
+    level: str,
+    theme: str,
+    known_words: list[str],
+    max_new_words: int = 5,
+    max_attempts: int = 3,
+) -> dict[str, Any]:
+    """Generate an i+1 story constrained to the learner's known vocabulary.
+
+    The LLM receives the known-lemma set and a budget of ≤max_new_words new
+    words; output is rejected and regenerated until ≥95% of content tokens
+    are known. Returns the story dict with `new_words_json` populated, or {}.
+    """
+    word_count = _STORY_WORD_COUNTS.get(level.lower(), "100-150")
+    known_set = {w.lower() for w in known_words}
+
+    prompt = (
+        f"Create a short story in Dutch for a learner at level {level.upper()}, "
+        f"theme '{theme}'. The story must be {word_count} words.\n\n"
+        f"CRITICAL CONSTRAINT: the learner only knows these Dutch words (plus "
+        f"common function words like de/het/een/ik/is/heeft):\n"
+        f"{', '.join(sorted(known_set))}\n\n"
+        f"You may introduce AT MOST {max_new_words} new content words beyond "
+        "this list. List every new word you use in 'new_words_json'.\n\n"
+        "Return ONLY a valid JSON object with this schema (no additional text):\n"
+        "{\n"
+        '  "slug": "...",\n'
+        '  "title_nl": "...",\n'
+        '  "title_es": "...",\n'
+        f'  "level": "{level.lower()}",\n'
+        f'  "theme": "{theme}",\n'
+        '  "content_nl": "Full story in Dutch...",\n'
+        '  "content_es": "Full Spanish translation...",\n'
+        '  "new_words_json": ["word1", "word2"],\n'
+        '  "questions_json": [\n'
+        '    {"question_es": "...", "options": ["A", "B", "C", "D"], '
+        '"answer_index": 0, "explanation_es": "..."}\n'
+        "  ]\n"
+        "}\n"
+        "Include 3 comprehension questions."
+    )
+
+    for attempt in range(max_attempts):
+        raw = await llm_service.chat_completion(
+            [{"role": "user", "content": prompt}],
+            inject_system=False,
+        )
+        story = _parse_json_object(raw)
+        if not story or not story.get("content_nl"):
+            continue
+        coverage, unknown = story_coverage(story["content_nl"], known_set)
+        if coverage >= 0.95 and len(unknown) <= max_new_words:
+            story["new_words_json"] = unknown
+            story["source"] = "llm:constrained"
+            return story
+        logger.info(
+            "story attempt %d rejected: coverage %.0f%%, %d new words",
+            attempt + 1, coverage * 100, len(unknown),
+        )
+    return {}
+
+
 async def generate_lesson(
     level: str,
     theme: str,

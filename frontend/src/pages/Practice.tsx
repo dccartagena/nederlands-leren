@@ -7,6 +7,8 @@ import FillBlankGame from '@/components/games/FillBlankGame'
 import UnscrambleGame from '@/components/games/UnscrambleGame'
 import StoryModeGame from '@/components/games/StoryModeGame'
 import DictadoGame from '@/components/games/DictadoGame'
+import EscribirGame from '@/components/games/EscribirGame'
+import HablarGame from '@/components/games/HablarGame'
 
 const GAMES: Record<string, React.ComponentType> = {
   flashcard: FlashcardGame,
@@ -17,6 +19,8 @@ const GAMES: Record<string, React.ComponentType> = {
   unscramble: UnscrambleGame,
   story: StoryModeGame,
   dictado: DictadoGame,
+  escribir: EscribirGame,
+  hablar: HablarGame,
 }
 
 const LABELS: Record<string, string> = {
@@ -28,6 +32,8 @@ const LABELS: Record<string, string> = {
   unscramble: 'Ordenar la Frase',
   story: 'Modo Historia',
   dictado: 'Dictado',
+  escribir: 'Escribir',
+  hablar: 'Hablar',
 }
 
 export default function Practice() {
@@ -37,13 +43,18 @@ export default function Practice() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/dashboard" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">← Inicio</Link>
+        <Link
+          to="/dashboard"
+          className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          ← Inicio
+        </Link>
         <h1 className="text-xl font-bold">{LABELS[gameType] ?? gameType}</h1>
       </div>
       {GameComponent ? (
         <GameComponent />
       ) : (
-        <div className="p-6 rounded-xl bg-yellow-50 dark:bg-yellow-950 text-yellow-800 dark:text-yellow-300">
+        <div className="rounded-xl bg-yellow-50 p-6 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300">
           Este juego está en construcción. ¡Vuelve pronto!
         </div>
       )}
