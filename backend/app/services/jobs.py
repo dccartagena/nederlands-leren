@@ -6,7 +6,7 @@ with "skipped" marks it "skipped".
 """
 import json
 import logging
-import subprocess
+import subprocess  # nosec B404 — fixed-argv ETL steps only
 import sys
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -111,7 +111,7 @@ def audio_gapfill(db: Session) -> str:
     items = db.query(VocabularyItem).all()
     missing = [
         i for i in items
-        if audio_service.resolve_vocab_audio(i.dutch_word, i.level, i.article) is None
+        if audio_service.resolve_vocab_audio(i.dutch_word, i.level or "", i.article) is None
     ]
     if not missing:
         return f"all {len(items)} items have audio"
@@ -119,7 +119,7 @@ def audio_gapfill(db: Session) -> str:
     generated, failed = 0, 0
     for item in missing[: settings.AUDIO_GAPFILL_BATCH]:
         try:
-            audio_service.ensure_vocab_audio(item.dutch_word, item.level, item.article)
+            audio_service.ensure_vocab_audio(item.dutch_word, item.level or "", item.article)
             generated += 1
         except Exception:  # noqa: BLE001 — offline/gTTS quota: keep going
             failed += 1
@@ -138,19 +138,19 @@ def fsrs_optimize(db: Session) -> str:
         from fsrs import ReviewLog as FSRSReviewLog
 
         rows = db.query(ReviewLog).order_by(ReviewLog.reviewed_at).all()
-        fsrs_logs = [
-            FSRSReviewLog(
-                card_id=r.card_id,
-                rating=Rating(r.rating),
-                review_datetime=(
-                    r.reviewed_at.replace(tzinfo=UTC)
-                    if r.reviewed_at and r.reviewed_at.tzinfo is None
-                    else r.reviewed_at
-                ),
-                review_duration=None,
+        fsrs_logs = []
+        for r in rows:
+            reviewed = r.reviewed_at or datetime.now(UTC)
+            if reviewed.tzinfo is None:
+                reviewed = reviewed.replace(tzinfo=UTC)
+            fsrs_logs.append(
+                FSRSReviewLog(
+                    card_id=r.card_id,
+                    rating=Rating(r.rating),
+                    review_datetime=reviewed,
+                    review_duration=None,
+                )
             )
-            for r in rows
-        ]
         optimizer = Optimizer(fsrs_logs)
         parameters = list(optimizer.compute_optimal_parameters())
     except ImportError:
@@ -181,7 +181,7 @@ def content_refresh(db: Session) -> str:
     backend_dir = Path(__file__).resolve().parent.parent.parent
     results = []
     for name, args, timeout in _ETL_STEPS:
-        proc = subprocess.run(  # noqa: S603
+        proc = subprocess.run(  # noqa: S603 # nosec B603 — sys.executable + fixed args
             [sys.executable, *args],
             cwd=backend_dir,
             capture_output=True,

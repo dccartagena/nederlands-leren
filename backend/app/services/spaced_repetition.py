@@ -37,8 +37,10 @@ def _load_persisted_parameters() -> None:
     try:
         if params_file.exists():
             set_parameters(json.loads(params_file.read_text()).get("parameters"))
-    except Exception:  # noqa: BLE001 — bad file must never break scheduling
-        pass
+    except Exception:  # noqa: BLE001 — a bad file must never break scheduling
+        import logging
+
+        logging.getLogger(__name__).warning("ignoring unreadable %s", params_file)
 
 
 _load_persisted_parameters()
@@ -56,7 +58,7 @@ def _orm_to_card(sr: SRCard) -> Card:
         stability = 1.0
     card.stability = stability
     card.difficulty = sr.difficulty or 5.0
-    card.state = State(sr.state)
+    card.state = State(sr.state or 1)
     card.due = sr.due_date or datetime.now(UTC)
     card.last_review = sr.last_review
     return card
