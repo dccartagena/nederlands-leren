@@ -89,10 +89,13 @@ _LICENSE_NOTES = {
 
 def write_attributions(db: Session) -> int:
     rows: list[tuple[str, str, str]] = []
+    # All three content models carry the attribution column, but mypy joins
+    # the loop variable's type to Base, which doesn't.
     for model in (models.VocabularyItem, models.Story, models.GrammarTopic):
-        for item in db.query(model).filter(model.attribution.isnot(None)).all():
-            label = getattr(item, "dutch_word", None) or getattr(item, "slug", "?")
-            rows.append((model.__tablename__, label, item.attribution))
+        column = model.attribution  # type: ignore[attr-defined]
+        for item in db.query(model).filter(column.isnot(None)).all():
+            label = getattr(item, "dutch_word", None) or getattr(item, "slug", None) or "?"
+            rows.append((model.__tablename__, str(label), str(getattr(item, "attribution"))))  # noqa: B009
 
     path = settings.DATA_DIR.parent / "ATTRIBUTIONS.md"
     with open(path, "w") as f:

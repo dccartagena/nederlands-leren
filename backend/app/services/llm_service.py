@@ -65,7 +65,10 @@ async def _call_gemini(messages: list[dict[str, str]]) -> str:
         contents=prompt,
         config=gt.GenerateContentConfig(temperature=0.7),
     )
-    return response.candidates[0].content.parts[0].text
+    candidates = response.candidates
+    if not candidates or not candidates[0].content or not candidates[0].content.parts:
+        raise RuntimeError("Gemini returned an empty response")
+    return candidates[0].content.parts[0].text or ""
 
 
 async def chat_completion(

@@ -1,5 +1,5 @@
 from datetime import UTC, date, datetime, timedelta
-from typing import Any
+from typing import Any, Callable, TypedDict
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
@@ -38,14 +38,19 @@ MAX_BANKED_FREEZES = 1
 # settings_context = user.settings_json merged with any transient extra flags
 # plus "mastered_count" (cards with stability > MASTERY_STABILITY_DAYS).
 
-ACHIEVEMENTS = [
+class AchievementDef(TypedDict):
+    slug: str
+    condition: Callable[[User, int, dict[str, Any]], bool]
+
+
+ACHIEVEMENTS: list[AchievementDef] = [
     {"slug": "first_word",      "condition": lambda u, n, ctx: n >= 1},
     {"slug": "ten_words",       "condition": lambda u, n, ctx: n >= 10},
-    {"slug": "streak_3",        "condition": lambda u, n, ctx: u.streak_days >= 3},
-    {"slug": "streak_7",        "condition": lambda u, n, ctx: u.streak_days >= 7},
-    {"slug": "streak_30",       "condition": lambda u, n, ctx: u.streak_days >= 30},
-    {"slug": "streak_100",      "condition": lambda u, n, ctx: u.streak_days >= 100},
-    {"slug": "hundred_xp",      "condition": lambda u, n, ctx: u.xp_total >= 100},
+    {"slug": "streak_3",        "condition": lambda u, n, ctx: (u.streak_days or 0) >= 3},
+    {"slug": "streak_7",        "condition": lambda u, n, ctx: (u.streak_days or 0) >= 7},
+    {"slug": "streak_30",       "condition": lambda u, n, ctx: (u.streak_days or 0) >= 30},
+    {"slug": "streak_100",      "condition": lambda u, n, ctx: (u.streak_days or 0) >= 100},
+    {"slug": "hundred_xp",      "condition": lambda u, n, ctx: (u.xp_total or 0) >= 100},
     # Mastery tiers: cards whose FSRS stability passed 21 days
     {"slug": "mastered_10",     "condition": lambda u, n, ctx: ctx.get("mastered_count", 0) >= 10},
     {"slug": "mastered_50",     "condition": lambda u, n, ctx: ctx.get("mastered_count", 0) >= 50},
@@ -365,7 +370,13 @@ def get_mastery_stats(db: Session = Depends(get_db)):
 # from today's LearningSession rows. Quests are offered, never forced — there
 # is no penalty for skipping (the client can hide them).
 
-QUEST_VARIANTS = {
+class QuestVariant(TypedDict):
+    id: str
+    title_es: str
+    target: int
+
+
+QUEST_VARIANTS: dict[str, list[QuestVariant]] = {
     "review": [
         {"id": "review_10", "title_es": "Repasa 10 tarjetas", "target": 10},
         {"id": "review_20", "title_es": "Repasa 20 tarjetas", "target": 20},

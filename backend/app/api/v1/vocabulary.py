@@ -48,7 +48,7 @@ def get_vocabulary_audio(item_id: int, db: Session = Depends(get_db)):
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     try:
-        path = audio_service.ensure_vocab_audio(item.dutch_word, item.level, item.article)
+        path = audio_service.ensure_vocab_audio(item.dutch_word, item.level or "", item.article)
     except Exception as exc:  # gTTS needs network; report cleanly when offline
         raise HTTPException(status_code=503, detail="Audio synthesis unavailable") from exc
     media_type = "audio/wav" if path.suffix == ".wav" else "audio/mpeg"

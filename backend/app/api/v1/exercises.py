@@ -120,7 +120,7 @@ def fill_blank_exercise(
     sentence_with_blank = re.sub(
         r'\b' + re.escape(correct.dutch_word) + r'\b',
         '___',
-        correct.example_nl,
+        correct.example_nl or "",
         count=1,
         flags=re.IGNORECASE,
     )
@@ -167,8 +167,9 @@ def unscramble_exercise(
 
     item = random.choice(candidates)
     # Strip a single trailing period for cleaner token display, keep it to re-attach
-    sentence = item.example_nl.removesuffix('.')
-    trailing_punct = '.' if item.example_nl.endswith('.') else ''
+    example_nl = item.example_nl or ""
+    sentence = example_nl.removesuffix('.')
+    trailing_punct = '.' if example_nl.endswith('.') else ''
     words = sentence.split()
 
     # Shuffle until order differs from original
